@@ -1,0 +1,34 @@
+{
+	"name":        "srag/plugins/srui",
+	"description": "",
+	"type":        "project",
+	"keywords":    [
+		"ILIAS",
+		"Plugin"
+	],
+	"license":     "GPL-3.0-only",
+	"authors":     [
+		{
+			"name":     "studer + raimann ag - Team Core 1",
+			"email":    "support-core1@studer-raimann.ch",
+			"homepage": "https://studer-raimann.ch",
+			"role":     "Developer"
+		}
+	],
+	"require":     {
+		"php": ">=7.0"
+	},
+	"autoload":    {
+		"psr-4":    {
+			"srag\\Plugins\\SrUI\\": "src/"
+		},
+		"classmap": [
+			"classes/"
+		]
+	},
+	"config":      {
+		"classmap-authoritative": true,
+		"optimize-autoloader":    true,
+		"sort-packages":          true
+	}
+}
