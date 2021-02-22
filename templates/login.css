@@ -1,6 +1,6 @@
 .sr-ui-content {
 	min-height: 100vh;
-	background: url(splash_2.jpg) no-repeat center center fixed;
+	background-color: #4c4c4c;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -16,6 +16,8 @@
 	-webkit-box-shadow: 0px 0px 38px 0px rgba(80, 80, 80, 1);
 	-moz-box-shadow: 0px 0px 38px 0px rgba(80, 80, 80, 1);
 	box-shadow: 0px 0px 38px 0px rgba(80, 80, 80, 1);
+
+	border-radius: 20px;
 }
 
 .sr-ui-inner-content .form-horizontal, .sr-ui-inner-content .ilFormHeader, .sr-ui-inner-content .ilFormFooter {

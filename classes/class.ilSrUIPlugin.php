@@ -2,12 +2,6 @@
 
 require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/vendor/autoload.php');
 
-use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationPluginProvider;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
-use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
-use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
-use ILIAS\UI\Component\Layout\Page\Page;
 use srag\Plugins\SrUI\UI\Loader\PageLoaderDetector;
 
 /**
@@ -35,48 +29,9 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         global $DIC;
 
         parent::__construct();
-        $DIC->globalScreen()->layout()->meta()->addCss(self::LOGIN_CSS);
         $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(self::OUTSIDE_ILIAS, $this->isOutsideILIAS($DIC));
 
-        $this->provider_collection->setModificationProvider(new class($DIC, $this) extends AbstractModificationPluginProvider {
-            public function isInterestedInContexts() : ContextCollection
-            {
-                return $this->context_collection->main()->external();
-            }
-
-            public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
-            {
-                if ($screen_context_stack->current()->getAdditionalData()->is(ilSrUIPlugin::OUTSIDE_ILIAS, true)) {
-                    /** @noinspection PhpIncompatibleReturnTypeInspection */
-                    return $this->factory->page()
-                                         ->withLowPriority()
-                                         ->withModification(
-                                             static function (PagePartProvider $parts) : Page {
-                                                 global $DIC;
-
-                                                 $page_content = new ilTemplate(ilSrUIPlugin::LOGIN_TEMPLATE_WRAPPER, true, true);
-                                                 $page_content->setVariable('CONTENT', $DIC->ui()->renderer()->render($parts->getContent()));
-                                                 $f = $DIC->ui()->factory();
-
-                                                 return $f->layout()->page()->standard(
-                                                     [$f->legacy($page_content->get())]
-                                                     , $parts->getMetaBar()
-                                                     , null
-                                                     , null
-                                                     , $parts->getLogo()
-                                                     , null
-                                                     , $parts->getTitle()
-                                                     , $parts->getShortTitle()
-                                                     , $parts->getViewTitle()
-                                                 );
-                                             }
-                                         );
-                }
-
-                return null;
-            }
-
-        });
+        $this->provider_collection->setModificationProvider(new ilSrUIModificationProvider($DIC, $this));
     }
 
     /**
