@@ -20,6 +20,10 @@
 	border-radius: 20px;
 }
 
+.sr-ui-inner-content .ilStartupSection {
+	padding: 0;
+}
+
 .sr-ui-inner-content .form-horizontal, .sr-ui-inner-content .ilFormHeader, .sr-ui-inner-content .ilFormFooter {
 	background-color: transparent !important;
 }

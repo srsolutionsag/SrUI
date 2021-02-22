@@ -38,12 +38,16 @@ class Artifact implements \ArrayAccess
      */
     private function getPath() : string
     {
-        return './Customizing/' . $this->file_name . self::SUFFIX;
+        return rtrim(CLIENT_DATA_DIR, "/") . "/" . $this->file_name . self::SUFFIX;
+        //return './Customizing/' . $this->file_name . self::SUFFIX;
     }
 
     public function save() : void
     {
         $a = new ArrayArtifact($this->data);
+        if (!file_exists($this->getPath())) {
+            touch($this->getPath());
+        }
         file_put_contents($this->getPath(), $a->serialize());
     }
 

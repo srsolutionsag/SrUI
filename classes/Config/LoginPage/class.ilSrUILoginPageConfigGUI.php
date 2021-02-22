@@ -88,7 +88,7 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
                 self::F_CENTERED_LOGIN_PAGE => $centered_login_page,
-                self::F_SHOW_HEADER         => $show_header,
+                self::F_SHOW_HEADER         => $show_header, // currently no solution
                 self::F_SHOW_FOOTER         => $show_footer,
                 self::F_SHOW_MAIN_BAR       => $show_main_bar,
             ]
