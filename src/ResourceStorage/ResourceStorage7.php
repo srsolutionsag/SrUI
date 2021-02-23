@@ -10,7 +10,12 @@ use ILIAS\FileUpload\DTO\UploadResult;
  */
 class ResourceStorage7 implements ResourceStorage
 {
-    public function store(UploadResult $u) : string
+    public function fromUpload(UploadResult $u) : string
+    {
+        throw new \Exception('not yet implemented');
+    }
+
+    public function fromPath(string $u, string $mime_type = null) : string
     {
         throw new \Exception('not yet implemented');
     }

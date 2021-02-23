@@ -39,7 +39,6 @@ class Artifact implements \ArrayAccess
     private function getPath() : string
     {
         return rtrim(CLIENT_DATA_DIR, "/") . "/" . $this->file_name . self::SUFFIX;
-        //return './Customizing/' . $this->file_name . self::SUFFIX;
     }
 
     public function save() : void
@@ -49,6 +48,12 @@ class Artifact implements \ArrayAccess
             touch($this->getPath());
         }
         file_put_contents($this->getPath(), $a->serialize());
+    }
+
+    public function clear() : void
+    {
+        $this->data = [];
+        $this->save();
     }
 
     protected function read() : array

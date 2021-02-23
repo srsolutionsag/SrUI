@@ -10,7 +10,9 @@ use ILIAS\FileUpload\DTO\UploadResult;
  */
 interface ResourceStorage
 {
-    public function store(UploadResult $u) : string;
+    public function fromUpload(UploadResult $u) : string;
+
+    public function fromPath(string $u, string $mime_type = null) : string;
 
     public function remove(string $identification) : bool;
 

@@ -50,7 +50,7 @@ class ilSrUIFileHandlerGUI extends AbstractCtrlAwareUploadHandler implements ilS
         $array  = $this->upload->getResults();
         $result = end($array);
         if ($result instanceof UploadResult && $result->isOK()) {
-            $identifier = $this->storage->store($result);
+            $identifier = $this->storage->fromUpload($result);
             $status     = HandlerResultInterface::STATUS_OK;
             $message    = 'Upload ok';
         } else {

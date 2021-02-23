@@ -2,6 +2,7 @@
 
 require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/vendor/autoload.php');
 
+use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationPluginProvider;
@@ -12,6 +13,7 @@ use ILIAS\UI\Component\Layout\Page\Page;
 use ILIAS\UI\Implementation\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\Layout\Page\Login\Login;
 use ILIAS\UI\Implementation\Component\Layout\Page\Login\LoginPageSettings;
+use ILIAS\UI\Implementation\Component\MainControls\Footer;
 use srag\Plugins\SrUI\Artifact\Artifact;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
 
@@ -48,7 +50,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         }
         $login_page_settings->setShowHeader((bool) ($settings[ilSrUILoginPageConfigGUI::F_SHOW_HEADER] ?? true));
         $login_page_settings->setShowFooter((bool) ($settings[ilSrUILoginPageConfigGUI::F_SHOW_FOOTER] ?? true));
-        $login_page_settings->setShowMainBar((bool) ($settings[ilSrUILoginPageConfigGUI::F_SHOW_MAIN_BAR]??true));
+        $login_page_settings->setShowMainBar((bool) ($settings[ilSrUILoginPageConfigGUI::F_SHOW_MAIN_BAR] ?? true));
 
         if ($settings[ilSrUILoginPageConfigGUI::F_BACKGROUND_IMAGE]) {
             $s = Factory::storage()->getDataURL((string) $settings[ilSrUILoginPageConfigGUI::F_BACKGROUND_IMAGE][0]);
@@ -100,8 +102,22 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         if ((bool) $settings[ilSrUIHeaderConfigGUI::F_ICON]) {
             $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo img { width: {$settings[ilSrUIHeaderConfigGUI::F_ICON_WIDTH]};}");
             $s = Factory::storage()->getDataURL((string) $settings[ilSrUIHeaderConfigGUI::F_ICON][0]);
-            return $this->factory->logo()->withHighPriority()->withModification(function (Image $image) use ($s) {
-                return $image->withSource($s);
+            if (!empty($s)) {
+                return $this->factory->logo()->withHighPriority()->withModification(function (Image $image) use ($s) {
+                    return $image->withSource($s);
+                });
+            }
+
+        }
+        return null;
+    }
+
+    public function getFooterModification(CalledContexts $screen_context_stack) : ?FooterModification
+    {
+        $settings = $this->getArtifact();
+        if ((bool) $settings[ilSrUIFooterConfigGUI::F_SHOW_RENDERED_BY]) {
+            return $this->factory->footer()->withHighPriority()->withModification(function (Footer $f) : \ILIAS\UI\Component\MainControls\Footer {
+                return $this->dic->ui()->factory()->mainControls()->footer([], "Rendered by " . gethostname());
             });
         }
         return null;

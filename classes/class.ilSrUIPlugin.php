@@ -2,6 +2,8 @@
 
 require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/vendor/autoload.php');
 
+use ILIAS\DI\Container;
+use srag\Plugins\SrUI\ResourceStorage\Factory;
 use srag\Plugins\SrUI\UI\Loader\PageLoaderDetector;
 
 /**
@@ -19,7 +21,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         return 'SrUI';
     }
 
-    public function exchangeUIRendererAfterInitialization(\ILIAS\DI\Container $dic) : Closure
+    public function exchangeUIRendererAfterInitialization(Container $dic) : Closure
     {
         return PageLoaderDetector::exchange();
     }
@@ -29,18 +31,42 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         global $DIC;
 
         parent::__construct();
-        $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(self::OUTSIDE_ILIAS, $this->isOutsideILIAS($DIC));
+        try {
+            $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(self::OUTSIDE_ILIAS, $this->isOutsideILIAS($DIC));
+        } catch (LogicException $l) {
+
+        }
 
         $this->provider_collection->setModificationProvider(new ilSrUIModificationProvider($DIC, $this));
     }
 
     /**
-     * @param \ILIAS\DI\Container $DIC
+     * @param Container $DIC
      * @return bool
      */
-    public function isOutsideILIAS(\ILIAS\DI\Container $DIC) : bool
+    public function isOutsideILIAS(Container $DIC) : bool
     {
         return (($DIC->user()->isAnonymous() || $DIC->user()->getId() === 0) && strtolower($DIC->http()->request()->getQueryParams()["baseClass"]) !== strtolower(ilRepositoryGUI::class));
+    }
+
+    protected function afterInstall()
+    {
+        $base = "./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/";
+        $a    = new srag\Plugins\SrUI\Artifact\Artifact('sr_ui_setting');
+        $a->clear();
+
+        $s = Factory::storage();
+
+        $a[ilSrUILoginPageConfigGUI::F_CENTERED_LOGIN_PAGE]     = true;
+        $a[ilSrUILoginPageConfigGUI::F_CENTERED_LOGIN_PAGE_CSS] = file_get_contents($base . "login.css");
+        $a[ilSrUILoginPageConfigGUI::F_SHOW_FOOTER]             = true;
+        $a[ilSrUILoginPageConfigGUI::F_SHOW_MAIN_BAR]           = false;
+        $a[ilSrUILoginPageConfigGUI::F_SHOW_HEADER]             = true;
+        $a[ilSrUILoginPageConfigGUI::F_BACKGROUND_IMAGE]        = [$s->fromPath($base . "Tortoise-Shell.svg", ilMimeTypeUtil::IMAGE__SVG_XML)];
+        $a[ilSrUIHeaderConfigGUI::F_ICON]                       = [$s->fromPath($base . "HeaderIconPlus.svg", ilMimeTypeUtil::IMAGE__SVG_XML)];
+        $a[ilSrUIHeaderConfigGUI::F_ICON_WIDTH]                 = '45px';
+        $a[ilSrUIFooterConfigGUI::F_SHOW_RENDERED_BY]           = true;
+        $a->save();
     }
 
 }

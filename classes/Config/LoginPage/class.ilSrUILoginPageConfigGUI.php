@@ -1,6 +1,5 @@
 <?php
 
-use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use srag\Plugins\SrUI\Artifact\Artifact;
 
@@ -12,6 +11,7 @@ use srag\Plugins\SrUI\Artifact\Artifact;
 class ilSrUILoginPageConfigGUI implements ilSrUIGUI
 {
     use ilSrUIHelperGUI;
+    use ilSrUITrafos;
 
     const CMD_INDEX = 'index';
     const CMD_SAVE = 'save';
@@ -42,16 +42,7 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
     private function getForm() : Form
     {
         $this->artifact = new Artifact('sr_ui_setting');
-
-        $custom_trafo = function (callable $c) : Transformation {
-            return $this->refinery->custom()->transformation($c);
-        };
-
-        $artifact_safer = function (string $key) use ($custom_trafo) : Transformation {
-            return $custom_trafo(function ($va) use ($key) {
-                return $this->artifact[$key] = $va;
-            });
-        };
+        $artifact_safer = $this->getArtifactSafer($this->refinery, $this->artifact);
 
         // Fields
         $value_of_group = $this->artifact[self::F_CENTERED_LOGIN_PAGE] ? [
@@ -70,7 +61,7 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
         ];
         $centered_login_page = $this->ui_factory->input()->field()->optionalGroup($inputs_of_group, $this->plugin->txt(self::F_CENTERED_LOGIN_PAGE))
                                                 ->withValue($value_of_group)
-                                                ->withAdditionalTransformation($custom_trafo(function ($v) {
+                                                ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(static function ($v) {
                                                     return !is_null($v);
                                                 }))
                                                 ->withAdditionalTransformation($artifact_safer(self::F_CENTERED_LOGIN_PAGE));
@@ -92,7 +83,7 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
                 self::F_SHOW_FOOTER         => $show_footer,
                 self::F_SHOW_MAIN_BAR       => $show_main_bar,
             ]
-        )->withAdditionalTransformation($custom_trafo(function ($v) {
+        )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) {
             return $this->artifact;
         }));
     }
