@@ -5,6 +5,7 @@
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+	padding: 12px;
 }
 
 .sr-ui-inner-content {
@@ -24,6 +25,6 @@
 	padding: 0;
 }
 
-.sr-ui-inner-content .form-horizontal, .sr-ui-inner-content .ilFormHeader, .sr-ui-inner-content .ilFormFooter {
+.sr-ui-inner-content .form-horizontal, .sr-ui-inner-content .ilFormHeader, .sr-ui-inner-content .ilFormFooter, .sr-ui-inner-content .il-standard-form-header, .sr-ui-inner-content .il-standard-form, .sr-ui-inner-content .il-section-input-header {
 	background-color: transparent !important;
 }

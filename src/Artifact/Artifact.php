@@ -48,6 +48,10 @@ class Artifact implements \ArrayAccess
             touch($this->getPath());
         }
         file_put_contents($this->getPath(), $a->serialize());
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($this->getPath(), true);
+        }
+
     }
 
     public function clear() : void
