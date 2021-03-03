@@ -1,0 +1,16 @@
+@media (max-width: 768px) {
+	.il-layout-page {
+		grid-template-rows: 0 1fr !important;
+	}
+}
+
+@media (min-width: 768px) {
+	.il-layout-page {
+		grid-template-rows: 0 0 1fr !important;
+	}
+
+}
+
+header {
+	display: none !important;
+}

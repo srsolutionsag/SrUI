@@ -1,23 +1,30 @@
 .sr-ui-content {
-	min-height: 100vh;
-	background: url(splash_2.jpg) no-repeat center center fixed;
+	min-height: 91vh;
+	background-color: #ffffff;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+	padding: 12px;
 }
 
 .sr-ui-inner-content {
 	max-width: 600px;
-	background-color: rgba(255, 255, 255, 0.9);
-	margin: auto;
-	margin-top: 80px;
+	background-color: rgba(255, 255, 255, 0.95);
+	margin: 80px auto auto;
 
-	-webkit-box-shadow: 0px 0px 38px 0px rgba(80, 80, 80, 1);
-	-moz-box-shadow: 0px 0px 38px 0px rgba(80, 80, 80, 1);
-	box-shadow: 0px 0px 38px 0px rgba(80, 80, 80, 1);
+	-webkit-box-shadow: 0 0 38px 0 rgba(255, 255, 255, 1);
+	-moz-box-shadow: 0 0 38px 0 rgba(255, 255, 255, 1);
+	box-shadow: 0 0 38px 0 rgba(255, 255, 255, 1);
+
+	border: #4C6586 5px solid;
+	border-radius: 0;
 }
 
-.sr-ui-inner-content .form-horizontal, .sr-ui-inner-content .ilFormHeader, .sr-ui-inner-content .ilFormFooter {
+.sr-ui-inner-content .ilStartupSection {
+	padding: 0;
+}
+
+.sr-ui-inner-content .form-horizontal, .sr-ui-inner-content .ilFormHeader, .sr-ui-inner-content .ilFormFooter, .sr-ui-inner-content .il-standard-form-header, .sr-ui-inner-content .il-standard-form, .sr-ui-inner-content .il-section-input-header {
 	background-color: transparent !important;
 }
