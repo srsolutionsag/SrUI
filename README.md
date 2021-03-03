@@ -6,8 +6,8 @@
 Start at your ILIAS root directory
 
 ```bash
-mkdir -p Customizing/global/plugins/Services/Cron/CronHook
-cd Customizing/global/plugins/Services/Cron/CronHook
+mkdir -p Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/  
+cd Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/  
 git clone https://git.studer-raimann.ch/ILIAS/Plugins/SrUI.git SrUI
 ```
 
