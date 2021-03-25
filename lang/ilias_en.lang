@@ -10,4 +10,4 @@ show_main_bar#:#Show Main-Bar
 icon#:#Logo
 icon_width#:#Logo Width
 show_rendered_by#:#Show "Rendered by" (Hostname of Server)
-
+header_title#:#header Title

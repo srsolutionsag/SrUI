@@ -10,4 +10,4 @@ show_main_bar#:#Main-Bar anzeigen
 icon#:#Logo
 icon_width#:#Breite Logo
 show_rendered_by#:#Zeige "Rendered by" (Hostname des Servers)
-
+header_title#:#Installationstitel

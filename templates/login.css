@@ -10,15 +10,15 @@
 
 .sr-ui-inner-content {
 	max-width: 600px;
-	background-color: rgba(255, 255, 255, 0.95);
+	background-color: rgba(255, 255, 255, 0.9);
 	margin: 80px auto auto;
 
 	-webkit-box-shadow: 0 0 38px 0 rgba(255, 255, 255, 1);
 	-moz-box-shadow: 0 0 38px 0 rgba(255, 255, 255, 1);
 	box-shadow: 0 0 38px 0 rgba(255, 255, 255, 1);
 
-	border: #4C6586 5px solid;
-	border-radius: 0;
+	#border: #4C6586 5px solid;
+	border-radius: 12px;
 }
 
 .sr-ui-inner-content .ilStartupSection {

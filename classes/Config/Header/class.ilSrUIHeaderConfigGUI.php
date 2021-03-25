@@ -17,6 +17,7 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
     const CMD_SAVE = 'save';
     const F_ICON = 'icon';
     const F_ICON_WIDTH = 'icon_width';
+    const F_HEADER_TITLE = 'header_title';
     /**
      * @var Artifact
      */
@@ -42,17 +43,25 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
         $icon = $this->ui_factory->input()->field()->file(new ilSrUIFileHandlerGUI(), $this->plugin->txt(self::F_ICON))
                                  ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__SVG_XML])
                                  ->withValue($this->artifact[self::F_ICON] ?? [])
-                                 ->withAdditionalTransformation($this->getArtifactSafer($this->refinery, $this->artifact)(self::F_ICON));
+                                 ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                                     $this->artifact)(self::F_ICON));
 
         $icon_with = $this->ui_factory->input()->field()->text($this->plugin->txt(self::F_ICON_WIDTH))
                                       ->withValue((string) ($this->artifact[self::F_ICON_WIDTH] ?? '45px'))
-                                      ->withAdditionalTransformation($this->getArtifactSafer($this->refinery, $this->artifact)(self::F_ICON_WIDTH));
+                                      ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                                          $this->artifact)(self::F_ICON_WIDTH));
+
+        $header_title = $this->ui_factory->input()->field()->text($this->plugin->txt(self::F_HEADER_TITLE))
+                                         ->withValue((string) ($this->artifact[self::F_HEADER_TITLE] ?? 'ILIAS+'))
+                                         ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                                             $this->artifact)(self::F_HEADER_TITLE));
 
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
-                self::F_ICON       => $icon,
+                self::F_ICON => $icon,
                 self::F_ICON_WIDTH => $icon_with,
+                self::F_HEADER_TITLE => $header_title
             ]
         )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) {
             return $this->artifact;

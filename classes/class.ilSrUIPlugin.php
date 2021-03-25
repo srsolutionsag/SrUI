@@ -62,7 +62,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         $a[ilSrUILoginPageConfigGUI::F_SHOW_FOOTER]             = true;
         $a[ilSrUILoginPageConfigGUI::F_SHOW_MAIN_BAR]           = false;
         $a[ilSrUILoginPageConfigGUI::F_SHOW_HEADER]             = true;
-        $a[ilSrUILoginPageConfigGUI::F_BACKGROUND_IMAGE]        = [$s->fromPath($base . "Tortoise-Shell.svg", ilMimeTypeUtil::IMAGE__SVG_XML)];
+        $a[ilSrUILoginPageConfigGUI::F_BACKGROUND_IMAGE]        = [$s->fromPath($base . "Diamond-Sunset.svg", ilMimeTypeUtil::IMAGE__SVG_XML)];
         $a[ilSrUIHeaderConfigGUI::F_ICON]                       = [$s->fromPath($base . "HeaderIconPlus.svg", ilMimeTypeUtil::IMAGE__SVG_XML)];
         $a[ilSrUIHeaderConfigGUI::F_ICON_WIDTH]                 = '45px';
         $a[ilSrUIFooterConfigGUI::F_SHOW_RENDERED_BY]           = true;
