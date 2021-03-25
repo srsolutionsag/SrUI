@@ -125,14 +125,14 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                                      $pageContentProvider = new PageContentProvider($this->dic);
                                      $footer = $pageContentProvider->getFooterModification($this->dic->globalScreen()->tool()->context()->stack())->getModification();
                                      $f = $footer();
-                                     $version = explode('.', PHP_VERSION);
+
                                      $hostname = gethostname();
-                                     $php_version = "$version[0].$version[1].$version[2]";
                                      $ilias_version = ILIAS_VERSION_NUMERIC;
+                                     preg_match('/\d+\.\d+.\d+/', PHP_VERSION, $php_version);
 
                                      return $this->dic->ui()->factory()->mainControls()->footer(
                                          $f->getLinks(),
-                                         "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version
+                                         "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version[0]
                                      );
                                  });
         }
