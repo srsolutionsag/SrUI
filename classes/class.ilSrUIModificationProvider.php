@@ -88,7 +88,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
     {
-        if ($screen_context_stack->current()->getAdditionalData()->is(ilSrUIPlugin::OUTSIDE_ILIAS, true)) {
+        if ($screen_context_stack->current()->getAdditionalData()->is(ilSrUIPlugin::ON_LOGIN_PAGE, true)) {
             /** @noinspection PhpIncompatibleReturnTypeInspection */
             return $this->factory->page()
                                  ->withLowPriority()

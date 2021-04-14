@@ -15,6 +15,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
     public const  LOGIN_TEMPLATE_WRAPPER = './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/tpl.login_page.html';
     public const LOGIN_CSS = "./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/login.css";
     const OUTSIDE_ILIAS = 'anon';
+    const ON_LOGIN_PAGE = 'on_login_page';
 
     public function getPluginName()
     {
@@ -32,7 +33,14 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
 
         parent::__construct();
         try {
-            $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(self::OUTSIDE_ILIAS, $this->isOutsideILIAS($DIC));
+            $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+                self::OUTSIDE_ILIAS,
+                $this->isOutsideILIAS($DIC)
+            );
+            $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+                self::ON_LOGIN_PAGE,
+                $this->isOnLoginPage()
+            );
         } catch (LogicException $l) {
 
         }
@@ -46,7 +54,16 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
      */
     public function isOutsideILIAS(Container $DIC) : bool
     {
-        return (($DIC->user()->isAnonymous() || $DIC->user()->getId() === 0) && strtolower($DIC->http()->request()->getQueryParams()["baseClass"]) !== strtolower(ilRepositoryGUI::class));
+        return (
+            ($DIC->user()->isAnonymous() || $DIC->user()->getId() === 0)
+            && strtolower($DIC->http()->request()->getQueryParams()["baseClass"]) !== strtolower(ilRepositoryGUI::class)
+
+        );
+    }
+
+    public function isOnLoginPage() : bool
+    {
+        return strpos($_SERVER['SCRIPT_NAME'], 'login.php') !== false;
     }
 
     protected function afterInstall()
