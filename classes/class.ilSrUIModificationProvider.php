@@ -13,9 +13,11 @@ use ILIAS\UI\Component\Layout\Page\Page;
 use ILIAS\UI\Implementation\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\Layout\Page\Login\Login;
 use ILIAS\UI\Implementation\Component\Layout\Page\Login\LoginPageSettings;
-use ILIAS\UI\Implementation\Component\MainControls\Footer;
 use srag\Plugins\SrUI\Artifact\Artifact;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
+use ILIAS\UICore\PageContentProvider;
 
 /**
  * Class ilSrUIModificationProvider
@@ -86,7 +88,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
     {
-        if ($screen_context_stack->current()->getAdditionalData()->is(ilSrUIPlugin::OUTSIDE_ILIAS, true)) {
+        if ($screen_context_stack->current()->getAdditionalData()->is(ilSrUIPlugin::ON_LOGIN_PAGE, true)) {
             /** @noinspection PhpIncompatibleReturnTypeInspection */
             return $this->factory->page()
                                  ->withLowPriority()
@@ -116,9 +118,49 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
     {
         $settings = $this->getArtifact();
         if ((bool) $settings[ilSrUIFooterConfigGUI::F_SHOW_RENDERED_BY]) {
-            return $this->factory->footer()->withHighPriority()->withModification(function (Footer $f) : \ILIAS\UI\Component\MainControls\Footer {
-                return $this->dic->ui()->factory()->mainControls()->footer([], "Rendered by " . gethostname());
-            });
+
+            return $this->factory->footer()
+                                 ->withHighPriority()
+                                 ->withModification(function () : \ILIAS\UI\Component\MainControls\Footer {
+                                     $pageContentProvider = new PageContentProvider($this->dic);
+                                     $footer = $pageContentProvider->getFooterModification($this->dic->globalScreen()->tool()->context()->stack())->getModification();
+                                     $f = $footer();
+
+                                     $hostname = gethostname();
+                                     $ilias_version = ILIAS_VERSION_NUMERIC;
+                                     preg_match('/\d+\.\d+.\d+/', PHP_VERSION, $php_version);
+
+                                     return $this->dic->ui()->factory()->mainControls()->footer(
+                                         $f->getLinks(),
+                                         "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version[0]
+                                     );
+                                 });
+        }
+        return null;
+    }
+
+    public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification
+    {
+        $settings = $this->getArtifact();
+        if ($settings->offsetExists(ilSrUIHeaderConfigGUI::F_HEADER_TITLE)) {
+            return $this->factory->title()
+                                 ->withHighPriority()
+                                 ->withModification(function (string $f) use ($settings) : string {
+                                     return (string) $settings[ilSrUIHeaderConfigGUI::F_HEADER_TITLE];
+                                 });
+        }
+        return null;
+    }
+
+    public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification
+    {
+        $settings = $this->getArtifact();
+        if ($settings->offsetExists(ilSrUIHeaderConfigGUI::F_HEADER_TITLE)) {
+            return $this->factory->short_title()
+                                 ->withHighPriority()
+                                 ->withModification(function (string $f) use ($settings) : string {
+                                     return (string) $settings[ilSrUIHeaderConfigGUI::F_HEADER_TITLE];
+                                 });
         }
         return null;
     }
