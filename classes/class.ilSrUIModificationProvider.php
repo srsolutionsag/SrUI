@@ -106,11 +106,18 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo img { width: {$settings[ilSrUIHeaderConfigGUI::F_ICON_WIDTH]};}");
             $s = Factory::storage()->getDataURL((string) $settings[ilSrUIHeaderConfigGUI::F_ICON][0]);
             if (!empty($s)) {
-                return $this->factory->logo()
-                                     ->withPriority(LayoutModification::PRIORITY_HIGH - 5)
-                                     ->withModification(function (Image $image) use ($s) {
-                                         return $image->withSource($s);
-                                     });
+                $logoModification = $this->factory->logo();
+
+                try {
+                    $logoModification = $logoModification->withPriority(LayoutModification::PRIORITY_HIGH - 5);
+                } catch (LogicException $e) {
+                    $logoModification = $logoModification->withHighPriority();
+                }
+
+                return $logoModification->withModification(function (Image $image) use ($s) {
+                    return $image->withSource($s);
+                });
+
             }
 
         }
