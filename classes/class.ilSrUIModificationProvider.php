@@ -26,6 +26,8 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\LayoutModification;
  */
 class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 {
+    const PRIORITY = 60;
+
     /**
      * @return Artifact
      */
@@ -99,6 +101,15 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         return null;
     }
 
+    private function setPriority(LayoutModification $m) : LayoutModification
+    {
+        try {
+            return $m->withPriority(self::PRIORITY);
+        } catch (Throwable $t) {
+            return $m->withHighPriority();
+        }
+    }
+
     public function getLogoModification(CalledContexts $screen_context_stack) : ?LogoModification
     {
         $settings = $this->getArtifact();
@@ -106,15 +117,10 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo img { width: {$settings[ilSrUIHeaderConfigGUI::F_ICON_WIDTH]};}");
             $s = Factory::storage()->getDataURL((string) $settings[ilSrUIHeaderConfigGUI::F_ICON][0]);
             if (!empty($s)) {
-                $logoModification = $this->factory->logo();
+                $logo_modification = $this->factory->logo();
+                $logo_modification = $this->setPriority($logo_modification);
 
-                try {
-                    $logoModification = $logoModification->withPriority(LayoutModification::PRIORITY_HIGH - 5);
-                } catch (LogicException $e) {
-                    $logoModification = $logoModification->withHighPriority();
-                }
-
-                return $logoModification->withModification(function (Image $image) use ($s) {
+                return $logo_modification->withModification(function (Image $image) use ($s) {
                     return $image->withSource($s);
                 });
 
@@ -129,22 +135,24 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         $settings = $this->getArtifact();
         if ((bool) $settings[ilSrUIFooterConfigGUI::F_SHOW_RENDERED_BY]) {
 
-            return $this->factory->footer()
-                                 ->withHighPriority()
-                                 ->withModification(function () : \ILIAS\UI\Component\MainControls\Footer {
-                                     $pageContentProvider = new PageContentProvider($this->dic);
-                                     $footer = $pageContentProvider->getFooterModification($this->dic->globalScreen()->tool()->context()->stack())->getModification();
-                                     $f = $footer();
+            $footer_modification = $this->factory->footer();
+            $footer_modification = $this->setPriority($footer_modification);
 
-                                     $hostname = gethostname();
-                                     $ilias_version = ILIAS_VERSION_NUMERIC;
-                                     preg_match('/\d+\.\d+.\d+/', PHP_VERSION, $php_version);
+            return $footer_modification
+                ->withModification(function () : \ILIAS\UI\Component\MainControls\Footer {
+                    $pageContentProvider = new PageContentProvider($this->dic);
+                    $footer = $pageContentProvider->getFooterModification($this->dic->globalScreen()->tool()->context()->stack())->getModification();
+                    $f = $footer();
 
-                                     return $this->dic->ui()->factory()->mainControls()->footer(
-                                         $f->getLinks(),
-                                         "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version[0]
-                                     );
-                                 });
+                    $hostname = gethostname();
+                    $ilias_version = ILIAS_VERSION_NUMERIC;
+                    preg_match('/\d+\.\d+.\d+/', PHP_VERSION, $php_version);
+
+                    return $this->dic->ui()->factory()->mainControls()->footer(
+                        $f->getLinks(),
+                        "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version[0]
+                    );
+                });
         }
         return null;
     }
@@ -153,11 +161,12 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
     {
         $settings = $this->getArtifact();
         if ($settings->offsetExists(ilSrUIHeaderConfigGUI::F_HEADER_TITLE)) {
-            return $this->factory->title()
-                                 ->withHighPriority()
-                                 ->withModification(function (string $f) use ($settings) : string {
-                                     return (string) $settings[ilSrUIHeaderConfigGUI::F_HEADER_TITLE];
-                                 });
+            $title_modification = $this->factory->title();
+            $title_modification = $this->setPriority($title_modification);
+
+            return $title_modification->withModification(function (string $f) use ($settings) : string {
+                return (string) $settings[ilSrUIHeaderConfigGUI::F_HEADER_TITLE];
+            });
         }
         return null;
     }
@@ -166,11 +175,12 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
     {
         $settings = $this->getArtifact();
         if ($settings->offsetExists(ilSrUIHeaderConfigGUI::F_HEADER_TITLE)) {
-            return $this->factory->short_title()
-                                 ->withHighPriority()
-                                 ->withModification(function (string $f) use ($settings) : string {
-                                     return (string) $settings[ilSrUIHeaderConfigGUI::F_HEADER_TITLE];
-                                 });
+            $short_title_modification = $this->factory->short_title();
+            $short_title_modification = $this->setPriority($short_title_modification);
+
+            return $short_title_modification->withModification(function (string $f) use ($settings) : string {
+                return (string) $settings[ilSrUIHeaderConfigGUI::F_HEADER_TITLE];
+            });
         }
         return null;
     }
