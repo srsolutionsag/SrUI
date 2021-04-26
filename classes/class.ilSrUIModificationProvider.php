@@ -18,6 +18,7 @@ use srag\Plugins\SrUI\ResourceStorage\Factory;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
 use ILIAS\UICore\PageContentProvider;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\LayoutModification;
 
 /**
  * Class ilSrUIModificationProvider
@@ -105,9 +106,11 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo img { width: {$settings[ilSrUIHeaderConfigGUI::F_ICON_WIDTH]};}");
             $s = Factory::storage()->getDataURL((string) $settings[ilSrUIHeaderConfigGUI::F_ICON][0]);
             if (!empty($s)) {
-                return $this->factory->logo()->withHighPriority()->withModification(function (Image $image) use ($s) {
-                    return $image->withSource($s);
-                });
+                return $this->factory->logo()
+                                     ->withPriority(LayoutModification::PRIORITY_HIGH - 5)
+                                     ->withModification(function (Image $image) use ($s) {
+                                         return $image->withSource($s);
+                                     });
             }
 
         }
