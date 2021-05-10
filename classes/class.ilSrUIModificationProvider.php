@@ -3,8 +3,11 @@
 require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/vendor/autoload.php');
 
 use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\LayoutModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationPluginProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
@@ -13,12 +16,10 @@ use ILIAS\UI\Component\Layout\Page\Page;
 use ILIAS\UI\Implementation\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\Layout\Page\Login\Login;
 use ILIAS\UI\Implementation\Component\Layout\Page\Login\LoginPageSettings;
+use ILIAS\UI\Implementation\Component\MainControls\Footer;
+use ILIAS\UICore\PageContentProvider;
 use srag\Plugins\SrUI\Artifact\Artifact;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
-use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
-use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
-use ILIAS\UICore\PageContentProvider;
-use ILIAS\GlobalScreen\Scope\Layout\Factory\LayoutModification;
 
 /**
  * Class ilSrUIModificationProvider
@@ -134,24 +135,31 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
     {
         $settings = $this->getArtifact();
         if ((bool) $settings[ilSrUIFooterConfigGUI::F_SHOW_RENDERED_BY]) {
-
+            
             $footer_modification = $this->factory->footer();
             $footer_modification = $this->setPriority($footer_modification);
-
+            
             return $footer_modification
                 ->withModification(function () : \ILIAS\UI\Component\MainControls\Footer {
                     $pageContentProvider = new PageContentProvider($this->dic);
-                    $footer = $pageContentProvider->getFooterModification($this->dic->globalScreen()->tool()->context()->stack())->getModification();
+                    $footer              = $pageContentProvider->getFooterModification($this->dic->globalScreen()->tool()->context()->stack())->getModification();
+                    /**
+                     * @var $f Footer
+                     */
                     $f = $footer();
-
-                    $hostname = gethostname();
+                    
+                    $hostname      = gethostname();
                     $ilias_version = ILIAS_VERSION_NUMERIC;
                     preg_match('/\d+\.\d+.\d+/', PHP_VERSION, $php_version);
-
-                    return $this->dic->ui()->factory()->mainControls()->footer(
+                    
+                    $replaced_footer = $this->dic->ui()->factory()->mainControls()->footer(
                         $f->getLinks(),
                         "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version[0]
                     );
+                    if ($f->getPermanentURL()) {
+                        $replaced_footer = $replaced_footer->withPermanentURL($f->getPermanentURL());
+                    }
+                    return $replaced_footer;
                 });
         }
         return null;
