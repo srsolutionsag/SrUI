@@ -1,0 +1,30 @@
+div.il-card {
+	filter: opacity(0.9);
+}
+div.il-card:hover {
+	filter: opacity(1);
+}
+div.il-card div.il-card-repository-head {
+	z-index: 2;
+}
+div.il-card img {
+	/* SCALE */
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+	-ms-transform: scale(1);
+	-o-transform: scale(1);
+	transform: scale(1);
+	/* VERZÖGERUNG */
+	-webkit-transition: all 0.3s linear;
+	-moz-transition: all 0.3s linear;
+	-ms-transition: all 0.3s linear;
+	-o-transition: all 0.3s linear;
+	transition: all 0.3s linear;
+}
+div.il-card:hover img {
+	-webkit-transform: scale(1.1);
+	-moz-transform: scale(1.1);
+	-ms-transform: scale(1.1);
+	-o-transform: scale(1.1);
+	transform: scale(1.1);
+}

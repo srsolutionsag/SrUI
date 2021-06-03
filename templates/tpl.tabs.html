@@ -1,0 +1,34 @@
+<style>
+	ul.nav-pills {
+		display: block;
+		padding-left: 12px;
+		padding-right: 12px;
+		margin-bottom: 12px;
+		margin-top: 0px;
+		background-color: darkgrey;
+		filter: invert(1) hue-rotate(180deg);
+		z-index: 1;
+	}
+	ul.nav-pills a.nav-link {
+		color: grey;
+	}
+	ul.nav-pills a.active {
+		background-color: #f0f0f0;
+		filter: invert(1) hue-rotate(180deg);
+	}
+
+	div.il_HeaderInner {
+		background-color: darkgrey;
+		margin-bottom: 0px;
+		filter: invert(1) hue-rotate(180deg);
+	}
+</style>
+
+
+<ul class="nav nav-pills" id="pills-tab" role="tablist">
+	<!-- BEGIN tab -->
+	<li class="nav-item" role="presentation">
+		<a class="nav-link <!-- BEGIN active -->active<!-- END active -->" id="{ID}" role="tab" href="{HREF}">{TITLE}</a>
+	</li>
+	<!-- END tab -->
+</ul>

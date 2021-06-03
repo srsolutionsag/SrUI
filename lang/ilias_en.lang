@@ -1,6 +1,7 @@
 tab_login_page#:#Login-Page
 tab_header#:#Header
 tab_footer#:#Footer
+tab_content#:#Content
 centered_login_page#:#Centered Login-Page
 background_image#:#Background Image
 centered_login_page_css#:#Additional CSS on Login-Page
@@ -11,3 +12,6 @@ icon#:#Logo
 icon_width#:#Logo Width
 show_rendered_by#:#Show "Rendered by" (Hostname of Server)
 header_title#:#header Title
+fancy_cards#:#Zoom-Effect on Cards
+fancy_tabs#:#Simple Tabs (Beta)
+darkmode#:#Darkmode

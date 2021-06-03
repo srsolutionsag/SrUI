@@ -6,11 +6,13 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'ILIAS\\UI\\Implementation\\Component\\Card\\ZoomableCardRenderer' => $baseDir . '/classes/UI/Card/ZoomableCardRenderer.php',
     'ILIAS\\UI\\Implementation\\Component\\Layout\\Page\\Login\\Login' => $baseDir . '/classes/UI/Login/Login.php',
     'ILIAS\\UI\\Implementation\\Component\\Layout\\Page\\Login\\LoginPageSettings' => $baseDir . '/classes/UI/Login/LoginPageSettings.php',
     'ILIAS\\UI\\Implementation\\Component\\Layout\\Page\\Login\\Renderer' => $baseDir . '/classes/UI/Login/Renderer.php',
     'ilSrUIConfigArtifact' => $baseDir . '/classes/Config/class.ilSrUIConfigArtifact.php',
     'ilSrUIConfigGUI' => $baseDir . '/classes/class.ilSrUIConfigGUI.php',
+    'ilSrUIContentConfigGUI' => $baseDir . '/classes/Config/Content/class.ilSrUIContentConfigGUI.php',
     'ilSrUIFileHandlerGUI' => $baseDir . '/classes/Config/class.ilSrUIFileHandlerGUI.php',
     'ilSrUIFooterConfigGUI' => $baseDir . '/classes/Config/Footer/class.ilSrUIFooterConfigGUI.php',
     'ilSrUIGUI' => $baseDir . '/classes/Config/interface.ilSrUIGUI.php',

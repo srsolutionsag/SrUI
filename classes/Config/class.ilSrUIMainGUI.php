@@ -13,6 +13,7 @@ class ilSrUIMainGUI implements ilSrUIGUI
     const TAB_LOGIN_PAGE = 'tab_login_page';
     const TAB_HEADER = 'tab_header';
     const TAB_FOOTER = 'tab_footer';
+    const TAB_CONTENT = 'tab_content';
     const CMD_INDEX = 'index';
 
     public function executeCommand() : void
@@ -31,6 +32,10 @@ class ilSrUIMainGUI implements ilSrUIGUI
             case strtolower(ilSrUIFooterConfigGUI::class):
                 $this->tabs->activateTab(self::TAB_FOOTER);
                 $this->ctrl->forwardCommand(new ilSrUIFooterConfigGUI($this->dic, $this->plugin));
+                break;
+            case strtolower(ilSrUIContentConfigGUI::class):
+                $this->tabs->activateTab(self::TAB_CONTENT);
+                $this->ctrl->forwardCommand(new ilSrUIContentConfigGUI($this->dic, $this->plugin));
                 break;
             case strtolower(ilSrUIFileHandlerGUI::class):
                 $this->ctrl->forwardCommand(new ilSrUIFileHandlerGUI());
@@ -65,6 +70,11 @@ class ilSrUIMainGUI implements ilSrUIGUI
             self::TAB_FOOTER,
             $this->plugin->txt(self::TAB_FOOTER),
             $this->ctrl->getLinkTargetByClass(ilSrUIFooterConfigGUI::class)
+        );
+        $this->tabs->addTab(
+            self::TAB_CONTENT,
+            $this->plugin->txt(self::TAB_CONTENT),
+            $this->ctrl->getLinkTargetByClass(ilSrUIContentConfigGUI::class)
         );
     }
 

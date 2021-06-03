@@ -17,6 +17,7 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
     const CMD_SAVE = 'save';
     const F_ICON = 'icon';
     const F_ICON_WIDTH = 'icon_width';
+    const F_DARKMODE = 'darkmode';
     const F_HEADER_TITLE = 'header_title';
     /**
      * @var Artifact
@@ -56,12 +57,18 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
                                          ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
                                              $this->artifact)(self::F_HEADER_TITLE));
 
+        $darkmode = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(self::F_DARKMODE))
+                                         ->withValue((bool) ($this->artifact[self::F_DARKMODE] ?? false))
+                                         ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                                             $this->artifact)(self::F_DARKMODE));
+
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
                 self::F_ICON => $icon,
                 self::F_ICON_WIDTH => $icon_with,
-                self::F_HEADER_TITLE => $header_title
+                self::F_HEADER_TITLE => $header_title,
+                self::F_DARKMODE => $darkmode
             ]
         )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) {
             return $this->artifact;

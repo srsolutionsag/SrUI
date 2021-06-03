@@ -28,7 +28,8 @@ use srag\Plugins\SrUI\ResourceStorage\Factory;
 class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 {
     const PRIORITY = 60;
-
+    const PLUGIN_BASE = "./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/";
+    
     /**
      * @return Artifact
      */
@@ -40,7 +41,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         }
         return $settings;
     }
-
+    
     /**
      * @param Artifact $settings
      * @return Closure
@@ -48,7 +49,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
     private function getLoginPageModification() : Closure
     {
         $settings = $this->getArtifact();
-
+        
         $login_page_settings = new LoginPageSettings();
         $login_page_settings->setCenterLogin((bool) $settings[ilSrUILoginPageConfigGUI::F_CENTERED_LOGIN_PAGE]);
         if ($login_page_settings->isCenterLogin()) {
@@ -57,18 +58,18 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         $login_page_settings->setShowHeader((bool) ($settings[ilSrUILoginPageConfigGUI::F_SHOW_HEADER] ?? true));
         $login_page_settings->setShowFooter((bool) ($settings[ilSrUILoginPageConfigGUI::F_SHOW_FOOTER] ?? true));
         $login_page_settings->setShowMainBar((bool) ($settings[ilSrUILoginPageConfigGUI::F_SHOW_MAIN_BAR] ?? true));
-
+        
         if ($settings[ilSrUILoginPageConfigGUI::F_BACKGROUND_IMAGE]) {
             $s = Factory::storage()->getDataURL((string) $settings[ilSrUILoginPageConfigGUI::F_BACKGROUND_IMAGE][0]);
             if (!empty($s)) {
                 $login_page_settings->setBackgroundImage($s);
             }
         }
-
+        
         if (!$login_page_settings->isShowHeader()) {
-            $this->globalScreen()->layout()->meta()->addCss('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/no_header.css');
+            $this->globalScreen()->layout()->meta()->addCss(self::PLUGIN_BASE . 'templates/no_header.css');
         }
-
+        
         return static function (PagePartProvider $parts) use ($login_page_settings) : Page {
             return new Login(
                 $login_page_settings,
@@ -84,24 +85,36 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             );
         };
     }
-
+    
     public function isInterestedInContexts() : ContextCollection
     {
         return $this->context_collection->main()->main();
     }
-
+    
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
     {
+        $settings = $this->getArtifact();
+        // Cards
+        if ((bool) $settings[ilSrUIContentConfigGUI::F_FANCY_CARDS]) {
+            $this->dic->globalScreen()->layout()->meta()->addCss(self::PLUGIN_BASE . "templates/cards.css");
+        }
+        
+        // Darkmode
+        if ((bool) $settings[ilSrUIHeaderConfigGUI::F_DARKMODE]) {
+            $this->dic->globalScreen()->layout()->meta()->addCss(self::PLUGIN_BASE . "templates/darkmode.css");
+        }
+        
+        // Login Page
         if ($screen_context_stack->current()->getAdditionalData()->is(ilSrUIPlugin::ON_LOGIN_PAGE, true)) {
             /** @noinspection PhpIncompatibleReturnTypeInspection */
             return $this->factory->page()
                                  ->withLowPriority()
                                  ->withModification($this->getLoginPageModification());
         }
-
+        
         return null;
     }
-
+    
     private function setPriority(LayoutModification $m) : LayoutModification
     {
         try {
@@ -110,7 +123,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             return $m->withHighPriority();
         }
     }
-
+    
     public function getLogoModification(CalledContexts $screen_context_stack) : ?LogoModification
     {
         $settings = $this->getArtifact();
@@ -120,17 +133,17 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             if (!empty($s)) {
                 $logo_modification = $this->factory->logo();
                 $logo_modification = $this->setPriority($logo_modification);
-
+                
                 return $logo_modification->withModification(function (Image $image) use ($s) {
                     return $image->withSource($s);
                 });
-
+                
             }
-
+            
         }
         return null;
     }
-
+    
     public function getFooterModification(CalledContexts $screen_context_stack) : ?FooterModification
     {
         $settings = $this->getArtifact();
@@ -164,33 +177,33 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         }
         return null;
     }
-
+    
     public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification
     {
         $settings = $this->getArtifact();
         if ($settings->offsetExists(ilSrUIHeaderConfigGUI::F_HEADER_TITLE)) {
             $title_modification = $this->factory->title();
             $title_modification = $this->setPriority($title_modification);
-
+            
             return $title_modification->withModification(function (string $f) use ($settings) : string {
                 return (string) $settings[ilSrUIHeaderConfigGUI::F_HEADER_TITLE];
             });
         }
         return null;
     }
-
+    
     public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification
     {
         $settings = $this->getArtifact();
         if ($settings->offsetExists(ilSrUIHeaderConfigGUI::F_HEADER_TITLE)) {
             $short_title_modification = $this->factory->short_title();
             $short_title_modification = $this->setPriority($short_title_modification);
-
+            
             return $short_title_modification->withModification(function (string $f) use ($settings) : string {
                 return (string) $settings[ilSrUIHeaderConfigGUI::F_HEADER_TITLE];
             });
         }
         return null;
     }
-
+    
 }

@@ -21,11 +21,13 @@ class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
     );
 
     public static $classMap = array (
+        'ILIAS\\UI\\Implementation\\Component\\Card\\ZoomableCardRenderer' => __DIR__ . '/../..' . '/classes/UI/Card/ZoomableCardRenderer.php',
         'ILIAS\\UI\\Implementation\\Component\\Layout\\Page\\Login\\Login' => __DIR__ . '/../..' . '/classes/UI/Login/Login.php',
         'ILIAS\\UI\\Implementation\\Component\\Layout\\Page\\Login\\LoginPageSettings' => __DIR__ . '/../..' . '/classes/UI/Login/LoginPageSettings.php',
         'ILIAS\\UI\\Implementation\\Component\\Layout\\Page\\Login\\Renderer' => __DIR__ . '/../..' . '/classes/UI/Login/Renderer.php',
         'ilSrUIConfigArtifact' => __DIR__ . '/../..' . '/classes/Config/class.ilSrUIConfigArtifact.php',
         'ilSrUIConfigGUI' => __DIR__ . '/../..' . '/classes/class.ilSrUIConfigGUI.php',
+        'ilSrUIContentConfigGUI' => __DIR__ . '/../..' . '/classes/Config/Content/class.ilSrUIContentConfigGUI.php',
         'ilSrUIFileHandlerGUI' => __DIR__ . '/../..' . '/classes/Config/class.ilSrUIFileHandlerGUI.php',
         'ilSrUIFooterConfigGUI' => __DIR__ . '/../..' . '/classes/Config/Footer/class.ilSrUIFooterConfigGUI.php',
         'ilSrUIGUI' => __DIR__ . '/../..' . '/classes/Config/interface.ilSrUIGUI.php',
