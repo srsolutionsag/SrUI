@@ -19,6 +19,7 @@ return array(
     'ilSrUIHeaderConfigGUI' => $baseDir . '/classes/Config/Header/class.ilSrUIHeaderConfigGUI.php',
     'ilSrUIHelperGUI' => $baseDir . '/classes/Config/trait.ilSrUIHelperGUI.php',
     'ilSrUILoginPageConfigGUI' => $baseDir . '/classes/Config/LoginPage/class.ilSrUILoginPageConfigGUI.php',
+    'ilSrUIMainBarProvider' => $baseDir . '/classes/class.ilSrUIMainBarProvider.php',
     'ilSrUIMainGUI' => $baseDir . '/classes/Config/class.ilSrUIMainGUI.php',
     'ilSrUIModificationProvider' => $baseDir . '/classes/class.ilSrUIModificationProvider.php',
     'ilSrUIPlugin' => $baseDir . '/classes/class.ilSrUIPlugin.php',

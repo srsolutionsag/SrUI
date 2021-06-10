@@ -34,6 +34,7 @@ class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
         'ilSrUIHeaderConfigGUI' => __DIR__ . '/../..' . '/classes/Config/Header/class.ilSrUIHeaderConfigGUI.php',
         'ilSrUIHelperGUI' => __DIR__ . '/../..' . '/classes/Config/trait.ilSrUIHelperGUI.php',
         'ilSrUILoginPageConfigGUI' => __DIR__ . '/../..' . '/classes/Config/LoginPage/class.ilSrUILoginPageConfigGUI.php',
+        'ilSrUIMainBarProvider' => __DIR__ . '/../..' . '/classes/class.ilSrUIMainBarProvider.php',
         'ilSrUIMainGUI' => __DIR__ . '/../..' . '/classes/Config/class.ilSrUIMainGUI.php',
         'ilSrUIModificationProvider' => __DIR__ . '/../..' . '/classes/class.ilSrUIModificationProvider.php',
         'ilSrUIPlugin' => __DIR__ . '/../..' . '/classes/class.ilSrUIPlugin.php',

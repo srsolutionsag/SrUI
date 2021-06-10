@@ -36,7 +36,7 @@ class ilSrUIContentConfigGUI implements ilSrUIGUI
     
     private function getForm() : Form
     {
-        $this->artifact = new Artifact('sr_ui_setting');
+        $this->artifact = Artifact::getInstance('sr_ui_setting');
         
         // Fields
         $cards = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(self::F_FANCY_CARDS))

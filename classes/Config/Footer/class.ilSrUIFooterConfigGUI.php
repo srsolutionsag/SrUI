@@ -31,7 +31,7 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
 
     private function getForm() : Form
     {
-        $artifact = new Artifact('sr_ui_setting');
+        $artifact = Artifact::getInstance('sr_ui_setting');
 
         // Fields
         $show_rendered_by = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(self::F_SHOW_RENDERED_BY))

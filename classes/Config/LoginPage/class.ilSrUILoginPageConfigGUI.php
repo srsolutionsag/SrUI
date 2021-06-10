@@ -41,7 +41,7 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
 
     private function getForm() : Form
     {
-        $this->artifact = new Artifact('sr_ui_setting');
+        $this->artifact = Artifact::getInstance('sr_ui_setting');
         $artifact_safer = $this->getArtifactSafer($this->refinery, $this->artifact);
 
         // Fields

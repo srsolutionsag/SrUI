@@ -38,7 +38,7 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
 
     private function getForm() : Form
     {
-        $this->artifact = new Artifact('sr_ui_setting');
+        $this->artifact = Artifact::getInstance('sr_ui_setting');
 
         // Fields
         $icon = $this->ui_factory->input()->field()->file(new ilSrUIFileHandlerGUI(), $this->plugin->txt(self::F_ICON))
