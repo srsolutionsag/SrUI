@@ -44,7 +44,8 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
         $icon = $this->ui_factory->input()->field()->file(new ilSrUIFileHandlerGUI(), $this->plugin->txt(self::F_ICON))
                                  ->withAcceptedMimeTypes([
                                      ilMimeTypeUtil::IMAGE__SVG_XML,
-                                     ilMimeTypeUtil::IMAGE__JPEG
+                                     ilMimeTypeUtil::IMAGE__JPEG,
+                                     ilMimeTypeUtil::IMAGE__PNG
                                  ])
                                  ->withValue($this->artifact[self::F_ICON] ?? [])
                                  ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
