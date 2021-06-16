@@ -11,6 +11,8 @@ use ILIAS\UI\Renderer as RendererInterface;
  */
 class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 {
+    const TEMPLATE_BASE = './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/';
+    
     public function render(Component\Component $component, RendererInterface $default_renderer)
     {
         return $this->renderLoginPage($component, $default_renderer);
@@ -18,7 +20,7 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 
     protected function renderLoginPage(Login $component, RendererInterface $default_renderer)
     {
-        $tpl = new \ilTemplate('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/tpl.login_page.html', true, true);
+        $tpl = new \ilTemplate(self::TEMPLATE_BASE . 'tpl.login_page.html', true, true);
 
         if ($component->hasMetabar()) {
             $tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
@@ -43,6 +45,7 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
                 $tpl->setVariable("LOGO", $default_renderer->render($logo));
             }
         }
+        
 
         $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED];
         if ($slates_cookie && json_decode($slates_cookie, true)['engaged']) {
@@ -53,16 +56,13 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         $tpl->setVariable("SHORT_TITLE", $component->getShortTitle());
         $tpl->setVariable("VIEW_TITLE", $component->getViewTitle());
         $tpl->setVariable("LANGUAGE", $this->getLangKey());
-
-        // CONTENT
-        $content_wrapper = new \ilTemplate('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/tpl.login_page_inner.html', true, true);
-        $content_wrapper->setVariable('CONTENT', $default_renderer->render($component->getContent()));
+        $tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
+    
         if ($component->getSettings()->getBackgroundImage()) {
-            $content_wrapper->setVariable('BACKGROUND_IMAGE', $component->getSettings()->getBackgroundImage());
+            $tpl->setVariable('BACKGROUND_IMAGE', $component->getSettings()->getBackgroundImage());
         }
-
-        $tpl->setVariable('CONTENT', $content_wrapper->get());
-
+    
+    
         if ($component->getSettings()->isShowFooter() && $component->hasFooter()) {
             $tpl->setVariable('FOOTER', $default_renderer->render($component->getFooter()));
         }

@@ -19,6 +19,18 @@
 
 	#border: #4C6586 5px solid;
 	border-radius: 12px;
+	overflow: hidden;
+}
+
+.ilFormHeader {
+	display: none;
+}
+
+.sr-ui-inner-content-logo {
+	width: 45px;
+	height: auto;
+	margin: 12px 12px 0;
+	float: right;
 }
 
 .sr-ui-inner-content .ilStartupSection {
