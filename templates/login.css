@@ -1,5 +1,4 @@
 .sr-ui-content {
-	min-height: 91vh;
 	background-color: #ffffff;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -11,13 +10,12 @@
 .sr-ui-inner-content {
 	max-width: 600px;
 	background-color: rgba(255, 255, 255, 0.9);
-	margin: 80px auto auto;
+	margin: 200px auto auto;
 
 	-webkit-box-shadow: 0 0 38px 0 rgba(255, 255, 255, 1);
 	-moz-box-shadow: 0 0 38px 0 rgba(255, 255, 255, 1);
 	box-shadow: 0 0 38px 0 rgba(255, 255, 255, 1);
 
-	#border: #4C6586 5px solid;
 	border-radius: 12px;
 	overflow: hidden;
 }
@@ -27,9 +25,9 @@
 }
 
 .sr-ui-inner-content-logo {
-	width: 45px;
+	width: 60px;
 	height: auto;
-	margin: 12px 12px 0;
+	margin: 24px 24px 0;
 	float: right;
 }
 

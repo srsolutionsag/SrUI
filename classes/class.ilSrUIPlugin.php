@@ -12,10 +12,42 @@ use srag\Plugins\SrUI\UI\Loader\PageLoaderDetector;
  */
 class ilSrUIPlugin extends ilUserInterfaceHookPlugin
 {
-    public const  LOGIN_TEMPLATE_WRAPPER = './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/tpl.login_page.html';
-    public const LOGIN_CSS = "./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/login.css";
-    const OUTSIDE_ILIAS = 'anon';
-    const ON_LOGIN_PAGE = 'on_login_page';
+    public const PLUGIN_BASE = __DIR__ . '/../';
+    public const TEMPLATES_BASE = "./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/";
+    public const OUTSIDE_ILIAS = 'anon';
+    public const ON_LOGIN_PAGE = 'on_login_page';
+    
+    protected function onBoarding() : void
+    {
+        $a = srag\Plugins\SrUI\Artifact\Artifact::getInstance('sr_ui_setting');
+        $a->clear();
+        
+        $s = Factory::storage();
+        
+        $a[ilSrUILoginPageConfigGUI::F_CENTERED_LOGIN_PAGE]     = true;
+        $a[ilSrUILoginPageConfigGUI::F_CENTERED_LOGIN_PAGE_CSS] = file_get_contents(self::TEMPLATES_BASE . "login.css");
+        $a[ilSrUILoginPageConfigGUI::F_SHOW_FOOTER]             = false;
+        $a[ilSrUILoginPageConfigGUI::F_SHOW_MAIN_BAR]           = false;
+        $a[ilSrUILoginPageConfigGUI::F_SHOW_HEADER]             = false;
+        $a[ilSrUILoginPageConfigGUI::F_BACKGROUND_IMAGE]        = [
+            $s->fromPath(
+                self::TEMPLATES_BASE . "Subtle-Prism.svg",
+                ilMimeTypeUtil::IMAGE__SVG_XML
+            )
+        ];
+        $a[ilSrUIHeaderConfigGUI::F_ICON]                       = [
+            $s->fromPath(
+                self::TEMPLATES_BASE . "HeaderIconPlus.svg",
+                ilMimeTypeUtil::IMAGE__SVG_XML)
+        ];
+        $a[ilSrUIHeaderConfigGUI::F_ICON_WIDTH]                 = '45px';
+        $a[ilSrUIHeaderConfigGUI::F_HEADER_TITLE]               = 'ILIAS+ 6';
+        $a[ilSrUIHeaderConfigGUI::F_DARKMODE]                   = true;
+        $a[ilSrUIFooterConfigGUI::F_SHOW_RENDERED_BY]           = true;
+        $a[ilSrUIContentConfigGUI::F_FANCY_TABS]                = false;
+        $a[ilSrUIContentConfigGUI::F_FANCY_CARDS]               = true;
+        $a->save();
+    }
     
     public function getPluginName()
     {
@@ -24,6 +56,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
     
     public function exchangeUIRendererAfterInitialization(Container $dic) : Closure
     {
+//        $this->onBoarding();
         return PageLoaderDetector::exchange();
     }
     
@@ -69,24 +102,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
     
     protected function afterInstall()
     {
-        $base = "./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/";
-        $a    = new srag\Plugins\SrUI\Artifact\Artifact('sr_ui_setting');
-        $a->clear();
-        
-        $s = Factory::storage();
-        
-        $a[ilSrUILoginPageConfigGUI::F_CENTERED_LOGIN_PAGE]     = true;
-        $a[ilSrUILoginPageConfigGUI::F_CENTERED_LOGIN_PAGE_CSS] = file_get_contents($base . "login.css");
-        $a[ilSrUILoginPageConfigGUI::F_SHOW_FOOTER]             = true;
-        $a[ilSrUILoginPageConfigGUI::F_SHOW_MAIN_BAR]           = false;
-        $a[ilSrUILoginPageConfigGUI::F_SHOW_HEADER]             = true;
-        $a[ilSrUILoginPageConfigGUI::F_BACKGROUND_IMAGE]        = [$s->fromPath($base . "Diamond-Sunset.svg", ilMimeTypeUtil::IMAGE__SVG_XML)];
-        $a[ilSrUIHeaderConfigGUI::F_ICON]                       = [$s->fromPath($base . "HeaderIconPlus.svg", ilMimeTypeUtil::IMAGE__SVG_XML)];
-        $a[ilSrUIHeaderConfigGUI::F_ICON_WIDTH]                 = '45px';
-        $a[ilSrUIFooterConfigGUI::F_SHOW_RENDERED_BY]           = true;
-        $a[ilSrUIContentConfigGUI::F_FANCY_TABS]                = false;
-        $a[ilSrUIContentConfigGUI::F_FANCY_CARDS]               = true;
-        $a->save();
+        $this->onBoarding();
     }
     
 }

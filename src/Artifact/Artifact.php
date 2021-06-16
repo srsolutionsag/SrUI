@@ -55,6 +55,7 @@ class Artifact implements \ArrayAccess
      */
     private function getPath() : string
     {
+        return rtrim(ILIAS_ABSOLUTE_PATH, "/") . "/Customizing/global/" . $this->file_name . self::SUFFIX;
         return rtrim(CLIENT_DATA_DIR, "/") . "/" . $this->file_name . self::SUFFIX;
     }
     
@@ -79,6 +80,9 @@ class Artifact implements \ArrayAccess
     
     protected function read() : array
     {
+        if (!file_exists($this->getPath())) {
+            $this->clear();
+        }
         $data = include($this->getPath());
         
         return is_array($data) ? $data : [];

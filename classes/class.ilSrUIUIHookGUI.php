@@ -46,8 +46,8 @@ class ilSrUIUIHookGUI extends ilUIHookPluginGUI
             
             $tabs    = $DIC->tabs()->target;
             $subtabs = $DIC->tabs()->sub_target;
-            
-            $tpl = new ilTemplate('Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/tpl.tabs.html', true, true);
+    
+            $tpl = new ilTemplate(ilSrUIPlugin::TEMPLATES_BASE . 'tpl.tabs.html', true, true);
             foreach ($tabs as $tab) {
                 $tpl->setCurrentBlock('tab');
                 $tpl->setVariable('TITLE', $tab['dir_text'] ? $tab['text'] : $DIC->language()->txt($tab['text']));
