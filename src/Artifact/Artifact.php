@@ -55,7 +55,7 @@ class Artifact implements \ArrayAccess
      */
     private function getPath() : string
     {
-        return rtrim(ILIAS_ABSOLUTE_PATH, "/") . "/Customizing/global/" . $this->file_name . self::SUFFIX;
+//        return rtrim(ILIAS_ABSOLUTE_PATH, "/") . "/Customizing/global/" . $this->file_name . self::SUFFIX;
         return rtrim(CLIENT_DATA_DIR, "/") . "/" . $this->file_name . self::SUFFIX;
     }
     

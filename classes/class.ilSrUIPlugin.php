@@ -46,6 +46,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         $a[ilSrUIFooterConfigGUI::F_SHOW_RENDERED_BY]           = true;
         $a[ilSrUIContentConfigGUI::F_FANCY_TABS]                = false;
         $a[ilSrUIContentConfigGUI::F_FANCY_CARDS]               = true;
+        $a[ilSrUILoginPageConfigGUI::F_SHOW_HEADER_LOGO]        = true;
         $a->save();
     }
     
