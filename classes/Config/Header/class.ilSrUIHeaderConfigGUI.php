@@ -45,6 +45,7 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
                                  ->withAcceptedMimeTypes([
                                      ilMimeTypeUtil::IMAGE__SVG_XML,
                                      ilMimeTypeUtil::IMAGE__JPEG,
+                                     ilMimeTypeUtil::IMAGE__GIF,
                                      ilMimeTypeUtil::IMAGE__PNG
                                  ])
                                  ->withValue($this->artifact[self::F_ICON] ?? [])
