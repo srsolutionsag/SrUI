@@ -14,6 +14,13 @@ class Factory
             return new ResourceStorage6();
         }
         return new ResourceStorage7();
+    }
 
+    public static function stakeholder()
+    {
+        if (version_compare(ILIAS_VERSION_NUMERIC, '7.0', "<")) {
+            return new Stakeholder6();
+        }
+        return new Stakeholder7();
     }
 }
