@@ -51,6 +51,12 @@ class PageLoaderDetector extends \srag\Plugins\SrUI\UI\Loader\AbstractLoaderDete
     public function getRendererFor(Component $component, array $contexts) : ComponentRenderer
     {
         global $DIC;
+        if ($DIC->offsetExists('ui.pathresolver')) {
+            $uipathresolver = $DIC['ui.pathresolver'];
+        } else {
+            $uipathresolver = null;
+        }
+
         switch (true) {
             case $component instanceof LoginPage:
                 return new LoginPageRender(
@@ -59,7 +65,7 @@ class PageLoaderDetector extends \srag\Plugins\SrUI\UI\Loader\AbstractLoaderDete
                     $DIC["lng"],
                     $DIC["ui.javascript_binding"],
                     $DIC['refinery'],
-                    $DIC['ui.pathresolver'],
+                    $uipathresolver
                 );
             case $component instanceof Card:
                 return new ZoomableCardRenderer(
@@ -68,7 +74,7 @@ class PageLoaderDetector extends \srag\Plugins\SrUI\UI\Loader\AbstractLoaderDete
                     $DIC["lng"],
                     $DIC["ui.javascript_binding"],
                     $DIC['refinery'],
-                    $DIC['ui.pathresolver'],
+                    $uipathresolver
                 );
             default:
                 return parent::getRendererFor($component, $contexts);
