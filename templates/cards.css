@@ -1,13 +1,19 @@
 div.il-card {
-	filter: opacity(0.9);
+	/*filter: opacity(0.85);*/
 }
 div.il-card:hover {
-	filter: opacity(1);
+	/*filter: opacity(1);*/
 }
 div.il-card div.il-card-repository-head {
-	z-index: 2;
+	z-index: 4;
 }
+
+.il-card.thumbnail {
+	/*z-index: 1;*/
+}
+
 div.il-card img {
+	position:relative;
 	/* SCALE */
 	-webkit-transform: scale(1);
 	-moz-transform: scale(1);
@@ -22,6 +28,7 @@ div.il-card img {
 	transition: all 0.3s linear;
 }
 div.il-card:hover img {
+	position:relative;
 	-webkit-transform: scale(1.1);
 	-moz-transform: scale(1.1);
 	-ms-transform: scale(1.1);

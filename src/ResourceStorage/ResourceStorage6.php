@@ -54,7 +54,7 @@ class ResourceStorage6 implements ResourceStorage
     public function __construct()
     {
         $this->services    = new Services();
-        $this->stakeholder = new Stakeholder();
+        $this->stakeholder = new Stakeholder6();
 
         $this->storage_handler        = new FileSystemStorageHandler();
         $this->revision_repository    = new RevisionARRepository();

@@ -35,7 +35,7 @@ class ilSrUIFileHandlerGUI extends AbstractCtrlAwareUploadHandler implements ilS
     {
         parent::__construct();
         $this->storage     = Factory::storage();
-        $this->stakeholder = new Stakeholder();
+        $this->stakeholder = Factory::stakeholder();
     }
 
     /**
