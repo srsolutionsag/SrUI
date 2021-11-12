@@ -21,6 +21,7 @@ return array(
     'ilSrUILoginPageConfigGUI' => $baseDir . '/classes/Config/LoginPage/class.ilSrUILoginPageConfigGUI.php',
     'ilSrUIMainBarProvider' => $baseDir . '/classes/class.ilSrUIMainBarProvider.php',
     'ilSrUIMainGUI' => $baseDir . '/classes/Config/class.ilSrUIMainGUI.php',
+    'ilSrUIMetaBarProvider' => $baseDir . '/classes/class.ilSrUIMetaBarProvider.php',
     'ilSrUIModificationProvider' => $baseDir . '/classes/class.ilSrUIModificationProvider.php',
     'ilSrUIPlugin' => $baseDir . '/classes/class.ilSrUIPlugin.php',
     'ilSrUITrafos' => $baseDir . '/classes/trait.ilSrUITrafos.php',
