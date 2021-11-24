@@ -19,6 +19,10 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
     const F_ICON_WIDTH = 'icon_width';
     const F_DARKMODE = 'darkmode';
     const F_HEADER_TITLE = 'header_title';
+    const F_HEADER_COLORS = 'header_colors';
+    const F_HEADER_BG_COLOR = 'header_bg_color';
+    const F_HEADER_BC_BG_COLOR = 'header_bc_bg_color';
+    const F_HEADER_BC_TEXT_COLOR = 'header_bc_text_color';
     /**
      * @var Artifact
      */
@@ -41,39 +45,61 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
         $this->artifact = Artifact::getInstance('sr_ui_setting');
 
         // Fields
-        $icon = $this->ui_factory->input()->field()->file(new ilSrUIFileHandlerGUI(), $this->plugin->txt(self::F_ICON))
-                                 ->withAcceptedMimeTypes([
-                                     ilMimeTypeUtil::IMAGE__SVG_XML,
-                                     ilMimeTypeUtil::IMAGE__JPEG,
-                                     ilMimeTypeUtil::IMAGE__GIF,
-                                     ilMimeTypeUtil::IMAGE__PNG
-                                 ])
-                                 ->withValue($this->artifact[self::F_ICON] ?? [])
+        $factory = $this->ui_factory->input();
+        $icon = $factory->field()->file(new ilSrUIFileHandlerGUI(), $this->plugin->txt(self::F_ICON))
+                        ->withAcceptedMimeTypes([
+                            ilMimeTypeUtil::IMAGE__SVG_XML,
+                            ilMimeTypeUtil::IMAGE__JPEG,
+                            ilMimeTypeUtil::IMAGE__GIF,
+                            ilMimeTypeUtil::IMAGE__PNG
+                        ])
+                        ->withValue($this->artifact[self::F_ICON] ?? [])
+                        ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                            $this->artifact)(self::F_ICON));
+
+        $icon_with = $factory->field()->text($this->plugin->txt(self::F_ICON_WIDTH))
+                             ->withValue((string) ($this->artifact[self::F_ICON_WIDTH] ?? '45px'))
+                             ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                                 $this->artifact)(self::F_ICON_WIDTH));
+
+        $header_title = $factory->field()->text($this->plugin->txt(self::F_HEADER_TITLE))
+                                ->withValue((string) ($this->artifact[self::F_HEADER_TITLE] ?? 'ILIAS+'))
+                                ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                                    $this->artifact)(self::F_HEADER_TITLE));
+
+        $darkmode = $factory->field()->checkbox($this->plugin->txt(self::F_DARKMODE))
+                            ->withValue((bool) ($this->artifact[self::F_DARKMODE] ?? false))
+                            ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                                $this->artifact)(self::F_DARKMODE));
+
+        $header_color_inputs = [
+            self::F_HEADER_BG_COLOR => $factory->field()->text($this->plugin->txt(self::F_HEADER_BG_COLOR))
+                                               ->withValue(($this->artifact[self::F_HEADER_BG_COLOR] ?? ''))
+                                               ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                                                   $this->artifact)(self::F_HEADER_BG_COLOR)),
+            self::F_HEADER_BC_BG_COLOR => $factory->field()->text($this->plugin->txt(self::F_HEADER_BC_BG_COLOR))
+                                                  ->withValue(($this->artifact[self::F_HEADER_BC_BG_COLOR] ?? ''))
+                                                  ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                                                      $this->artifact)(self::F_HEADER_BC_BG_COLOR)),
+            self::F_HEADER_BC_TEXT_COLOR => $factory->field()->text($this->plugin->txt(self::F_HEADER_BC_TEXT_COLOR))
+                                                    ->withValue(($this->artifact[self::F_HEADER_BC_TEXT_COLOR] ?? ''))
+                                                    ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                                                        $this->artifact)(self::F_HEADER_BC_TEXT_COLOR))
+        ];
+        $header_colors = $factory->field()->optionalGroup($header_color_inputs,
+            $this->plugin->txt(self::F_HEADER_COLORS))
+                                 ->withValue(($this->artifact[self::F_HEADER_COLORS] ?? null))
                                  ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
-                                     $this->artifact)(self::F_ICON));
+                                     $this->artifact)(self::F_HEADER_COLORS));
 
-        $icon_with = $this->ui_factory->input()->field()->text($this->plugin->txt(self::F_ICON_WIDTH))
-                                      ->withValue((string) ($this->artifact[self::F_ICON_WIDTH] ?? '45px'))
-                                      ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
-                                          $this->artifact)(self::F_ICON_WIDTH));
-
-        $header_title = $this->ui_factory->input()->field()->text($this->plugin->txt(self::F_HEADER_TITLE))
-                                         ->withValue((string) ($this->artifact[self::F_HEADER_TITLE] ?? 'ILIAS+'))
-                                         ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
-                                             $this->artifact)(self::F_HEADER_TITLE));
-
-        $darkmode = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(self::F_DARKMODE))
-                                         ->withValue((bool) ($this->artifact[self::F_DARKMODE] ?? false))
-                                         ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
-                                             $this->artifact)(self::F_DARKMODE));
-
-        return $this->ui_factory->input()->container()->form()->standard(
+        return $factory->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
                 self::F_ICON => $icon,
                 self::F_ICON_WIDTH => $icon_with,
                 self::F_HEADER_TITLE => $header_title,
-                self::F_DARKMODE => $darkmode
+                self::F_DARKMODE => $darkmode,
+                self::F_HEADER_COLORS => $header_colors,
             ]
         )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) {
             return $this->artifact;

@@ -28,7 +28,7 @@ use srag\Plugins\SrUI\ResourceStorage\Factory;
 class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 {
     const PRIORITY = 60;
-    
+
     /**
      * @return Artifact
      */
@@ -40,7 +40,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         }
         return $settings;
     }
-    
+
     /**
      * @param Artifact $settings
      * @return Closure
@@ -48,11 +48,11 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
     private function getLoginPageModification() : Closure
     {
         $settings = $this->getArtifact();
-        
+
         $login_page_settings = new LoginPageSettings();
         $login_page_settings->setCenterLogin((bool) $settings[ilSrUILoginPageConfigGUI::F_CENTERED_LOGIN_PAGE]);
         $meta = $this->globalScreen()->layout()->meta();
-        
+
         if ($login_page_settings->isCenterLogin()) {
             $meta->addInlineCss((string) $settings[ilSrUILoginPageConfigGUI::F_CENTERED_LOGIN_PAGE_CSS]);
         }
@@ -60,18 +60,18 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         $login_page_settings->setShowFooter((bool) ($settings[ilSrUILoginPageConfigGUI::F_SHOW_FOOTER] ?? true));
         $login_page_settings->setShowMainBar((bool) ($settings[ilSrUILoginPageConfigGUI::F_SHOW_MAIN_BAR] ?? true));
         $login_page_settings->setShowHeaderLogo((bool) ($settings[ilSrUILoginPageConfigGUI::F_SHOW_HEADER_LOGO] ?? true));
-        
+
         if ($settings[ilSrUILoginPageConfigGUI::F_BACKGROUND_IMAGE]) {
             $s = Factory::storage()->getDataURL((string) $settings[ilSrUILoginPageConfigGUI::F_BACKGROUND_IMAGE][0]);
             if (!empty($s)) {
                 $login_page_settings->setBackgroundImage($s);
             }
         }
-        
+
         if (!$login_page_settings->isShowHeader()) {
             $meta->addCss(ilSrUIPlugin::TEMPLATES_BASE . 'no_header.css');
         }
-    
+
         if (!$login_page_settings->isShowHeader() && !$login_page_settings->isShowFooter()) {
             $meta->addInlineCss(".sr-ui-content {min-height: 100vh;}");
         } elseif (!$login_page_settings->isShowHeader() && $login_page_settings->isShowFooter()) {
@@ -81,7 +81,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         } else {
             $meta->addInlineCss(".sr-ui-content {min-height: 85vh;}");
         }
-        
+
         return static function (PagePartProvider $parts) use ($login_page_settings) : Page {
             return new Login(
                 $login_page_settings,
@@ -97,12 +97,12 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             );
         };
     }
-    
+
     public function isInterestedInContexts() : ContextCollection
     {
         return $this->context_collection->main()->main();
     }
-    
+
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
     {
         $settings = $this->getArtifact();
@@ -110,12 +110,12 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         if ((bool) $settings[ilSrUIContentConfigGUI::F_FANCY_CARDS]) {
             $this->dic->globalScreen()->layout()->meta()->addCss(ilSrUIPlugin::TEMPLATES_BASE . "cards.css");
         }
-        
+
         // Darkmode
         if ((bool) $settings[ilSrUIHeaderConfigGUI::F_DARKMODE]) {
             $this->dic->globalScreen()->layout()->meta()->addCss(ilSrUIPlugin::TEMPLATES_BASE . "darkmode.css");
         }
-        
+
         // Login Page
         if ($screen_context_stack->current()->getAdditionalData()->is(ilSrUIPlugin::ON_LOGIN_PAGE, true)) {
             /** @noinspection PhpIncompatibleReturnTypeInspection */
@@ -123,10 +123,46 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                                  ->withLowPriority()
                                  ->withModification($this->getLoginPageModification());
         }
-        
+
+        // Header-Colors
+        if ((bool) $settings[ilSrUIHeaderConfigGUI::F_HEADER_COLORS]) {
+            $header_bg_color = $settings[ilSrUIHeaderConfigGUI::F_HEADER_BG_COLOR];
+            $bc_bg_color = $settings[ilSrUIHeaderConfigGUI::F_HEADER_BC_BG_COLOR];
+            $bc_text_color = $settings[ilSrUIHeaderConfigGUI::F_HEADER_BC_TEXT_COLOR];
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss("
+            div.header-inner {
+                background-color: $header_bg_color;
+            }
+            div.breadcrumbs, nav.breadcrumb_wrapper {
+                background-color: $bc_bg_color;
+                border-color: $bc_bg_color;
+            }
+            div.breadcrumbs, nav.breadcrumb_wrapper a {
+                color: $bc_text_color;
+            }
+            ");
+        }
+
+        // Footer Colors
+        if ((bool) $settings[ilSrUIFooterConfigGUI::F_FOOTER_COLORS]) {
+            $footer_bg_color = $settings[ilSrUIFooterConfigGUI::F_FOOTER_BG_COLOR];
+            $footer_text_color = $settings[ilSrUIFooterConfigGUI::F_FOOTER_TEXT_COLOR];
+
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss("
+            footer, div.il-maincontrols-footer {
+                background-color: $footer_bg_color !important;
+                color: $footer_text_color;
+            }
+            
+            .il-maincontrols-footer .il-footer-links li a {
+                color: $footer_text_color !important;
+            }
+           
+            ");
+        }
         return null;
     }
-    
+
     private function setPriority(LayoutModification $m) : LayoutModification
     {
         try {
@@ -135,7 +171,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             return $m->withHighPriority();
         }
     }
-    
+
     public function getLogoModification(CalledContexts $screen_context_stack) : ?LogoModification
     {
         $settings = $this->getArtifact();
@@ -145,41 +181,41 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             if (!empty($s)) {
                 $logo_modification = $this->factory->logo();
                 $logo_modification = $this->setPriority($logo_modification);
-                
+
                 return $logo_modification->withModification(function (Image $image) use ($s) {
                     return $image->withSource($s);
                 });
-                
+
             }
-            
+
         }
         return null;
     }
-    
+
     public function getFooterModification(CalledContexts $screen_context_stack) : ?FooterModification
     {
         $settings = $this->getArtifact();
         if ((bool) $settings[ilSrUIFooterConfigGUI::F_SHOW_RENDERED_BY]) {
-            
+
             $footer_modification = $this->factory->footer();
             $footer_modification = $this->setPriority($footer_modification);
-            
+
             return $footer_modification
                 ->withModification(function () : \ILIAS\UI\Component\MainControls\Footer {
                     $pageContentProvider = new PageContentProvider($this->dic);
-                    $footer              = $pageContentProvider->getFooterModification($this->dic->globalScreen()->tool()->context()->stack())->getModification();
+                    $footer = $pageContentProvider->getFooterModification($this->dic->globalScreen()->tool()->context()->stack())->getModification();
                     /**
                      * @var $f Footer
                      */
                     $f = $footer();
-                    
-                    $hostname      = gethostname();
+
+                    $hostname = gethostname();
                     $ilias_version = ILIAS_VERSION_NUMERIC;
                     preg_match('/\d+\.\d+.\d+/', PHP_VERSION, $php_version);
-                    
-                    $links      = $f->getLinks();
+
+                    $links = $f->getLinks();
                     $mmprovider = new ilSrUIMainBarProvider($this->dic, $this->plugin);
-                    
+
                     $replaced_footer = $this->dic->ui()->factory()->mainControls()->footer(
                         $links,
                         "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version[0]
@@ -192,33 +228,33 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         }
         return null;
     }
-    
+
     public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification
     {
         $settings = $this->getArtifact();
         if ($settings->offsetExists(ilSrUIHeaderConfigGUI::F_HEADER_TITLE)) {
             $title_modification = $this->factory->title();
             $title_modification = $this->setPriority($title_modification);
-            
+
             return $title_modification->withModification(function (string $f) use ($settings) : string {
                 return (string) $settings[ilSrUIHeaderConfigGUI::F_HEADER_TITLE];
             });
         }
         return null;
     }
-    
+
     public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification
     {
         $settings = $this->getArtifact();
         if ($settings->offsetExists(ilSrUIHeaderConfigGUI::F_HEADER_TITLE)) {
             $short_title_modification = $this->factory->short_title();
             $short_title_modification = $this->setPriority($short_title_modification);
-            
+
             return $short_title_modification->withModification(function (string $f) use ($settings) : string {
                 return (string) $settings[ilSrUIHeaderConfigGUI::F_HEADER_TITLE];
             });
         }
         return null;
     }
-    
+
 }

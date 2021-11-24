@@ -16,6 +16,9 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
     const CMD_INDEX = 'index';
     const CMD_SAVE = 'save';
     const F_SHOW_RENDERED_BY = 'show_rendered_by';
+    const F_FOOTER_BG_COLOR = 'footer_bg_color';
+    const F_FOOTER_TEXT_COLOR = 'footer_text_color';
+    const F_FOOTER_COLORS = 'footer_colors';
 
     public function executeCommand() : void
     {
@@ -34,14 +37,33 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
         $artifact = Artifact::getInstance('sr_ui_setting');
 
         // Fields
-        $show_rendered_by = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(self::F_SHOW_RENDERED_BY))
-                                             ->withValue((bool) $artifact[self::F_SHOW_RENDERED_BY])
-                                             ->withAdditionalTransformation($this->getArtifactSafer($this->refinery, $artifact)(self::F_SHOW_RENDERED_BY));
+        $factory = $this->ui_factory->input();
+        $show_rendered_by = $factory->field()->checkbox($this->plugin->txt(self::F_SHOW_RENDERED_BY))
+                                    ->withValue((bool) $artifact[self::F_SHOW_RENDERED_BY])
+                                    ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                                        $artifact)(self::F_SHOW_RENDERED_BY));
 
-        return $this->ui_factory->input()->container()->form()->standard(
+        $footer_color_inputs = [
+            self::F_FOOTER_BG_COLOR => $factory->field()->text($this->plugin->txt(self::F_FOOTER_BG_COLOR))
+                                               ->withValue(($artifact[self::F_FOOTER_BG_COLOR] ?? ''))
+                                               ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                                                   $artifact)(self::F_FOOTER_BG_COLOR)),
+            self::F_FOOTER_TEXT_COLOR => $factory->field()->text($this->plugin->txt(self::F_FOOTER_TEXT_COLOR))
+                                                 ->withValue(($artifact[self::F_FOOTER_TEXT_COLOR] ?? ''))
+                                                 ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                                                     $artifact)(self::F_FOOTER_TEXT_COLOR)),
+        ];
+        $footer_colors = $factory->field()->optionalGroup($footer_color_inputs,
+            $this->plugin->txt(self::F_FOOTER_COLORS))
+                                 ->withValue(($artifact[self::F_FOOTER_COLORS] ?? null))
+                                 ->withAdditionalTransformation($this->getArtifactSafer($this->refinery,
+                                     $artifact)(self::F_FOOTER_COLORS));
+
+        return $factory->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
                 self::F_SHOW_RENDERED_BY => $show_rendered_by,
+                self::F_FOOTER_COLORS => $footer_colors,
             ]
         )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) use (&$artifact) {
             return $artifact;

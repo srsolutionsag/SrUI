@@ -16,3 +16,10 @@ fancy_cards#:#Zoom-Effect on Cards
 fancy_tabs#:#Simple Tabs (Beta)
 darkmode#:#Darkmode
 show_header_logo#:#Show Icon in Login-Container
+header_colors#:#Header-Colors
+header_bg_color#:#Header Background Color
+header_bc_bg_color#:#Bread-Crumb Color
+header_bc_text_color#:#Bread-Crumb Text-Color
+footer_colors#:#Footer Colors
+footer_bg_color#:#Footer Background Color
+footer_text_color#:#Footer Text Color
