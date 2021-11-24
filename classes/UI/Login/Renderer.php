@@ -12,7 +12,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 {
     const TEMPLATE_BASE = \ilSrUIPlugin::TEMPLATES_BASE;
-    
+
     public function render(Component\Component $component, RendererInterface $default_renderer)
     {
         return $this->renderLoginPage($component, $default_renderer);
@@ -20,7 +20,13 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 
     protected function renderLoginPage(Login $component, RendererInterface $default_renderer)
     {
-        $tpl = new \ilTemplate(self::TEMPLATE_BASE . 'tpl.login_page.html', true, true);
+        if (version_compare(ILIAS_VERSION_NUMERIC, '7.0', "<")) {
+            $tpl = new \ilTemplate(self::TEMPLATE_BASE . 'tpl.login_page.html', true, true);
+        }else {
+            $tpl = new \ilTemplate(self::TEMPLATE_BASE . 'tpl.login_page_7.html', true, true);
+        }
+
+
 
         if ($component->hasMetabar()) {
             $tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
@@ -48,7 +54,7 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
                 }
             }
         }
-        
+
 
         $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED];
         if ($slates_cookie && json_decode($slates_cookie, true)['engaged']) {
@@ -60,12 +66,12 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         $tpl->setVariable("VIEW_TITLE", $component->getViewTitle());
         $tpl->setVariable("LANGUAGE", $this->getLangKey());
         $tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
-    
+
         if ($component->getSettings()->getBackgroundImage()) {
             $tpl->setVariable('BACKGROUND_IMAGE', $component->getSettings()->getBackgroundImage());
         }
-    
-    
+
+
         if ($component->getSettings()->isShowFooter() && $component->hasFooter()) {
             $tpl->setVariable('FOOTER', $default_renderer->render($component->getFooter()));
         }
