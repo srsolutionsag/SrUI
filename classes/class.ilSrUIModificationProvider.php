@@ -116,14 +116,6 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $this->dic->globalScreen()->layout()->meta()->addCss(ilSrUIPlugin::TEMPLATES_BASE . "darkmode.css");
         }
 
-        // Login Page
-        if ($screen_context_stack->current()->getAdditionalData()->is(ilSrUIPlugin::ON_LOGIN_PAGE, true)) {
-            /** @noinspection PhpIncompatibleReturnTypeInspection */
-            return $this->factory->page()
-                                 ->withLowPriority()
-                                 ->withModification($this->getLoginPageModification());
-        }
-
         // Header-Colors
         if ((bool) $settings[ilSrUIHeaderConfigGUI::F_HEADER_COLORS]) {
             $header_bg_color = $settings[ilSrUIHeaderConfigGUI::F_HEADER_BG_COLOR];
@@ -159,6 +151,14 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             }
            
             ");
+        }
+
+        // Login Page
+        if ($screen_context_stack->current()->getAdditionalData()->is(ilSrUIPlugin::ON_LOGIN_PAGE, true)) {
+            /** @noinspection PhpIncompatibleReturnTypeInspection */
+            return $this->factory->page()
+                                 ->withLowPriority()
+                                 ->withModification($this->getLoginPageModification());
         }
         return null;
     }
