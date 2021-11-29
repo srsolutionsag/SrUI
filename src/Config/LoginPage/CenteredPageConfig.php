@@ -19,4 +19,19 @@ class CenteredPageConfig extends BaseNestedConfig
     {
         parent::__construct(self::NS);
     }
+
+    public function getData()
+    {
+        return [
+            self::F_SHOW_HEADER_LOGO => $this->showHeaderLogoInLoginContainer(),
+            self::F_BACKGROUND_IMAGE => $this->data[self::F_BACKGROUND_IMAGE] ?? null,
+            self::F_CENTERED_LOGIN_PAGE_CSS => $this->data[self::F_CENTERED_LOGIN_PAGE_CSS] ?? ''
+        ];
+    }
+
+    public function showHeaderLogoInLoginContainer() : bool
+    {
+        return $this->data[self::F_SHOW_HEADER_LOGO] ?? false;
+    }
+
 }
