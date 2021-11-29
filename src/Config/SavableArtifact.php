@@ -10,6 +10,7 @@ class SavableArtifact
 {
     const SUFFIX = '.php';
     const CONFIG_VERSION = 2;
+    const FIELD_CONFIG_VERSION = 'config_version';
     protected $file_name = 'artifact';
     protected $config_collection;
     protected $base_path;
@@ -57,7 +58,7 @@ class SavableArtifact
         }
 
         $this->data = is_array($data) ? $data : [];
-        $this->data['config_version'] = $this->data['config_version'] ?? $this->config_version;
+        $this->data[self::FIELD_CONFIG_VERSION] = $this->data[self::FIELD_CONFIG_VERSION];
         $this->fromArrayToConfigs();
     }
 
@@ -93,5 +94,15 @@ class SavableArtifact
                 "other arrays with this content. Found: " . gettype($item)
             );
         }
+    }
+
+    public function needsUpdate() : bool
+    {
+        return version_compare($this->config_version, $this->getStoredVersion());
+    }
+
+    public function getStoredVersion() : string
+    {
+        return $this->data[self::FIELD_CONFIG_VERSION] ?? '';
     }
 }

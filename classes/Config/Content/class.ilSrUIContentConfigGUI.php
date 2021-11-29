@@ -15,7 +15,7 @@ class ilSrUIContentConfigGUI implements ilSrUIGUI
 
     private function getForm() : Form
     {
-        $config = $this->config->get(Config::F_CONTENT);
+        $config = $this->config->get(Config::NS);
         // Fields
         $cards = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(Config::F_FANCY_CARDS))
                                   ->withValue($config->get(Config::F_FANCY_CARDS, false));
@@ -30,7 +30,7 @@ class ilSrUIContentConfigGUI implements ilSrUIGUI
                 Config::F_FANCY_TABS => $tabs,
             ]
         )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) {
-            $this->config->get(Config::F_CONTENT)->loadData($v);
+            $this->config->get(Config::NS)->loadData($v);
             return true;
         }));
     }

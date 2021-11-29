@@ -51,4 +51,9 @@ class Configuration
         $this->artifact->write();
     }
 
+    public function getArtifact() : SavableArtifact
+    {
+        return $this->artifact;
+    }
+
 }

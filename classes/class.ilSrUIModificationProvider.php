@@ -58,12 +58,12 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
     {
         $settings = $this->getArtifact();
         // Non-Productive Systems
-        if ((bool) $settings[ProdServerConfig::F_PROD_SYSTEM]) {
-            $prod_system_settings = $settings[ProdServerConfig::F_PROD_SYSTEM];
+        if ((bool) $settings[ProdServerConfig::NS]) {
+            $prod_system_settings = $settings[ProdServerConfig::NS];
             $hostnames = explode(",", $prod_system_settings[ProdServerConfig::F_PROD_HOSTNAMES]);
             if (!in_array(gethostname(), $hostnames)) {
                 // Send X-Robots-Tag: noindex
-                if ((bool) $settings[ProdServerConfig::F_PROD_SYSTEM][ProdServerConfig::F_SEND_NON_INDEX_HEADERS]) {
+                if ((bool) $settings[ProdServerConfig::NS][ProdServerConfig::F_SEND_NON_INDEX_HEADERS]) {
                     $repsonse = $this->dic->http()->response()->withAddedHeader('X-Robots-Tag', 'noindex');
                     $this->dic->http()->saveResponse($repsonse);
                     $this->dic->http()->sendResponse();
@@ -101,7 +101,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         }
 
         // Footer Colors
-        if ((bool) $settings[ColorConfig::F_FOOTER_COLORS]) {
+        if ((bool) $settings[ColorConfig::NS]) {
             $footer_bg_color = $settings[ColorConfig::F_FOOTER_BG_COLOR];
             $footer_text_color = $settings[ColorConfig::F_FOOTER_TEXT_COLOR];
 

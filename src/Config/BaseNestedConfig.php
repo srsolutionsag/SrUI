@@ -39,7 +39,6 @@ class BaseNestedConfig implements Config
 
     public function getData()
     {
-        return null;
         return $this->data;
     }
 
