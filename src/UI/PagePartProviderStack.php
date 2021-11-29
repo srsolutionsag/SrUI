@@ -9,6 +9,7 @@ use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\MainControls\MainBar;
+use ILIAS\UI\Component\MainControls\SystemInfo;
 
 /**
  * Class PagePartProviderStack
@@ -88,6 +89,11 @@ class PagePartProviderStack implements PagePartProvider
     public function getViewTitle() : string
     {
         return $this->parts->getViewTitle();
+    }
+
+    public function getSystemInfos() : array
+    {
+        return $this->parts->getSystemInfos();
     }
 
 }
