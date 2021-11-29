@@ -15,6 +15,7 @@ use srag\Plugins\SrUI\Config\Header\HeaderTitleConfiguration;
 use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig;
 use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
+use srag\Plugins\SrUI\Config\Content\SpecialContentFeaturesConfig;
 
 /**
  * Class ilSrUIPlugin
@@ -120,9 +121,10 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
 
         // HEADER
         $this->configuration->get(HeaderColorsConfiguration::NS)->loadData([
-            HeaderColorsConfiguration::F_HEADER_BG_COLOR => '#000000',
-            HeaderColorsConfiguration::F_HEADER_BC_BG_COLOR => '#2D2D2D',
-            HeaderColorsConfiguration::F_HEADER_BC_TEXT_COLOR => '#F6F6F6',
+            HeaderColorsConfiguration::F_HEADER_BG_COLOR => '#202020',
+            HeaderColorsConfiguration::F_HEADER_BC_BG_COLOR => '#202020',
+            HeaderColorsConfiguration::F_HEADER_BC_TEXT_COLOR => '#fdfdfd',
+            HeaderColorsConfiguration::F_TITLE_COLOR => '#fdfdfd',
         ]);
         $this->configuration->get(HeaderLogoConfiguration::NS)->loadData([
             HeaderLogoConfiguration::F_ICON => [
@@ -165,9 +167,9 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
                             ]);
                         }
                         // CONTENT
-                        $this->configuration->get(Config::NS)->loadData([
-                            Config::F_FANCY_CARDS => $current_settings['fancy_cards'],
-                            Config::F_FANCY_TABS => $current_settings['fancy_tabs'],
+                        $this->configuration->get(SpecialContentFeaturesConfig::NS)->loadData([
+                            SpecialContentFeaturesConfig::F_FANCY_CARDS => $current_settings['fancy_cards'],
+                            SpecialContentFeaturesConfig::F_FANCY_TABS => $current_settings['fancy_tabs'],
                         ]);
 
                         // FOOTER
