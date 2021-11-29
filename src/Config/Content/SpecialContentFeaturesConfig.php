@@ -5,10 +5,10 @@ namespace srag\Plugins\SrUI\Config\Content;
 use srag\Plugins\SrUI\Config\BaseNestedConfig;
 
 /**
- * Class Config
+ * Class SpecialContentFeaturesConfig
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Config extends BaseNestedConfig
+class SpecialContentFeaturesConfig extends BaseNestedConfig
 {
     const NS = 'content';
     const F_FANCY_CARDS = 'fancy_cards';
@@ -17,5 +17,15 @@ class Config extends BaseNestedConfig
     public function __construct()
     {
         parent::__construct(self::NS);
+    }
+
+    public function hasFancyCards() : bool
+    {
+        return $this->data[self::F_FANCY_CARDS] ?? false;
+    }
+
+    public function hasFancyTabs() : bool
+    {
+        return $this->data[self::F_FANCY_TABS] ?? false;
     }
 }

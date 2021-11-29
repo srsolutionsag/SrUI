@@ -18,4 +18,19 @@ class HeaderLogoConfiguration extends BaseNestedConfig
     {
         parent::__construct(self::NS);
     }
+
+    public function hasHeaderLogo() : bool
+    {
+        return isset($this->data[self::F_ICON][0]);
+    }
+
+    public function getHeaderlogo() : string
+    {
+        return $this->data[self::F_ICON][0] ?? '';
+    }
+
+    public function getHeaderLogoWidth() : string
+    {
+        return $this->data[self::F_ICON_WIDTH] ?? '45px';
+    }
 }

@@ -1,0 +1,71 @@
+<?php
+
+namespace srag\Plugins\SrUI\Config;
+
+use srag\Plugins\SrUI\Artifact\ArrayArtifact;
+use srag\Plugins\SrUI\Artifact\ArtifactSaver;
+
+/**
+ * Class ConfigurationStorage
+ * @author Fabian Schmid <fs@studer-raimann.ch>
+ */
+class ConfigurationStorage
+{
+    const FIELD_CONFIG_VERSION = 'config_version';
+    protected $config_collection;
+    protected $config_version;
+    protected $data = [];
+    /**
+     * @var ArtifactSaver
+     */
+    protected $artifact_storage;
+
+    /**
+     * @param $config_collection
+     */
+    public function __construct(ConfigCollection $config_collection, string $config_version)
+    {
+        $this->config_version = $config_version;
+        $this->config_collection = $config_collection;
+        $this->artifact_storage = new ArtifactSaver('sr_ui_setting');
+    }
+
+    private function fromConfigsToArray() : void
+    {
+        foreach ($this->config_collection->getAll() as $config) {
+            $this->data[$config->getNamespace()] = $config->getData();
+        }
+    }
+
+    private function fromArrayToConfigs() : void
+    {
+        foreach ($this->data as $namespace => $data) {
+            if ($this->config_collection->has($namespace)) {
+                $this->config_collection->get($namespace)->loadData($data);
+            }
+        }
+    }
+
+    public function read() : void
+    {
+        $this->data = $this->artifact_storage->read();
+        $this->fromArrayToConfigs();
+    }
+
+    public function write() : void
+    {
+        $this->fromConfigsToArray();
+        $this->data[self::FIELD_CONFIG_VERSION] = $this->config_version;
+        $this->artifact_storage->save(new ArrayArtifact($this->data));
+    }
+
+    public function needsUpdate() : bool
+    {
+        return version_compare($this->config_version, $this->getStoredVersion());
+    }
+
+    public function getStoredVersion() : string
+    {
+        return $this->data[self::FIELD_CONFIG_VERSION] ?? '';
+    }
+}

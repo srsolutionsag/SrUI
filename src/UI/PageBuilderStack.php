@@ -9,12 +9,12 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
-use srag\Plugins\SrUI\Artifact\Artifact;
 use ILIAS\UI\Implementation\Component\Layout\Page\Login\LoginPageSettings;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
 use ILIAS\UI\Implementation\Component\Layout\Page\Login\Login;
 use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig;
 use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig;
+use srag\Plugins\SrUI\Config\Configuration;
 
 /**
  * Class PageBuilderStack
@@ -31,9 +31,9 @@ class PageBuilderStack extends StandardPageBuilder
      */
     protected $factory;
     /**
-     * @var Artifact
+     * @var Configuration
      */
-    protected $settings;
+    protected $configuration;
     /**
      * @var \ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent
      */
@@ -42,10 +42,10 @@ class PageBuilderStack extends StandardPageBuilder
     /**
      * @inheritDoc
      */
-    public function __construct(Container $dic, Artifact $settings)
+    public function __construct(Container $dic, Configuration $settings)
     {
         parent::__construct();
-        $this->settings = $settings;
+        $this->configuration = $settings;
         $this->context_stack = $dic->globalScreen()->tool()->context()->stack();
         $this->factory = $dic->globalScreen()->layout()->factory();
         $this->meta = $dic->globalScreen()->layout()->meta();
@@ -53,9 +53,7 @@ class PageBuilderStack extends StandardPageBuilder
 
     public function build(PagePartProvider $parts) : Page
     {
-        //$parts->getContent()
         $parts = new \srag\Plugins\SrUI\UI\PagePartProviderStack($parts);
-
 
         if ($this->context_stack->current()->getAdditionalData()->is(\ilSrUIPlugin::ON_LOGIN_PAGE, true)) {
             /** @noinspection PhpIncompatibleReturnTypeInspection */
@@ -78,19 +76,24 @@ class PageBuilderStack extends StandardPageBuilder
      */
     private function getLoginPage(PagePartProvider $parts) : Login
     {
+        $centered_page = $this->configuration->get(CenteredPageConfig::NS);
+        $show_components = $this->configuration->get(ShowComponentsConfig::NS);
+
         $login_page_settings = new LoginPageSettings();
-        $login_page_settings->setCenterLogin((bool) $this->settings[CenteredPageConfig::NS]);
+        $login_page_settings->setCenterLogin($centered_page->isNamespaceActive());
 
         if ($login_page_settings->isCenterLogin()) {
-            $this->meta->addInlineCss((string) $this->settings[CenteredPageConfig::F_CENTERED_LOGIN_PAGE_CSS]);
+            $this->meta->addInlineCss($centered_page->get(CenteredPageConfig::F_CENTERED_LOGIN_PAGE_CSS));
         }
-        $login_page_settings->setShowHeader((bool) ($this->settings[ShowComponentsConfig::F_SHOW_HEADER] ?? true));
-        $login_page_settings->setShowFooter((bool) ($this->settings[ShowComponentsConfig::F_SHOW_FOOTER] ?? true));
-        $login_page_settings->setShowMainBar((bool) ($this->settings[ShowComponentsConfig::F_SHOW_MAIN_BAR] ?? true));
-        $login_page_settings->setShowHeaderLogo((bool) ($this->settings[CenteredPageConfig::F_SHOW_HEADER_LOGO] ?? true));
+        $login_page_settings->setShowHeader((bool) ($show_components->get(ShowComponentsConfig::F_SHOW_HEADER, true)));
+        $login_page_settings->setShowFooter((bool) ($show_components->get(ShowComponentsConfig::F_SHOW_FOOTER, true)));
+        $login_page_settings->setShowMainBar((bool) ($show_components->get(ShowComponentsConfig::F_SHOW_MAIN_BAR,
+            true)));
+        $login_page_settings->setShowHeaderLogo((bool) ($centered_page->get(CenteredPageConfig::F_SHOW_HEADER_LOGO,
+            true)));
 
-        if ($this->settings[CenteredPageConfig::F_BACKGROUND_IMAGE]) {
-            $s = Factory::storage()->getDataURL((string) $this->settings[CenteredPageConfig::F_BACKGROUND_IMAGE][0]);
+        if ($centered_page->get(CenteredPageConfig::F_BACKGROUND_IMAGE)) {
+            $s = Factory::storage()->getDataURL((string) $centered_page->get(CenteredPageConfig::F_BACKGROUND_IMAGE)[0]);
             if (!empty($s)) {
                 $login_page_settings->setBackgroundImage($s);
             }

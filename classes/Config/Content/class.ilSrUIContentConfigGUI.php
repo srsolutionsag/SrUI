@@ -2,6 +2,7 @@
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use srag\Plugins\SrUI\Config\Content\Config;
+use srag\Plugins\SrUI\Config\Content\SpecialContentFeaturesConfig as Content;
 
 /**
  * Class ilSrUIContentConfigGUI
@@ -15,22 +16,22 @@ class ilSrUIContentConfigGUI implements ilSrUIGUI
 
     private function getForm() : Form
     {
-        $config = $this->config->get(Config::NS);
+        $config = $this->config->get(Content::NS);
         // Fields
-        $cards = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(Config::F_FANCY_CARDS))
-                                  ->withValue($config->get(Config::F_FANCY_CARDS, false));
+        $cards = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(Content::F_FANCY_CARDS))
+                                  ->withValue($config->get(Content::F_FANCY_CARDS, false));
 
-        $tabs = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(Config::F_FANCY_TABS))
-                                 ->withValue($config->get(Config::F_FANCY_TABS, false));
+        $tabs = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(Content::F_FANCY_TABS))
+                                 ->withValue($config->get(Content::F_FANCY_TABS, false));
 
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
-                Config::F_FANCY_CARDS => $cards,
-                Config::F_FANCY_TABS => $tabs,
+                Content::F_FANCY_CARDS => $cards,
+                Content::F_FANCY_TABS => $tabs,
             ]
         )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) {
-            $this->config->get(Config::NS)->loadData($v);
+            $this->config->get(Content::NS)->loadData($v);
             return true;
         }));
     }

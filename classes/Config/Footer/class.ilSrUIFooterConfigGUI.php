@@ -1,7 +1,7 @@
 <?php
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
-use srag\Plugins\SrUI\Config\Footer\ColorConfig;
+use srag\Plugins\SrUI\Config\Footer\FooterColorsConfig;
 use srag\Plugins\SrUI\Config\Footer\AdditionalInfoConfig;
 
 /**
@@ -32,15 +32,15 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
                                     }));
 
         // FOOTER COLORS
-        $footer_color_config = $this->config->get(ColorConfig::NS);
+        $footer_color_config = $this->config->get(FooterColorsConfig::NS);
         $footer_colors = $factory->field()->optionalGroup([
-            ColorConfig::F_FOOTER_BG_COLOR => $factory->field()->text($this->plugin->txt(ColorConfig::F_FOOTER_BG_COLOR)),
-            ColorConfig::F_FOOTER_TEXT_COLOR => $factory->field()->text($this->plugin->txt(ColorConfig::F_FOOTER_TEXT_COLOR))
+            FooterColorsConfig::F_FOOTER_BG_COLOR => $factory->field()->text($this->plugin->txt(FooterColorsConfig::F_FOOTER_BG_COLOR)),
+            FooterColorsConfig::F_FOOTER_TEXT_COLOR => $factory->field()->text($this->plugin->txt(FooterColorsConfig::F_FOOTER_TEXT_COLOR))
 
-        ], $this->plugin->txt(ColorConfig::NS))
+        ], $this->plugin->txt(FooterColorsConfig::NS))
                                  ->withValue($footer_color_config->getData())
                                  ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) {
-                                     $this->config->get(ColorConfig::NS)->loadData($v);
+                                     $this->config->get(FooterColorsConfig::NS)->loadData($v);
                                      return true;
                                  }));
 
@@ -48,7 +48,7 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
                 AdditionalInfoConfig::NS => $additional_infos,
-                ColorConfig::NS => $footer_colors,
+                FooterColorsConfig::NS => $footer_colors,
             ]
         )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) {
             return true;

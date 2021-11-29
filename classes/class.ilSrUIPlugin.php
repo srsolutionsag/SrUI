@@ -8,7 +8,7 @@ use srag\Plugins\SrUI\Config\Configuration;
 use srag\Plugins\SrUI\Config\CloneInfo\ProdServerConfig;
 use srag\Plugins\SrUI\Config\Content\Config;
 use srag\Plugins\SrUI\Config\Footer\AdditionalInfoConfig;
-use srag\Plugins\SrUI\Config\Footer\ColorConfig;
+use srag\Plugins\SrUI\Config\Footer\FooterColorsConfig;
 use srag\Plugins\SrUI\Config\Header\HeaderColorsConfiguration;
 use srag\Plugins\SrUI\Config\Header\HeaderLogoConfiguration;
 use srag\Plugins\SrUI\Config\Header\HeaderTitleConfiguration;
@@ -48,7 +48,6 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         parent::__construct();
         $this->configuration = new Configuration($this->getVersion());
 
-//        $this->updateLanguages();
         try {
             $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
                 self::OUTSIDE_ILIAS,
@@ -108,7 +107,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
             CenteredPageConfig::F_CENTERED_LOGIN_PAGE_CSS => file_get_contents(self::TEMPLATES_BASE . "login.css"),
             CenteredPageConfig::F_BACKGROUND_IMAGE => [
                 $s->fromPath(
-                    self::TEMPLATES_BASE . "Subtle-Prism.svg",
+                    self::TEMPLATES_BASE . "rose-petals.svg",
                     ilMimeTypeUtil::IMAGE__SVG_XML
                 )
             ],
@@ -138,9 +137,9 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         ]);
 
         // FOOTER
-        $this->configuration->get(ColorConfig::NS)->loadData([
-            ColorConfig::F_FOOTER_TEXT_COLOR => '#F6F6F6',
-            ColorConfig::F_FOOTER_BG_COLOR => '#2D2D2D',
+        $this->configuration->get(FooterColorsConfig::NS)->loadData([
+            FooterColorsConfig::F_FOOTER_TEXT_COLOR => '#F6F6F6',
+            FooterColorsConfig::F_FOOTER_BG_COLOR => '#2D2D2D',
         ]);
         $this->configuration->get(AdditionalInfoConfig::NS)->loadData([
             AdditionalInfoConfig::F_SHOW_RENDERED_BY => true
@@ -151,8 +150,8 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
 
     protected function checkAndPerformConfigMigration() : void
     {
-        if ($this->configuration->getArtifact()->needsUpdate()) {
-            switch ($this->configuration->getArtifact()->getStoredVersion()) {
+        if ($this->configuration->getStorage()->needsUpdate()) {
+            switch ($this->configuration->getStorage()->getStoredVersion()) {
                 case '':
                     $existing_file = rtrim(CLIENT_DATA_DIR, "/") . "/sr_ui_setting.php";
                     if (file_exists($existing_file)) {
@@ -175,9 +174,9 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
                         $this->configuration->get(AdditionalInfoConfig::NS)->loadData([
                             AdditionalInfoConfig::F_SHOW_RENDERED_BY => $current_settings['show_rendered_by']
                         ]);
-                        $this->configuration->get(ColorConfig::NS)->loadData([
-                            ColorConfig::F_FOOTER_BG_COLOR => $current_settings['footer_bg_color'],
-                            ColorConfig::F_FOOTER_TEXT_COLOR => $current_settings['footer_text_color'],
+                        $this->configuration->get(FooterColorsConfig::NS)->loadData([
+                            FooterColorsConfig::F_FOOTER_BG_COLOR => $current_settings['footer_bg_color'],
+                            FooterColorsConfig::F_FOOTER_TEXT_COLOR => $current_settings['footer_text_color'],
                         ]);
 
                         // HEADER

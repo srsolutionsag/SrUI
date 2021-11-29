@@ -20,4 +20,19 @@ class ProdServerConfig extends BaseNestedConfig
         parent::__construct(self::NS);
     }
 
+    public function getHostnames() : array
+    {
+        return explode(",", $this->data[self::F_PROD_HOSTNAMES] ?? '');
+    }
+
+    public function sendNonIdexHeader() : bool
+    {
+        return $this->data[self::F_SEND_NON_INDEX_HEADERS] ?? false;
+    }
+
+    public function getNonProdMessage() : string
+    {
+        return $this->data[self::F_NON_PROD_MESSAGE] ?? '';
+    }
+
 }

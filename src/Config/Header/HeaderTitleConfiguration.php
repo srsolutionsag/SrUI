@@ -17,4 +17,9 @@ class HeaderTitleConfiguration extends BaseNestedConfig
     {
         parent::__construct(self::NS);
     }
+
+    public function getHeaderTitle() : string
+    {
+        return $this->data[self::F_HEADER_TITLE] ?? '';
+    }
 }

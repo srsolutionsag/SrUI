@@ -10,8 +10,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuPluginProvi
  */
 class ilSrUIMainBarProvider extends AbstractStaticMainMenuPluginProvider
 {
-    
-    
+
     /**
      * @return \ILIAS\GlobalScreen\Identification\IdentificationInterface
      */
@@ -19,7 +18,7 @@ class ilSrUIMainBarProvider extends AbstractStaticMainMenuPluginProvider
     {
         return $this->if->identifier('footer');
     }
-    
+
     public function getStaticTopItems() : array
     {
         return [
@@ -41,14 +40,10 @@ class ilSrUIMainBarProvider extends AbstractStaticMainMenuPluginProvider
                            })
         ];
     }
-    
+
     public function getStaticSubItems() : array
     {
-        return [
-            $this->mainmenu->link($this->if->identifier('sub_footer'))
-                           ->withTitle('Info')
-                           ->withParent($this->getFooterIdentification())
-        ];
+        return [];
     }
-    
+
 }

@@ -1,0 +1,63 @@
+<?php
+
+namespace srag\Plugins\SrUI\Artifact;
+
+/**
+ * An array as an artifact.
+ */
+class ArtifactSaver
+{
+    const SUFFIX = '.php';
+    /**
+     * @var ArrayArtifact
+     */
+    protected $artifact;
+    /**
+     * @var string
+     */
+    protected $file_name;
+    /**
+     * @var string
+     */
+    protected $base_path;
+
+    /**
+     * @param string $file_name
+     */
+    public function __construct(string $file_name)
+    {
+        $this->artifact = new ArrayArtifact([]);
+        $this->base_path = rtrim(CLIENT_DATA_DIR, "/");
+        $this->file_name = $file_name;
+    }
+
+    private function getPath() : string
+    {
+        return $this->base_path . "/" . $this->file_name . self::SUFFIX;
+    }
+
+    public function save(ArrayArtifact $artifact) : void
+    {
+        $this->artifact = $artifact;
+        if (!file_exists($this->getPath())) {
+            touch($this->getPath());
+        }
+        file_put_contents($this->getPath(), $this->artifact->serialize());
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($this->getPath(), true);
+        }
+    }
+
+    public function read() : array
+    {
+        if (!file_exists($this->getPath())) {
+            $data = []; // TODO reset to default
+        } else {
+            $data = include($this->getPath());
+        }
+
+        $this->artifact = new ArrayArtifact(is_array($data) ? $data : []);
+        return $data;
+    }
+
+}

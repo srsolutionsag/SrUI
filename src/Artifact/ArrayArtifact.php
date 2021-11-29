@@ -2,12 +2,10 @@
 
 namespace srag\Plugins\SrUI\Artifact;
 
-use ILIAS\Setup\Artifact;
-
 /**
  * An array as an artifact.
  */
-class ArrayArtifact implements Artifact
+class ArrayArtifact
 {
     /**
      * @var array
@@ -44,4 +42,5 @@ class ArrayArtifact implements Artifact
             );
         }
     }
+
 }

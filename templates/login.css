@@ -1,40 +1,44 @@
 .sr-ui-content {
-	background-color: #ffffff;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	padding: 12px;
+    background-color: #202020;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding: 12px;
 }
 
 .sr-ui-inner-content {
-	max-width: 600px;
-	background-color: rgba(255, 255, 255, 0.9);
-	margin: 200px auto auto;
+    max-width: 600px;
+    background-color: rgba(20, 20, 20, 0.9);
+    margin: 200px auto auto;
 
-	-webkit-box-shadow: 0 0 38px 0 rgba(255, 255, 255, 1);
-	-moz-box-shadow: 0 0 38px 0 rgba(255, 255, 255, 1);
-	box-shadow: 0 0 38px 0 rgba(255, 255, 255, 1);
+    -webkit-box-shadow: 0 0 38px 0 rgba(20, 20, 20, 1);
+    -moz-box-shadow: 0 0 38px 0 rgba(20, 20, 20, 1);
+    box-shadow: 0 0 38px 0 rgba(20, 20, 20, 1);
 
-	border-radius: 12px;
-	overflow: hidden;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.sr-ui-inner-content .form-horizontal label {
+    color: #fdfdfd !important;
 }
 
 .ilFormHeader {
-	display: none;
+    display: none;
 }
 
 .sr-ui-inner-content-logo {
-	width: 60px;
-	height: auto;
-	margin: 24px 24px 0;
-	float: right;
+    width: 60px;
+    height: auto;
+    margin: 24px 24px 0;
+    float: right;
 }
 
 .sr-ui-inner-content .ilStartupSection {
-	padding: 0;
+    padding: 0;
 }
 
 .sr-ui-inner-content .form-horizontal, .sr-ui-inner-content .ilFormHeader, .sr-ui-inner-content .ilFormFooter, .sr-ui-inner-content .il-standard-form-header, .sr-ui-inner-content .il-standard-form, .sr-ui-inner-content .il-section-input-header {
-	background-color: transparent !important;
+    background-color: transparent !important;
 }

@@ -1,7 +1,7 @@
 <?php
 
-use srag\Plugins\SrUI\Artifact\Artifact;
 use srag\Plugins\SrUI\Config\Content\Config;
+use srag\Plugins\SrUI\Config\Configuration;
 
 /**
  * Class ilSrUIUIHookGUI
@@ -9,10 +9,6 @@ use srag\Plugins\SrUI\Config\Content\Config;
  */
 class ilSrUIUIHookGUI extends ilUIHookPluginGUI
 {
-    /**
-     * @var Artifact
-     */
-    protected $settings;
     /**
      * @var \ILIAS\UI\Factory
      */
@@ -23,14 +19,10 @@ class ilSrUIUIHookGUI extends ilUIHookPluginGUI
     protected $ui_renderer;
     protected static $subtabs_html = '';
 
-    public function __construct()
-    {
-        $this->settings = new Artifact('sr_ui_setting');
-    }
-
     public function getHTML($a_comp, $a_part, $a_par = array())
     {
-        if (!$this->settings[Config::F_FANCY_TABS]) {
+        $content = $this->plugin_object->getConfiguration()->contentConfig();
+        if (!$content->hasFancyTabs()) {
             return parent::getHTML($a_comp, $a_part, $a_par);
         }
         if ($a_part === "template_get"
@@ -45,7 +37,7 @@ class ilSrUIUIHookGUI extends ilUIHookPluginGUI
         ) {
             global $DIC;
 
-            $tabs    = $DIC->tabs()->target;
+            $tabs = $DIC->tabs()->target;
             $subtabs = $DIC->tabs()->sub_target;
 
             $tpl = new ilTemplate(ilSrUIPlugin::TEMPLATES_BASE . 'tpl.tabs.html', true, true);
@@ -62,14 +54,14 @@ class ilSrUIUIHookGUI extends ilUIHookPluginGUI
 
             return array('mode' => self::REPLACE, 'html' => $tpl->get());
 
-            $ui_factory  = $DIC->ui()->factory();
+            $ui_factory = $DIC->ui()->factory();
             $ui_renderer = $DIC->ui()->renderer();
-            $slate       = $ui_factory->mainControls()->slate()->legacy(
+            $slate = $ui_factory->mainControls()->slate()->legacy(
                 'Tabs',
                 $ui_factory->symbol()->glyph()->comment(),
                 $ui_factory->legacy($a_par['html'] . self::$subtabs_html)
             );
-            $triggerer   = $ui_factory->button()->bulky(
+            $triggerer = $ui_factory->button()->bulky(
                 $slate->getSymbol(),
                 $slate->getName(),
                 '#'

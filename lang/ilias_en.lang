@@ -20,6 +20,7 @@ show_header_logo#:#Show Icon in Login-Container
 header_colors#:#Header-Colors
 header_bg_color#:#Header Background Color
 header_bc_bg_color#:#Breadcrumb Color
+header_title_color#:#Installation-Title Color
 header_bc_text_color#:#Breadcrumb Text-Color
 footer_colors#:#Footer Colors
 footer_bg_color#:#Footer Background Color
@@ -30,3 +31,4 @@ prod_hostname#:#Hostnames of productive Servers
 prod_hostname_byline#:#Comma-separated, current Hostname:
 non_prod_message#:#Non-productive Message
 send_non_index_headers#:#Send X-Robots-Tag: noindex
+show_components#:#Visibility of Components

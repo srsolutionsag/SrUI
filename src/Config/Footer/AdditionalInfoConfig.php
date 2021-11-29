@@ -17,4 +17,9 @@ class AdditionalInfoConfig extends BaseNestedConfig
     {
         parent::__construct(self::NS);
     }
+
+    public function showRenderedBy() : bool
+    {
+        return $this->data[self::F_SHOW_RENDERED_BY] ?? false;
+    }
 }

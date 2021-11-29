@@ -2,6 +2,7 @@
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use srag\Plugins\SrUI\Config\CloneInfo\Config;
+use srag\Plugins\SrUI\Config\CloneInfo\ProdServerConfig;
 
 /**
  * Class ilSrUICloneInfoConfigGUI
@@ -15,28 +16,32 @@ class ilSrUICloneInfoConfigGUI implements ilSrUIGUI
 
     private function getForm() : Form
     {
-        $config = $this->config->get(Config::F_PROD_SYSTEM);
+        $config = $this->config->get(ProdServerConfig::NS);
         // Fields
         $factory = $this->ui_factory->input()->field();
 
         $prod_system = $factory->optionalGroup(
             [
-                Config::F_PROD_HOSTNAMES => $factory->text(
-                    $this->plugin->txt(Config::F_PROD_HOSTNAMES),
+                ProdServerConfig::F_PROD_HOSTNAMES => $factory->text(
+                    $this->plugin->txt(ProdServerConfig::F_PROD_HOSTNAMES),
                     $this->plugin->txt('prod_hostname_byline') . ' ' . gethostname()),
-                Config::F_NON_PROD_MESSAGE => $factory->text($this->plugin->txt(Config::F_NON_PROD_MESSAGE)),
-                Config::F_SEND_NON_INDEX_HEADERS => $factory->checkbox($this->plugin->txt(Config::F_SEND_NON_INDEX_HEADERS))
+                ProdServerConfig::F_NON_PROD_MESSAGE => $factory->text(
+                    $this->plugin->txt(ProdServerConfig::F_NON_PROD_MESSAGE)
+                ),
+                ProdServerConfig::F_SEND_NON_INDEX_HEADERS => $factory->checkbox(
+                    $this->plugin->txt(ProdServerConfig::F_SEND_NON_INDEX_HEADERS)
+                )
             ],
-            $this->plugin->txt(Config::F_PROD_SYSTEM)
+            $this->plugin->txt(ProdServerConfig::NS)
         )->withValue($config->isNamespaceActive() ? $config->getData() : null);
 
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
-                Config::F_PROD_SYSTEM => $prod_system
+                ProdServerConfig::NS => $prod_system
             ]
         )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) use ($config) {
-            $config->loadData($v[Config::F_PROD_SYSTEM]);
+            $config->loadData($v[ProdServerConfig::NS]);
             return true;
         }));
     }

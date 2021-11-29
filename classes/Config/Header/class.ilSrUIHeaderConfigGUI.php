@@ -60,7 +60,8 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
         $header_colors = $factory->field()->optionalGroup([
             Colors::F_HEADER_BG_COLOR => $factory->field()->text($this->plugin->txt(Colors::F_HEADER_BG_COLOR)),
             Colors::F_HEADER_BC_BG_COLOR => $factory->field()->text($this->plugin->txt(Colors::F_HEADER_BC_BG_COLOR)),
-            Colors::F_HEADER_BC_TEXT_COLOR => $factory->field()->text($this->plugin->txt(Colors::F_HEADER_BC_TEXT_COLOR))
+            Colors::F_HEADER_BC_TEXT_COLOR => $factory->field()->text($this->plugin->txt(Colors::F_HEADER_BC_TEXT_COLOR)),
+            Colors::F_TITLE_COLOR => $factory->field()->text($this->plugin->txt(Colors::F_TITLE_COLOR)),
 
         ], $this->plugin->txt(Colors::NS))
                                  ->withValue($this->config->get(Colors::NS)->getData())

@@ -9,24 +9,14 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationPluginProvider;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
-use ILIAS\UI\Component\Layout\Page\Page;
 use ILIAS\UI\Implementation\Component\Image\Image;
-use ILIAS\UI\Implementation\Component\Layout\Page\Login\Login;
-use ILIAS\UI\Implementation\Component\Layout\Page\Login\LoginPageSettings;
 use ILIAS\UI\Implementation\Component\MainControls\Footer;
 use ILIAS\UICore\PageContentProvider;
-use srag\Plugins\SrUI\Artifact\Artifact;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
 use srag\Plugins\SrUI\UI\PageBuilderStack;
-use srag\Plugins\SrUI\Config\CloneInfo\ProdServerConfig;
-use srag\Plugins\SrUI\Config\Footer\ColorConfig;
-use srag\Plugins\SrUI\Config\Footer\AdditionalInfoConfig;
-use srag\Plugins\SrUI\Config\Header\HeaderLogoConfiguration;
-use srag\Plugins\SrUI\Config\Header\HeaderTitleConfiguration;
-use srag\Plugins\SrUI\Config\Header\HeaderColorsConfiguration;
+use srag\Plugins\SrUI\Config\Configuration;
 
 /**
  * Class ilSrUIModificationProvider
@@ -36,18 +26,11 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 {
     const PRIORITY = 60;
 
-    /**
-     * @return Artifact
-     */
-    private function getArtifact() : Artifact
+    protected function config() : Configuration
     {
-        static $settings;
-        if (!$settings) {
-            $settings = Artifact::getInstance('sr_ui_setting');
-        }
-        return $settings;
+        /** @var $this- >plugin ilSrUIPlugin */
+        return $this->plugin->getConfiguration();
     }
-
 
     public function isInterestedInContexts() : ContextCollection
     {
@@ -56,14 +39,12 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
     {
-        $settings = $this->getArtifact();
         // Non-Productive Systems
-        if ((bool) $settings[ProdServerConfig::NS]) {
-            $prod_system_settings = $settings[ProdServerConfig::NS];
-            $hostnames = explode(",", $prod_system_settings[ProdServerConfig::F_PROD_HOSTNAMES]);
-            if (!in_array(gethostname(), $hostnames)) {
+        $prod_system = $this->config()->prodServerConfig();
+        if ($prod_system->isNamespaceActive()) {
+            if (!in_array(gethostname(), $prod_system->getHostnames())) {
                 // Send X-Robots-Tag: noindex
-                if ((bool) $settings[ProdServerConfig::NS][ProdServerConfig::F_SEND_NON_INDEX_HEADERS]) {
+                if ($prod_system->sendNonIdexHeader()) {
                     $repsonse = $this->dic->http()->response()->withAddedHeader('X-Robots-Tag', 'noindex');
                     $this->dic->http()->saveResponse($repsonse);
                     $this->dic->http()->sendResponse();
@@ -72,20 +53,18 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         }
 
         // Cards
-        if ((bool) $settings[\srag\Plugins\SrUI\Config\Content\Config::F_FANCY_CARDS]) {
+        $content_settings = $this->config()->contentConfig();
+        if ($content_settings->hasFancyCards()) {
             $this->dic->globalScreen()->layout()->meta()->addCss(ilSrUIPlugin::TEMPLATES_BASE . "cards.css");
         }
 
-        // Darkmode
-        if ((bool) $settings[ilSrUIHeaderConfigGUI::F_DARKMODE]) {
-            $this->dic->globalScreen()->layout()->meta()->addCss(ilSrUIPlugin::TEMPLATES_BASE . "darkmode.css");
-        }
-
         // Header-Colors
-        if ((bool) $settings[HeaderColorsConfiguration::NS]) {
-            $header_bg_color = $settings[HeaderColorsConfiguration::F_HEADER_BG_COLOR];
-            $bc_bg_color = $settings[HeaderColorsConfiguration::F_HEADER_BC_BG_COLOR];
-            $bc_text_color = $settings[HeaderColorsConfiguration::F_HEADER_BC_TEXT_COLOR];
+        $header_colors = $this->config()->headerColorConfig();
+        if ($header_colors->isNamespaceActive()) {
+            $header_bg_color = $header_colors->getBackgroundColor();
+            $bc_bg_color = $header_colors->getBreadcrumbBackgroundColor();
+            $bc_text_color = $header_colors->getBreadcrumbTextColor();
+            $title_color = $header_colors->getTitleColor();
             $this->dic->globalScreen()->layout()->meta()->addInlineCss("
             div.header-inner {
                 background-color: $header_bg_color;
@@ -97,13 +76,17 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             div.breadcrumbs, nav.breadcrumb_wrapper a {
                 color: $bc_text_color;
             }
+            div.il-pagetitle {
+                color: $title_color;
+            }
             ");
         }
 
         // Footer Colors
-        if ((bool) $settings[ColorConfig::NS]) {
-            $footer_bg_color = $settings[ColorConfig::F_FOOTER_BG_COLOR];
-            $footer_text_color = $settings[ColorConfig::F_FOOTER_TEXT_COLOR];
+        $footer_colors = $this->config()->footerColorConfig();
+        if ($footer_colors->isNamespaceActive()) {
+            $footer_bg_color = $footer_colors->getBackgroundColor();
+            $footer_text_color = $footer_colors->getTextColor();
 
             $this->dic->globalScreen()->layout()->meta()->addInlineCss("
             footer, div.il-maincontrols-footer {
@@ -119,7 +102,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         }
 
         // Page
-        $builder = new PageBuilderStack($this->dic, $settings);
+        $builder = new PageBuilderStack($this->dic, $this->config());
         return $builder->getAsModification();
     }
 
@@ -134,10 +117,11 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 
     public function getLogoModification(CalledContexts $screen_context_stack) : ?LogoModification
     {
-        $settings = $this->getArtifact();
-        if ((bool) $settings[HeaderLogoConfiguration::F_ICON]) {
-            $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo img { width: {$settings[HeaderLogoConfiguration::F_ICON_WIDTH]};}");
-            $s = Factory::storage()->getDataURL((string) $settings[HeaderLogoConfiguration::F_ICON][0]);
+        $header_logo = $this->config()->headerLogoConfig();
+        if ($header_logo->hasHeaderLogo()) {
+            $with = $header_logo->getHeaderLogoWidth();
+            $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo img { width: {$with};}");
+            $s = Factory::storage()->getDataURL($header_logo->getHeaderlogo());
             if (!empty($s)) {
                 $logo_modification = $this->factory->logo();
                 $logo_modification = $this->setPriority($logo_modification);
@@ -154,8 +138,8 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 
     public function getFooterModification(CalledContexts $screen_context_stack) : ?FooterModification
     {
-        $settings = $this->getArtifact();
-        if ((bool) $settings[AdditionalInfoConfig::F_SHOW_RENDERED_BY]) {
+        $footer_additional_infos_config = $this->config()->footerAdditionalInfosConfig();
+        if ($footer_additional_infos_config->showRenderedBy()) {
 
             $footer_modification = $this->factory->footer();
             $footer_modification = $this->setPriority($footer_modification);
@@ -191,13 +175,13 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 
     public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification
     {
-        $settings = $this->getArtifact();
-        if ($settings->offsetExists(HeaderTitleConfiguration::F_HEADER_TITLE)) {
+        $title_config = $this->config()->titleConfig();
+        if ($title_config->isNamespaceActive()) {
             $title_modification = $this->factory->title();
             $title_modification = $this->setPriority($title_modification);
 
-            return $title_modification->withModification(function (string $f) use ($settings) : string {
-                return (string) $settings[HeaderTitleConfiguration::F_HEADER_TITLE];
+            return $title_modification->withModification(function (string $f) use ($title_config) : string {
+                return $title_config->getHeaderTitle();
             });
         }
         return null;
@@ -205,13 +189,13 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 
     public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification
     {
-        $settings = $this->getArtifact();
-        if ($settings->offsetExists(HeaderTitleConfiguration::F_HEADER_TITLE)) {
+        $title_config = $this->config()->titleConfig();
+        if ($title_config->isNamespaceActive()) {
             $short_title_modification = $this->factory->short_title();
             $short_title_modification = $this->setPriority($short_title_modification);
 
-            return $short_title_modification->withModification(function (string $f) use ($settings) : string {
-                return (string) $settings[HeaderTitleConfiguration::F_HEADER_TITLE];
+            return $short_title_modification->withModification(function (string $f) use ($title_config) : string {
+                return $title_config->getHeaderTitle();
             });
         }
         return null;

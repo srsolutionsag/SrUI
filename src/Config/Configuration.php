@@ -9,16 +9,18 @@ use srag\Plugins\SrUI\Config\Header\HeaderColorsConfiguration;
 use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig;
 use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig;
 use srag\Plugins\SrUI\Config\CloneInfo\ProdServerConfig;
+use srag\Plugins\SrUI\Config\Content\SpecialContentFeaturesConfig;
+use srag\Plugins\SrUI\Config\Footer\FooterColorsConfig;
 
 /**
- * Class SavableArtifact
+ * Class ConfigurationStorage
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class Configuration
 {
     protected $collection;
     protected $version = '1.0.0';
-    protected $artifact;
+    protected $storage;
 
     /**
      * @param string $version
@@ -28,8 +30,8 @@ class Configuration
         $this->version = $version;
         $this->collection = new ConfigCollection([
             new ProdServerConfig(),
-            new \srag\Plugins\SrUI\Config\Content\Config(),
-            new \srag\Plugins\SrUI\Config\Footer\ColorConfig(),
+            new SpecialContentFeaturesConfig(),
+            new FooterColorsConfig(),
             new AdditionalInfoConfig(),
             new HeaderLogoConfiguration(),
             new HeaderTitleConfiguration(),
@@ -37,8 +39,8 @@ class Configuration
             new CenteredPageConfig(),
             new ShowComponentsConfig()
         ]);
-        $this->artifact = new SavableArtifact($this->collection, 'sr_ui_setting', $this->version);
-        $this->artifact->read();
+        $this->storage = new ConfigurationStorage($this->collection, $this->version);
+        $this->storage->read();
     }
 
     public function get(string $namespace) : Config
@@ -48,12 +50,47 @@ class Configuration
 
     public function save()
     {
-        $this->artifact->write();
+        $this->storage->write();
     }
 
-    public function getArtifact() : SavableArtifact
+    public function getStorage() : ConfigurationStorage
     {
-        return $this->artifact;
+        return $this->storage;
+    }
+
+    public function prodServerConfig() : ProdServerConfig
+    {
+        return $this->get(ProdServerConfig::NS);
+    }
+
+    public function contentConfig() : SpecialContentFeaturesConfig
+    {
+        return $this->get(SpecialContentFeaturesConfig::NS);
+    }
+
+    public function headerColorConfig() : HeaderColorsConfiguration
+    {
+        return $this->get(HeaderColorsConfiguration::NS);
+    }
+
+    public function headerLogoConfig() : HeaderLogoConfiguration
+    {
+        return $this->get(HeaderLogoConfiguration::NS);
+    }
+
+    public function titleConfig() : HeaderTitleConfiguration
+    {
+        return $this->get(HeaderTitleConfiguration::NS);
+    }
+
+    public function footerColorConfig() : FooterColorsConfig
+    {
+        return $this->get(FooterColorsConfig::NS);
+    }
+
+    public function footerAdditionalInfosConfig() : AdditionalInfoConfig
+    {
+        return $this->get(AdditionalInfoConfig::NS);
     }
 
 }
