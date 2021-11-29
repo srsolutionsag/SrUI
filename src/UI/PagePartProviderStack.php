@@ -20,15 +20,34 @@ class PagePartProviderStack implements PagePartProvider
      * @var \ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider
      */
     protected $parts;
+    /**
+     * @var \ILIAS\UI\Factory
+     */
+    protected $ui_factory;
+    /**
+     * @var \ILIAS\UI\Renderer
+     */
+    protected $ui_renderer;
+
+    protected $prepended_content = '';
 
     public function __construct(\ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider $parts)
     {
+        global $DIC;
         $this->parts = $parts;
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+    }
+
+    public function prependContent(string $content) : void
+    {
+        $this->prepended_content = $content . $this->prepended_content;
     }
 
     public function getContent() : ?Legacy
     {
-        return $this->parts->getContent();
+        $legacy = $this->ui_renderer->render($this->parts->getContent());
+        return $this->ui_factory->legacy($this->prepended_content . $legacy . "");
     }
 
     public function getMetaBar() : ?MetaBar

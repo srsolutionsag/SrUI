@@ -25,6 +25,9 @@ class ilSrUICloneInfoConfigGUI implements ilSrUIGUI
                 ProdServerConfig::F_PROD_HOSTNAMES => $factory->text(
                     $this->plugin->txt(ProdServerConfig::F_PROD_HOSTNAMES),
                     $this->plugin->txt('prod_hostname_byline') . ' ' . gethostname()),
+                ProdServerConfig::F_NON_PROD_MESSAGE_TITLE => $factory->text(
+                    $this->plugin->txt(ProdServerConfig::F_NON_PROD_MESSAGE_TITLE)
+                ),
                 ProdServerConfig::F_NON_PROD_MESSAGE => $factory->textarea(
                     $this->plugin->txt(ProdServerConfig::F_NON_PROD_MESSAGE)
                 ),

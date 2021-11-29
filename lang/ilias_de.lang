@@ -26,3 +26,7 @@ footer_text_color#:#Footer Textfarbe
 tab_clone_info#:#Installation
 prod_hostname#:#Hostnamen der Produktiv-Server
 prod_hostname_byline#:#Kommasepariert, aktueller Hostname:
+non_prod_message#:#Nicht-Produktiv-Server Nachricht
+non_prod_message_title#:#Nicht-Produktiv-Server Titel
+send_non_index_headers#:#X-Robots-Tag: noindex senden
+show_components#:#Sichtbarkeit von Komponenten

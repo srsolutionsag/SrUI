@@ -26,9 +26,10 @@ footer_colors#:#Footer Colors
 footer_bg_color#:#Footer Background Color
 footer_text_color#:#Footer Text Color
 tab_clone_info#:#Installation
-prod_system#:#Configure Produktivsystem
+prod_system#:#Configure productive Server
 prod_hostname#:#Hostnames of productive Servers
 prod_hostname_byline#:#Comma-separated, current Hostname:
 non_prod_message#:#Non-productive Message
+non_prod_message_title#:#Non-productive Message Title
 send_non_index_headers#:#Send X-Robots-Tag: noindex
 show_components#:#Visibility of Components

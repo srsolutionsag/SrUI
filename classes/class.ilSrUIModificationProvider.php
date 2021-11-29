@@ -42,7 +42,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         // Non-Productive Systems
         $prod_system = $this->config()->prodServerConfig();
         if ($prod_system->isNamespaceActive()) {
-            if (!in_array(gethostname(), $prod_system->getHostnames())) {
+            if (!$prod_system->onProdSystem()) {
                 // Send X-Robots-Tag: noindex
                 if ($prod_system->sendNonIdexHeader()) {
                     $repsonse = $this->dic->http()->response()->withAddedHeader('X-Robots-Tag', 'noindex');
