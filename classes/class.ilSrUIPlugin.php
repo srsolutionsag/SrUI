@@ -3,8 +3,8 @@
 require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/vendor/autoload.php');
 
 use ILIAS\DI\Container;
-use srag\Plugins\SrUI\ResourceStorage\Factory;
 use srag\Plugins\SrUI\UI\Loader\PageLoaderDetector;
+use srag\Plugins\SrUI\Config\Configuration;
 
 /**
  * Class ilSrUIPlugin
@@ -16,38 +16,42 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
     public const TEMPLATES_BASE = "./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/";
     public const OUTSIDE_ILIAS = 'anon';
     public const ON_LOGIN_PAGE = 'on_login_page';
+    /**
+     * @var Configuration
+     */
+    protected $configuration;
 
     protected function onBoarding() : void
     {
-        $a = srag\Plugins\SrUI\Artifact\Artifact::getInstance('sr_ui_setting');
-        $a->clear();
-
-        $s = Factory::storage();
-
-        $a[ilSrUILoginPageConfigGUI::F_CENTERED_LOGIN_PAGE]     = true;
-        $a[ilSrUILoginPageConfigGUI::F_CENTERED_LOGIN_PAGE_CSS] = file_get_contents(self::TEMPLATES_BASE . "login.css");
-        $a[ilSrUILoginPageConfigGUI::F_SHOW_FOOTER]             = false;
-        $a[ilSrUILoginPageConfigGUI::F_SHOW_MAIN_BAR]           = false;
-        $a[ilSrUILoginPageConfigGUI::F_SHOW_HEADER]             = false;
-        $a[ilSrUILoginPageConfigGUI::F_BACKGROUND_IMAGE]        = [
-            $s->fromPath(
-                self::TEMPLATES_BASE . "Subtle-Prism.svg",
-                ilMimeTypeUtil::IMAGE__SVG_XML
-            )
-        ];
-        $a[ilSrUIHeaderConfigGUI::F_ICON]                       = [
-            $s->fromPath(
-                self::TEMPLATES_BASE . "HeaderIconPlus.svg",
-                ilMimeTypeUtil::IMAGE__SVG_XML)
-        ];
-        $a[ilSrUIHeaderConfigGUI::F_ICON_WIDTH]                 = '45px';
-        $a[ilSrUIHeaderConfigGUI::F_HEADER_TITLE]               = 'ILIAS+ 6';
-        $a[ilSrUIHeaderConfigGUI::F_DARKMODE]                   = true;
-        $a[ilSrUIFooterConfigGUI::F_SHOW_RENDERED_BY]           = true;
-        $a[ilSrUIContentConfigGUI::F_FANCY_TABS]                = false;
-        $a[ilSrUIContentConfigGUI::F_FANCY_CARDS]               = true;
-        $a[ilSrUILoginPageConfigGUI::F_SHOW_HEADER_LOGO]        = true;
-        $a->save();
+//        $a = srag\Plugins\SrUI\Artifact\Artifact::getInstance('sr_ui_setting');
+//        $a->clear();
+//
+//        $s = Factory::storage();
+//
+//        $a[ilSrUILoginPageConfigGUI::F_CENTERED_LOGIN_PAGE]     = true;
+//        $a[ilSrUILoginPageConfigGUI::F_CENTERED_LOGIN_PAGE_CSS] = file_get_contents(self::TEMPLATES_BASE . "login.css");
+//        $a[ilSrUILoginPageConfigGUI::F_SHOW_FOOTER]             = false;
+//        $a[ilSrUILoginPageConfigGUI::F_SHOW_MAIN_BAR]           = false;
+//        $a[ilSrUILoginPageConfigGUI::F_SHOW_HEADER]             = false;
+//        $a[ilSrUILoginPageConfigGUI::F_BACKGROUND_IMAGE]        = [
+//            $s->fromPath(
+//                self::TEMPLATES_BASE . "Subtle-Prism.svg",
+//                ilMimeTypeUtil::IMAGE__SVG_XML
+//            )
+//        ];
+//        $a[ilSrUIHeaderConfigGUI::F_ICON]                       = [
+//            $s->fromPath(
+//                self::TEMPLATES_BASE . "HeaderIconPlus.svg",
+//                ilMimeTypeUtil::IMAGE__SVG_XML)
+//        ];
+//        $a[ilSrUIHeaderConfigGUI::F_ICON_WIDTH]                 = '45px';
+//        $a[ilSrUIHeaderConfigGUI::F_HEADER_TITLE]               = 'ILIAS+ 6';
+//        $a[ilSrUIHeaderConfigGUI::F_DARKMODE]                   = true;
+//        $a[ilSrUIFooterConfigGUI::F_SHOW_RENDERED_BY]           = true;
+//        $a[ilSrUIContentConfigGUI::F_FANCY_TABS]                = false;
+//        $a[ilSrUIContentConfigGUI::F_FANCY_CARDS]               = true;
+//        $a[ilSrUILoginPageConfigGUI::F_SHOW_HEADER_LOGO]        = true;
+//        $a->save();
     }
 
     public function getPluginName()
@@ -57,7 +61,6 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
 
     public function exchangeUIRendererAfterInitialization(Container $dic) : Closure
     {
-//        $this->onBoarding();
         return PageLoaderDetector::exchange();
     }
 
@@ -66,7 +69,8 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         global $DIC;
 
         parent::__construct();
-
+        $this->configuration = new Configuration($this->getVersion());
+//        $this->updateLanguages();
         try {
             $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
                 self::OUTSIDE_ILIAS,
@@ -83,6 +87,11 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
 
         }
 
+    }
+
+    public function getConfiguration() : Configuration
+    {
+        return $this->configuration;
     }
 
     /**

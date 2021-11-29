@@ -23,3 +23,6 @@ header_bc_text_color#:#Bread-Crumb Textfarbe
 footer_colors#:#Footer Farben
 footer_bg_color#:#Footer Hintergrundfarbe
 footer_text_color#:#Footer Textfarbe
+tab_clone_info#:#Installation
+prod_hostname#:#Hostnamen der Produktiv-Server
+prod_hostname_byline#:#Kommasepariert, aktueller Hostname:

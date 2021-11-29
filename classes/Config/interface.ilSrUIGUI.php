@@ -6,6 +6,10 @@
  */
 interface ilSrUIGUI
 {
+
+    const CMD_INDEX = 'index';
+    const CMD_SAVE = 'save';
+
     public function executeCommand() : void;
 
 }

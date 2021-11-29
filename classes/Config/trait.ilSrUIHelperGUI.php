@@ -48,6 +48,10 @@ trait ilSrUIHelperGUI
      * @var \ILIAS\DI\HTTPServices
      */
     protected $http;
+    /**
+     * @var \srag\Plugins\SrUI\Config\Configuration
+     */
+    protected $config;
 
     /**
      * ilSrUIMainGUI constructor.
@@ -56,15 +60,43 @@ trait ilSrUIHelperGUI
      */
     public function __construct(Container $dic, ilSrUIPlugin $plugin)
     {
-        $this->dic         = $dic;
-        $this->ctrl        = $dic->ctrl();
-        $this->tabs        = $dic->tabs();
-        $this->plugin      = $plugin;
-        $this->ui_factory  = $dic->ui()->factory();
+        $this->dic = $dic;
+        $this->ctrl = $dic->ctrl();
+        $this->tabs = $dic->tabs();
+        $this->plugin = $plugin;
+        $this->ui_factory = $dic->ui()->factory();
         $this->ui_renderer = $dic->ui()->renderer();
-        $this->tpl         = $dic->ui()->mainTemplate();
-        $this->refinery    = $dic->refinery();
+        $this->tpl = $dic->ui()->mainTemplate();
+        $this->refinery = $dic->refinery();
         $this->filesystems = $dic->filesystem();
-        $this->http        = $dic->http();
+        $this->http = $dic->http();
+        $this->config = $this->plugin->getConfiguration();
+    }
+
+    public function executeCommand() : void
+    {
+        switch ($this->ctrl->getCmd(self::CMD_INDEX)) {
+            case self::CMD_INDEX:
+                $this->index();
+                break;
+            case self::CMD_SAVE:
+                $this->save();
+                break;
+        }
+    }
+
+    private function index() : void
+    {
+        $this->tpl->setContent($this->ui_renderer->render($this->getForm()));
+    }
+
+    private function save() : void
+    {
+        $form = $this->getForm()->withRequest($this->http->request());
+
+        if ($form->getData()) {
+            $this->config->save();
+        }
+        $this->ctrl->redirect($this);
     }
 }

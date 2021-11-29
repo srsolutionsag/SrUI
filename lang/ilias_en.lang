@@ -8,18 +8,25 @@ centered_login_page_css#:#Additional CSS on Login-Page
 show_header#:#Show Header
 show_footer#:#Show Footer
 show_main_bar#:#Show Main-Bar
+header_logo#:#Header Logo
 icon#:#Logo
 icon_width#:#Logo Width
 show_rendered_by#:#Show "Rendered by" (Hostname of Server)
-header_title#:#header Title
+header_title#:#Header Title
 fancy_cards#:#Zoom-Effect on Cards
 fancy_tabs#:#Simple Tabs (Beta)
 darkmode#:#Darkmode
 show_header_logo#:#Show Icon in Login-Container
 header_colors#:#Header-Colors
 header_bg_color#:#Header Background Color
-header_bc_bg_color#:#Bread-Crumb Color
-header_bc_text_color#:#Bread-Crumb Text-Color
+header_bc_bg_color#:#Breadcrumb Color
+header_bc_text_color#:#Breadcrumb Text-Color
 footer_colors#:#Footer Colors
 footer_bg_color#:#Footer Background Color
 footer_text_color#:#Footer Text Color
+tab_clone_info#:#Installation
+prod_system#:#Configure Produktivsystem
+prod_hostname#:#Hostnames of productive Servers
+prod_hostname_byline#:#Comma-separated, current Hostname:
+non_prod_message#:#Non-productive Message
+send_non_index_headers#:#Send X-Robots-Tag: noindex

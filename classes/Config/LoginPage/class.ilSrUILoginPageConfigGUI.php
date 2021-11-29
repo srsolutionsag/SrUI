@@ -1,7 +1,8 @@
 <?php
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
-use srag\Plugins\SrUI\Artifact\Artifact;
+use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig as CenterPage;
+use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig as ShowComponents;
 
 /**
  * Class ilSrUILoginPageConfigGUI
@@ -13,103 +14,68 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
     use ilSrUIHelperGUI;
     use ilSrUITrafos;
 
-    const CMD_INDEX = 'index';
-    const CMD_SAVE = 'save';
-    const F_CENTERED_LOGIN_PAGE = 'centered_login_page';
-    const F_SHOW_HEADER = 'show_header';
-    const F_SHOW_FOOTER = 'show_footer';
-    const F_BACKGROUND_IMAGE = 'background_image';
-    const F_CENTERED_LOGIN_PAGE_CSS = 'centered_login_page_css';
-    const F_SHOW_MAIN_BAR = 'show_main_bar';
-    const F_SHOW_HEADER_LOGO = 'show_header_logo';
-    /**
-     * @var Artifact
-     */
-    protected $artifact;
+    const MIME_TYPES = [
+        ilMimeTypeUtil::IMAGE__SVG_XML,
+        ilMimeTypeUtil::IMAGE__JPEG,
+        ilMimeTypeUtil::IMAGE__GIF,
+        ilMimeTypeUtil::IMAGE__PNG
+    ];
 
-    public function executeCommand(): void
+    private function getForm() : Form
     {
-        switch ($this->ctrl->getCmd(self::CMD_INDEX)) {
-            case self::CMD_INDEX:
-                $this->index();
-                break;
-            case self::CMD_SAVE:
-                $this->save();
-                break;
-        }
-    }
+        $factory = $this->ui_factory->input();
 
-    private function getForm(): Form
-    {
-        $this->artifact = Artifact::getInstance('sr_ui_setting');
-        $artifact_safer = $this->getArtifactSafer($this->refinery, $this->artifact);
-
-        // Fields
-        $value_of_group = $this->artifact[self::F_CENTERED_LOGIN_PAGE] ? [
-            self::F_BACKGROUND_IMAGE => $this->artifact[self::F_BACKGROUND_IMAGE] ?? [],
-            self::F_CENTERED_LOGIN_PAGE_CSS => (string)($this->artifact[self::F_CENTERED_LOGIN_PAGE_CSS] ?? file_get_contents(ilSrUIPlugin::TEMPLATES_BASE . 'login.css'))
-        ] : null;
-
-        $inputs_of_group = [
-            self::F_BACKGROUND_IMAGE => $this->ui_factory->input()->field()->file(new ilSrUIFileHandlerGUI(), $this->plugin->txt(self::F_BACKGROUND_IMAGE))
-                ->withAcceptedMimeTypes([
-                    ilMimeTypeUtil::IMAGE__JPEG,
-                    ilMimeTypeUtil::IMAGE__GIF,
-                    ilMimeTypeUtil::IMAGE__SVG_XML
-                ])
-                ->withValue($this->artifact[self::F_BACKGROUND_IMAGE] ?? [])
-                ->withAdditionalTransformation($artifact_safer(self::F_BACKGROUND_IMAGE)),
-            self::F_CENTERED_LOGIN_PAGE_CSS => $this->ui_factory->input()->field()->textarea($this->plugin->txt(self::F_CENTERED_LOGIN_PAGE_CSS))
-                ->withValue((string)($this->artifact[self::F_CENTERED_LOGIN_PAGE_CSS] ?? file_get_contents(ilSrUIPlugin::TEMPLATES_BASE . 'login.css')))
-                ->withAdditionalTransformation($artifact_safer(self::F_CENTERED_LOGIN_PAGE_CSS)),
+        // CENTERED LOGIN PAGE
+        $arr = [
+            // Background
+            CenterPage::F_BACKGROUND_IMAGE => $factory->field()->file(
+                new ilSrUIFileHandlerGUI(),
+                $this->plugin->txt(CenterPage::F_BACKGROUND_IMAGE)
+            )->withAcceptedMimeTypes(self::MIME_TYPES),
+            // Additional CSS
+            CenterPage::F_CENTERED_LOGIN_PAGE_CSS => $factory->field()->textarea(
+                $this->plugin->txt(CenterPage::F_CENTERED_LOGIN_PAGE_CSS)
+            ),
+            // Show Logo in Container
+            CenterPage::F_SHOW_HEADER_LOGO => $factory->field()->checkbox(
+                $this->plugin->txt(CenterPage::F_SHOW_HEADER_LOGO)
+            )
         ];
-        $centered_login_page = $this->ui_factory->input()->field()->optionalGroup($inputs_of_group, $this->plugin->txt(self::F_CENTERED_LOGIN_PAGE))
-            ->withValue($value_of_group)
-            ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(static function ($v) {
-                return !is_null($v);
-            }))
-            ->withAdditionalTransformation($artifact_safer(self::F_CENTERED_LOGIN_PAGE));
-        $show_header = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(self::F_SHOW_HEADER))
-            ->withValue((bool)$this->artifact[self::F_SHOW_HEADER])
-            ->withAdditionalTransformation($artifact_safer(self::F_SHOW_HEADER));
-        $show_footer = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(self::F_SHOW_FOOTER))
-            ->withValue((bool)$this->artifact[self::F_SHOW_FOOTER])
-            ->withAdditionalTransformation($artifact_safer(self::F_SHOW_FOOTER));
-        $show_main_bar = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(self::F_SHOW_MAIN_BAR))
-            ->withValue((bool)$this->artifact[self::F_SHOW_MAIN_BAR])
-            ->withAdditionalTransformation($artifact_safer(self::F_SHOW_MAIN_BAR));
-        $show_header_logo = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(self::F_SHOW_HEADER_LOGO))
-            ->withValue((bool)$this->artifact[self::F_SHOW_HEADER_LOGO])
-            ->withAdditionalTransformation($artifact_safer(self::F_SHOW_HEADER_LOGO));
+        $centered_login_page = $factory->field()->optionalGroup($arr, $this->plugin->txt(CenterPage::NS))
+                                       ->withValue($this->config->get(CenterPage::NS)->getData())
+                                       ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function (
+                                           $v
+                                       ) {
+                                           $this->config->get(CenterPage::NS)->loadData($v);
+                                           return true;
+                                       }));
 
-        return $this->ui_factory->input()->container()->form()->standard(
+        // SHOW COMPONENTS
+        $fields = [
+            ShowComponents::F_SHOW_HEADER => $this->ui_factory->input()->field()->checkbox($this->plugin->txt(ShowComponents::F_SHOW_HEADER)),
+            ShowComponents::F_SHOW_MAIN_BAR => $this->ui_factory->input()->field()->checkbox($this->plugin->txt(ShowComponents::F_SHOW_MAIN_BAR)),
+            ShowComponents::F_SHOW_FOOTER => $this->ui_factory->input()->field()->checkbox($this->plugin->txt(ShowComponents::F_SHOW_FOOTER)),
+        ];
+        $show_components = $factory->field()->optionalGroup($fields, $this->plugin->txt(ShowComponents::NS))
+                                   ->withValue($this->config->get(ShowComponents::NS)->getData())
+                                   ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function (
+                                       $v
+                                   ) {
+                                       $this->config->get(ShowComponents::NS)->loadData($v);
+                                       return true;
+                                   }));
+
+        return $factory->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
-                self::F_CENTERED_LOGIN_PAGE => $centered_login_page,
-                self::F_SHOW_HEADER => $show_header, // currently no solution
-                self::F_SHOW_FOOTER => $show_footer,
-                self::F_SHOW_MAIN_BAR => $show_main_bar,
-                self::F_SHOW_HEADER_LOGO => $show_header_logo,
+                CenterPage::NS => $centered_login_page,
+                ShowComponents::NS => $show_components
+                //                Title::NS => $header_title,
+                //                Colors::NS => $header_colors,
             ]
         )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) {
-            return $this->artifact;
+            return true;
         }));
-    }
-
-    private function index(): void
-    {
-        $this->tpl->setContent($this->ui_renderer->render($this->getForm()));
-    }
-
-    private function save(): void
-    {
-        $form = $this->getForm()->withRequest($this->http->request());
-
-        $artifact = $form->getData();
-        if ($artifact instanceof Artifact) {
-            $artifact->save();
-        }
-        $this->ctrl->redirect($this);
     }
 
 }
