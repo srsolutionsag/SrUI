@@ -48,7 +48,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
 
         parent::__construct();
         $this->configuration = new Configuration($this->getVersion());
-$this->updateLanguages();
+
         try {
             $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
                 self::OUTSIDE_ILIAS,
