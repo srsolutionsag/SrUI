@@ -19,4 +19,14 @@ class ShowComponentsConfig extends BaseNestedConfig
     {
         parent::__construct(self::NS);
     }
+
+    public function getFields() : array
+    {
+        return [
+            self::F_SHOW_HEADER,
+            self::F_SHOW_FOOTER,
+            self::F_SHOW_MAIN_BAR,
+        ];
+    }
+
 }

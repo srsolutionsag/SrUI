@@ -29,12 +29,11 @@ class FooterColorsConfig extends BaseNestedConfig
         return $this->data[self::F_FOOTER_TEXT_COLOR] ?? '';
     }
 
-    public function getData()
+    public function getFields() : array
     {
         return [
-            self::F_FOOTER_BG_COLOR => $this->getBackgroundColor(),
-            self::F_FOOTER_TEXT_COLOR => $this->getTextColor(),
+            self::F_FOOTER_BG_COLOR,
+            self::F_FOOTER_TEXT_COLOR
         ];
     }
-
 }

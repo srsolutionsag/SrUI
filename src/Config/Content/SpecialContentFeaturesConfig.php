@@ -28,4 +28,12 @@ class SpecialContentFeaturesConfig extends BaseNestedConfig
     {
         return $this->data[self::F_FANCY_TABS] ?? false;
     }
+
+    public function getFields() : array
+    {
+        return [
+            self::F_FANCY_TABS,
+            self::F_FANCY_CARDS,
+        ];
+    }
 }

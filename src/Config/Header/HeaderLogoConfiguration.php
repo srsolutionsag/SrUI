@@ -33,4 +33,12 @@ class HeaderLogoConfiguration extends BaseNestedConfig
     {
         return $this->data[self::F_ICON_WIDTH] ?? '45px';
     }
+
+    public function getFields() : array
+    {
+        return [
+            self::F_ICON_WIDTH,
+            self::F_ICON
+        ];
+    }
 }

@@ -22,4 +22,11 @@ class HeaderTitleConfiguration extends BaseNestedConfig
     {
         return $this->data[self::F_HEADER_TITLE] ?? '';
     }
+
+    public function getFields() : array
+    {
+        return [
+            self::F_HEADER_TITLE
+        ];
+    }
 }

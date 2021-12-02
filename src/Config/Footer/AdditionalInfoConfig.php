@@ -22,4 +22,11 @@ class AdditionalInfoConfig extends BaseNestedConfig
     {
         return $this->data[self::F_SHOW_RENDERED_BY] ?? false;
     }
+
+    public function getFields() : array
+    {
+        return [
+            self::F_SHOW_RENDERED_BY
+        ];
+    }
 }

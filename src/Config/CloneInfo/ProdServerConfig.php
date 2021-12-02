@@ -60,4 +60,14 @@ class ProdServerConfig extends BaseNestedConfig
         return in_array(gethostname(), $this->getHostnames());
     }
 
+    public function getFields() : array
+    {
+        return [
+            self::F_PROD_HOSTNAMES,
+            self::F_NON_PROD_MESSAGE,
+            self::F_NON_PROD_MESSAGE_TITLE,
+            self::F_SEND_NON_INDEX_HEADERS
+        ];
+    }
+
 }

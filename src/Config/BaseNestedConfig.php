@@ -6,7 +6,7 @@ namespace srag\Plugins\SrUI\Config;
  * Class BaseNestedConfig
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class BaseNestedConfig implements Config
+abstract class BaseNestedConfig implements Config
 {
     protected $namespace;
 
@@ -39,6 +39,12 @@ class BaseNestedConfig implements Config
 
     public function getData()
     {
+        foreach ($this->getFields() as $field_name) {
+            if (!isset($this->data[$field_name])) {
+                return null;
+            }
+        }
+
         return $this->data;
     }
 
@@ -46,5 +52,7 @@ class BaseNestedConfig implements Config
     {
         return $this->data !== null;
     }
+
+    abstract public function getFields() : array;
 
 }

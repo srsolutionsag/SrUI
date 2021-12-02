@@ -41,13 +41,13 @@ class HeaderColorsConfiguration extends BaseNestedConfig
         return $this->data[self::F_TITLE_COLOR] ?? '';
     }
 
-    public function getData()
+    public function getFields() : array
     {
         return [
-            self::F_TITLE_COLOR => $this->getTitleColor(),
-            self::F_HEADER_BG_COLOR => $this->getBackgroundColor(),
-            self::F_HEADER_BC_BG_COLOR => $this->getBreadcrumbBackgroundColor(),
-            self::F_HEADER_BC_TEXT_COLOR => $this->getBreadcrumbTextColor(),
+            self::F_TITLE_COLOR,
+            self::F_HEADER_BG_COLOR,
+            self::F_HEADER_BC_BG_COLOR,
+            self::F_HEADER_BC_TEXT_COLOR,
         ];
     }
 
