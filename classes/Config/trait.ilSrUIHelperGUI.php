@@ -96,7 +96,9 @@ trait ilSrUIHelperGUI
 
         if ($form->getData()) {
             $this->config->save();
+            $this->ctrl->redirect($this);
+        }else {
+            $this->tpl->setContent($this->ui_renderer->render($form));
         }
-        $this->ctrl->redirect($this);
     }
 }

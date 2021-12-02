@@ -47,7 +47,9 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
 
         // Header Title
         $header_title = $factory->field()->optionalGroup([
-            Title::NS => $factory->field()->text($this->plugin->txt(Title::F_HEADER_TITLE))
+            Title::NS => $factory->field()->text(
+                $this->plugin->txt(Title::F_HEADER_TITLE)
+            )->withRequired(true)
         ], $this->plugin->txt(Title::NS))
                                 ->withValue($this->config->get(Title::NS)->getData())
                                 ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v
@@ -58,10 +60,18 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
 
         // Header Colors
         $header_colors = $factory->field()->optionalGroup([
-            Colors::F_HEADER_BG_COLOR => $factory->field()->text($this->plugin->txt(Colors::F_HEADER_BG_COLOR)),
-            Colors::F_HEADER_BC_BG_COLOR => $factory->field()->text($this->plugin->txt(Colors::F_HEADER_BC_BG_COLOR)),
-            Colors::F_HEADER_BC_TEXT_COLOR => $factory->field()->text($this->plugin->txt(Colors::F_HEADER_BC_TEXT_COLOR)),
-            Colors::F_TITLE_COLOR => $factory->field()->text($this->plugin->txt(Colors::F_TITLE_COLOR)),
+            Colors::F_HEADER_BG_COLOR => $factory->field()->text(
+                $this->plugin->txt(Colors::F_HEADER_BG_COLOR)
+            )->withRequired(true),
+            Colors::F_HEADER_BC_BG_COLOR => $factory->field()->text(
+                $this->plugin->txt(Colors::F_HEADER_BC_BG_COLOR)
+            )->withRequired(true),
+            Colors::F_HEADER_BC_TEXT_COLOR => $factory->field()->text(
+                $this->plugin->txt(Colors::F_HEADER_BC_TEXT_COLOR)
+            )->withRequired(true),
+            Colors::F_TITLE_COLOR => $factory->field()->text(
+                $this->plugin->txt(Colors::F_TITLE_COLOR)
+            )->withRequired(true),
 
         ], $this->plugin->txt(Colors::NS))
                                  ->withValue($this->config->get(Colors::NS)->getData())

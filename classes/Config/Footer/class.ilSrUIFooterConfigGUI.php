@@ -34,8 +34,12 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
         // FOOTER COLORS
         $footer_color_config = $this->config->get(FooterColorsConfig::NS);
         $footer_colors = $factory->field()->optionalGroup([
-            FooterColorsConfig::F_FOOTER_BG_COLOR => $factory->field()->text($this->plugin->txt(FooterColorsConfig::F_FOOTER_BG_COLOR)),
-            FooterColorsConfig::F_FOOTER_TEXT_COLOR => $factory->field()->text($this->plugin->txt(FooterColorsConfig::F_FOOTER_TEXT_COLOR))
+            FooterColorsConfig::F_FOOTER_BG_COLOR => $factory->field()->text(
+                $this->plugin->txt(FooterColorsConfig::F_FOOTER_BG_COLOR)
+            )->withRequired(true),
+            FooterColorsConfig::F_FOOTER_TEXT_COLOR => $factory->field()->text(
+                $this->plugin->txt(FooterColorsConfig::F_FOOTER_TEXT_COLOR)
+            )->withRequired(true)
 
         ], $this->plugin->txt(FooterColorsConfig::NS))
                                  ->withValue($footer_color_config->getData())
