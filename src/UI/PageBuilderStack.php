@@ -57,7 +57,10 @@ class PageBuilderStack extends StandardPageBuilder
 
         if ($this->context_stack->current()->getAdditionalData()->is(\ilSrUIPlugin::ON_LOGIN_PAGE, true)) {
             // SHOW NO PROD WARNING
-            if (!$this->configuration->prodServerConfig()->onProdSystem()) {
+            if (
+                $this->configuration->prodServerConfig()->isNamespaceActive()
+                && !$this->configuration->prodServerConfig()->onProdSystem()
+            ) {
                 $text = $this->ui->factory()->modal()->lightboxTextPage(
                     $this->configuration->prodServerConfig()->getNonProdMessage(),
                     $this->configuration->prodServerConfig()->getNonProdMessageTitle()

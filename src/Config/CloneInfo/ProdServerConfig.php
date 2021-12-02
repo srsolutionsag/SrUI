@@ -21,16 +21,6 @@ class ProdServerConfig extends BaseNestedConfig
         parent::__construct(self::NS);
     }
 
-    public function getData()
-    {
-        return [
-            self::F_PROD_HOSTNAMES => $this->data[self::F_PROD_HOSTNAMES] ?? '',
-            self::F_NON_PROD_MESSAGE => $this->data[self::F_NON_PROD_MESSAGE] ?? '',
-            self::F_NON_PROD_MESSAGE_TITLE => $this->data[self::F_NON_PROD_MESSAGE_TITLE] ?? '',
-            self::F_SEND_NON_INDEX_HEADERS => $this->data[self::F_SEND_NON_INDEX_HEADERS] ?? false,
-        ];
-    }
-
     public function getHostnames() : array
     {
         static $hostnames;
@@ -68,6 +58,11 @@ class ProdServerConfig extends BaseNestedConfig
             self::F_NON_PROD_MESSAGE_TITLE,
             self::F_SEND_NON_INDEX_HEADERS
         ];
+    }
+
+    public function isNamespaceActive() : bool
+    {
+        return isset($this->data['prod_hostname']) && !empty($this->data['prod_hostname']);
     }
 
 }
