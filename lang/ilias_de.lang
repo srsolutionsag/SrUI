@@ -2,12 +2,13 @@ tab_login_page#:#Login-Seite
 tab_header#:#Header
 tab_footer#:#Footer
 tab_content#:#Inhalt
-centered_login_page#:#Mittige Login-Seite
+centered_login_page#:#Mittige Login-Page
 background_image#:#Hintergrundbild
 centered_login_page_css#:#Zusätzliches CSS auf Login-Seite
 show_header#:#Header anzeigen
 show_footer#:#Footer anzeigen
 show_main_bar#:#Main-Bar anzeigen
+header_logo#:#Header Logo in Login
 icon#:#Logo
 icon_width#:#Breite Logo
 show_rendered_by#:#Zeige "Rendered by" (Hostname des Servers)
