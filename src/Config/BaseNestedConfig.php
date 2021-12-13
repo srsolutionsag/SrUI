@@ -48,6 +48,11 @@ abstract class BaseNestedConfig implements Config
         return $this->data;
     }
 
+    public function getRawData()
+    {
+        return $this->data;
+    }
+
     public function isNamespaceActive() : bool
     {
         return $this->data !== null;

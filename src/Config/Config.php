@@ -23,5 +23,7 @@ interface Config
 
     public function getData();
 
+    public function getRawData();
+
     public function isNamespaceActive() : bool;
 }
