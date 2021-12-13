@@ -105,6 +105,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         $s = Factory::storage();
         // LOGIN PAGE
         $this->configuration->get(CenteredPageConfig::NS)->loadData([
+            CenteredPageConfig::F_SHOW_HEADER_LOGO => true,
             CenteredPageConfig::F_CENTERED_LOGIN_PAGE_CSS => file_get_contents(self::TEMPLATES_BASE . "login.css"),
             CenteredPageConfig::F_BACKGROUND_IMAGE => [
                 $s->fromPath(

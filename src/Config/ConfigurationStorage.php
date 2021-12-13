@@ -33,7 +33,7 @@ class ConfigurationStorage
     private function fromConfigsToArray() : void
     {
         foreach ($this->config_collection->getAll() as $config) {
-            $this->data[$config->getNamespace()] = $config->getData();
+            $this->data[$config->getNamespace()] = $config->getRawData();
         }
     }
 
