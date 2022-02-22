@@ -80,7 +80,7 @@ class PageBuilderStack extends StandardPageBuilder
 
     public function getAsModification() : ?PageBuilderModification
     {
-        return $this->factory->page()->withLowPriority()->withModification(function (PagePartProvider $p) : Page {
+        return $this->factory->page()->withPriority(16)->withModification(function (PagePartProvider $p) : Page {
             return $this->build($p);
         });
     }

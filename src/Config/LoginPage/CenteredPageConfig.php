@@ -6,6 +6,7 @@ use srag\Plugins\SrUI\Config\BaseNestedConfig;
 
 /**
  * Class CenteredPageConfig
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class CenteredPageConfig extends BaseNestedConfig
@@ -20,10 +21,18 @@ class CenteredPageConfig extends BaseNestedConfig
         parent::__construct(self::NS);
     }
 
-
     public function showHeaderLogoInLoginContainer() : bool
     {
         return $this->data[self::F_SHOW_HEADER_LOGO] ?? false;
+    }
+
+    public function getData()
+    {
+        return $this->data ?? [
+                self::F_SHOW_HEADER_LOGO => false,
+                self::F_BACKGROUND_IMAGE => null,
+                self::F_CENTERED_LOGIN_PAGE_CSS => ''
+            ];
     }
 
     public function getFields() : array
