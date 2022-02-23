@@ -151,7 +151,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         $this->configuration->save();
     }
 
-    protected function checkAndPerformConfigMigration() : void
+    public function checkAndPerformConfigMigration() : void
     {
         if ($this->configuration->getStorage()->needsUpdate()) {
             switch ($this->configuration->getStorage()->getStoredVersion()) {

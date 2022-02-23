@@ -14,6 +14,7 @@ use srag\Plugins\SrUI\Config\Footer\FooterColorsConfig;
 
 /**
  * Class ConfigurationStorage
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class Configuration
@@ -21,7 +22,7 @@ class Configuration
     protected $collection;
     protected $version = '1.0.0';
     protected $storage;
-
+    
     /**
      * @param string $version
      */
@@ -42,55 +43,60 @@ class Configuration
         $this->storage = new ConfigurationStorage($this->collection, $this->version);
         $this->storage->read();
     }
-
+    
+    public function isUpToDate() : bool
+    {
+        return !$this->storage->needsUpdate();
+    }
+    
     public function get(string $namespace) : Config
     {
         return $this->collection->get($namespace);
     }
-
+    
     public function save()
     {
         $this->storage->write();
     }
-
+    
     public function getStorage() : ConfigurationStorage
     {
         return $this->storage;
     }
-
+    
     public function prodServerConfig() : ProdServerConfig
     {
         return $this->get(ProdServerConfig::NS);
     }
-
+    
     public function contentConfig() : SpecialContentFeaturesConfig
     {
         return $this->get(SpecialContentFeaturesConfig::NS);
     }
-
+    
     public function headerColorConfig() : HeaderColorsConfiguration
     {
         return $this->get(HeaderColorsConfiguration::NS);
     }
-
+    
     public function headerLogoConfig() : HeaderLogoConfiguration
     {
         return $this->get(HeaderLogoConfiguration::NS);
     }
-
+    
     public function titleConfig() : HeaderTitleConfiguration
     {
         return $this->get(HeaderTitleConfiguration::NS);
     }
-
+    
     public function footerColorConfig() : FooterColorsConfig
     {
         return $this->get(FooterColorsConfig::NS);
     }
-
+    
     public function footerAdditionalInfosConfig() : AdditionalInfoConfig
     {
         return $this->get(AdditionalInfoConfig::NS);
     }
-
+    
 }

@@ -18,7 +18,13 @@ class ilSrUIMainGUI implements ilSrUIGUI
 
     public function executeCommand() : void
     {
+        if (!$this->plugin->getConfiguration()->isUpToDate()) {
+            $this->plugin->checkAndPerformConfigMigration();
+            $this->tpl->setOnScreenMessage('info', $this->plugin->txt('config_updated'));
+        }
+    
         $this->initTabs();
+        
         $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
             case strtolower(ilSrUILoginPageConfigGUI::class):

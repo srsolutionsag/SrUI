@@ -33,3 +33,4 @@ non_prod_message_title#:#Nicht-Produktiv-Server Titel
 send_non_index_headers#:#X-Robots-Tag: noindex senden
 show_components#:#Sichtbarkeit von Komponenten
 additional_footer_infos#:#Zusätzliche Infos im Footer
+config_updated#:#Konfiguration wurde aktualisiert
