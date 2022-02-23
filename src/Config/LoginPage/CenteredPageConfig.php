@@ -43,5 +43,10 @@ class CenteredPageConfig extends BaseNestedConfig
             self::F_CENTERED_LOGIN_PAGE_CSS,
         ];
     }
+    
+    public function getLoginCSS() : ?string
+    {
+        return $this->data[self::F_CENTERED_LOGIN_PAGE_CSS] ?? '';
+    }
 
 }

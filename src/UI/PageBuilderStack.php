@@ -98,7 +98,7 @@ class PageBuilderStack extends StandardPageBuilder
         $login_page_settings->setCenterLogin($centered_page->isNamespaceActive());
 
         if ($login_page_settings->isCenterLogin()) {
-            $this->meta->addInlineCss($centered_page->get(CenteredPageConfig::F_CENTERED_LOGIN_PAGE_CSS));
+            $this->meta->addInlineCss($centered_page->getLoginCSS());
         }
         $login_page_settings->setShowHeader((bool) ($show_components->get(ShowComponentsConfig::F_SHOW_HEADER, true)));
         $login_page_settings->setShowFooter((bool) ($show_components->get(ShowComponentsConfig::F_SHOW_FOOTER, true)));
