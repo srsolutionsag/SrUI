@@ -64,7 +64,6 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         } catch (LogicException $l) {
 
         }
-        $this->updateLanguages();
     }
 
     public function getConfiguration() : Configuration
