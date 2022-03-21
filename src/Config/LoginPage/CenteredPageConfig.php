@@ -15,26 +15,34 @@ class CenteredPageConfig extends BaseNestedConfig
     const F_SHOW_HEADER_LOGO = 'show_header_logo';
     const F_BACKGROUND_IMAGE = 'background_image';
     const F_CENTERED_LOGIN_PAGE_CSS = 'centered_login_page_css';
-
+    
     public function __construct()
     {
         parent::__construct(self::NS);
     }
-
+    
     public function showHeaderLogoInLoginContainer() : bool
     {
         return $this->data[self::F_SHOW_HEADER_LOGO] ?? false;
     }
-
+    
     public function getData()
     {
+        if (
+            $this->data[self::F_CENTERED_LOGIN_PAGE_CSS] === null
+            && $this->data[self::F_SHOW_HEADER_LOGO] === null
+            && $this->data[self::F_BACKGROUND_IMAGE] === null
+        ) {
+            return null;
+        }
+        
         return $this->data ?? [
                 self::F_SHOW_HEADER_LOGO => false,
                 self::F_BACKGROUND_IMAGE => null,
                 self::F_CENTERED_LOGIN_PAGE_CSS => ''
             ];
     }
-
+    
     public function getFields() : array
     {
         return [
@@ -48,5 +56,5 @@ class CenteredPageConfig extends BaseNestedConfig
     {
         return $this->data[self::F_CENTERED_LOGIN_PAGE_CSS] ?? '';
     }
-
+    
 }
