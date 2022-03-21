@@ -64,7 +64,6 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         } catch (LogicException $l) {
 
         }
-
     }
 
     public function getConfiguration() : Configuration

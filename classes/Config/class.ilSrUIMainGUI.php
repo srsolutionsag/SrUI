@@ -2,6 +2,7 @@
 
 /**
  * Class ilSrUIMainGUI
+ *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  * @ilCtrl_IsCalledBy ilSrUIMainGUI: ilSrUIConfigGUI
  * @ilCtrl_calls      ilSrUIMainGUI: hub2ConfigOriginsGUI
@@ -9,20 +10,21 @@
 class ilSrUIMainGUI implements ilSrUIGUI
 {
     use ilSrUIHelperGUI;
-
+    
     const TAB_LOGIN_PAGE = 'tab_login_page';
     const TAB_HEADER = 'tab_header';
     const TAB_FOOTER = 'tab_footer';
     const TAB_CONTENT = 'tab_content';
     const TAB_CLONE_INFO = 'tab_clone_info';
-
+    const TAB_MENU = 'tab_menu';
+    
     public function executeCommand() : void
     {
         if (!$this->plugin->getConfiguration()->isUpToDate()) {
             $this->plugin->checkAndPerformConfigMigration();
             $this->tpl->setOnScreenMessage('info', $this->plugin->txt('config_updated'));
         }
-    
+        
         $this->initTabs();
         
         $next_class = $this->ctrl->getNextClass();
@@ -47,6 +49,10 @@ class ilSrUIMainGUI implements ilSrUIGUI
                 $this->tabs->activateTab(self::TAB_CLONE_INFO);
                 $this->ctrl->forwardCommand(new ilSrUICloneInfoConfigGUI($this->dic, $this->plugin));
                 break;
+            case strtolower(ilSrUIMenuConfigGUI::class):
+                $this->tabs->activateTab(self::TAB_MENU);
+                $this->ctrl->forwardCommand(new ilSrUIMenuConfigGUI($this->dic, $this->plugin));
+                break;
             case strtolower(ilSrUIFileHandlerGUI::class):
                 $this->ctrl->forwardCommand(new ilSrUIFileHandlerGUI());
                 break;
@@ -59,11 +65,11 @@ class ilSrUIMainGUI implements ilSrUIGUI
                         break;
                 }
                 break;
-
+            
         }
-
+        
     }
-
+    
     private function initTabs() : void
     {
         $this->tabs->addTab(
@@ -87,15 +93,20 @@ class ilSrUIMainGUI implements ilSrUIGUI
             $this->ctrl->getLinkTargetByClass(ilSrUIContentConfigGUI::class)
         );
         $this->tabs->addTab(
+            self::TAB_MENU,
+            $this->plugin->txt(self::TAB_MENU),
+            $this->ctrl->getLinkTargetByClass(ilSrUIMenuConfigGUI::class)
+        );
+        $this->tabs->addTab(
             self::TAB_CLONE_INFO,
             $this->plugin->txt(self::TAB_CLONE_INFO),
             $this->ctrl->getLinkTargetByClass(ilSrUICloneInfoConfigGUI::class)
         );
     }
-
+    
     public function index() : void
     {
         $this->ctrl->redirectByClass(ilSrUILoginPageConfigGUI::class);
     }
-
+    
 }

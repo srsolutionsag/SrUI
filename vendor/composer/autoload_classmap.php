@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'ILIAS\\UI\\Implementation\\Component\\Card\\ZoomableCardRenderer' => $baseDir . '/classes/UI/Card/ZoomableCardRenderer.php',
     'ILIAS\\UI\\Implementation\\Component\\Layout\\Page\\Login\\Login' => $baseDir . '/classes/UI/Login/Login.php',
     'ILIAS\\UI\\Implementation\\Component\\Layout\\Page\\Login\\LoginPageSettings' => $baseDir . '/classes/UI/Login/LoginPageSettings.php',
@@ -22,6 +23,7 @@ return array(
     'ilSrUILoginPageConfigGUI' => $baseDir . '/classes/Config/LoginPage/class.ilSrUILoginPageConfigGUI.php',
     'ilSrUIMainBarProvider' => $baseDir . '/classes/class.ilSrUIMainBarProvider.php',
     'ilSrUIMainGUI' => $baseDir . '/classes/Config/class.ilSrUIMainGUI.php',
+    'ilSrUIMenuConfigGUI' => $baseDir . '/classes/Config/Menu/class.ilSrUIMenuConfigGUI.php',
     'ilSrUIModificationProvider' => $baseDir . '/classes/class.ilSrUIModificationProvider.php',
     'ilSrUIPlugin' => $baseDir . '/classes/class.ilSrUIPlugin.php',
     'ilSrUITrafos' => $baseDir . '/classes/trait.ilSrUITrafos.php',
@@ -42,6 +44,7 @@ return array(
     'srag\\Plugins\\SrUI\\Config\\Header\\HeaderTitleConfiguration' => $baseDir . '/src/Config/Header/HeaderTitleConfiguration.php',
     'srag\\Plugins\\SrUI\\Config\\LoginPage\\CenteredPageConfig' => $baseDir . '/src/Config/LoginPage/CenteredPageConfig.php',
     'srag\\Plugins\\SrUI\\Config\\LoginPage\\ShowComponentsConfig' => $baseDir . '/src/Config/LoginPage/ShowComponentsConfig.php',
+    'srag\\Plugins\\SrUI\\Config\\Menu\\MenuColorConfig' => $baseDir . '/src/Config/Menu/MenuColorConfig.php',
     'srag\\Plugins\\SrUI\\ResourceStorage\\Factory' => $baseDir . '/src/ResourceStorage/Factory.php',
     'srag\\Plugins\\SrUI\\ResourceStorage\\ResourceStorage' => $baseDir . '/src/ResourceStorage/ResourceStorage.php',
     'srag\\Plugins\\SrUI\\ResourceStorage\\ResourceStorage6' => $baseDir . '/src/ResourceStorage/ResourceStorage6.php',
@@ -53,5 +56,4 @@ return array(
     'srag\\Plugins\\SrUI\\UI\\ModificationProvider' => $baseDir . '/src/UI/ModificationProvider.php',
     'srag\\Plugins\\SrUI\\UI\\PageBuilderStack' => $baseDir . '/src/UI/PageBuilderStack.php',
     'srag\\Plugins\\SrUI\\UI\\PagePartProviderStack' => $baseDir . '/src/UI/PagePartProviderStack.php',
-    'srag\\Plugins\\SrUI\\UI\\SettingsTo\\Meta' => $baseDir . '/src/UI/SettingsTo/SettingsToMeta.php',
 );

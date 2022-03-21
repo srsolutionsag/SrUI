@@ -11,6 +11,7 @@ use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig;
 use srag\Plugins\SrUI\Config\CloneInfo\ProdServerConfig;
 use srag\Plugins\SrUI\Config\Content\SpecialContentFeaturesConfig;
 use srag\Plugins\SrUI\Config\Footer\FooterColorsConfig;
+use srag\Plugins\SrUI\Config\Menu\MenuColorConfig;
 
 /**
  * Class ConfigurationStorage
@@ -38,7 +39,8 @@ class Configuration
             new HeaderTitleConfiguration(),
             new HeaderColorsConfiguration(),
             new CenteredPageConfig(),
-            new ShowComponentsConfig()
+            new ShowComponentsConfig(),
+            new MenuColorConfig()
         ]);
         $this->storage = new ConfigurationStorage($this->collection, $this->version);
         $this->storage->read();
@@ -92,6 +94,11 @@ class Configuration
     public function footerColorConfig() : FooterColorsConfig
     {
         return $this->get(FooterColorsConfig::NS);
+    }
+    
+    public function menuColorConfig() : MenuColorConfig
+    {
+        return $this->get(MenuColorConfig::NS);
     }
     
     public function footerAdditionalInfosConfig() : AdditionalInfoConfig

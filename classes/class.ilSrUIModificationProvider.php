@@ -17,6 +17,7 @@ use ILIAS\UICore\PageContentProvider;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
 use srag\Plugins\SrUI\UI\PageBuilderStack;
 use srag\Plugins\SrUI\Config\Configuration;
+use srag\Plugins\SrUI\Config\Menu\MenuColorConfig;
 
 /**
  * Class ilSrUIModificationProvider
@@ -98,6 +99,48 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 color: $footer_text_color !important;
             }
            
+            ");
+        }
+        
+        // Menu Colors
+        $menu_colors = $this->config()->menuColorConfig();
+        if ($menu_colors->isNamespaceActive()) {
+            $main_color = $menu_colors->get(MenuColorConfig::F_MAIN_COLOR);
+            $main_hover_color = $menu_colors->get(MenuColorConfig::F_MAIN_HOVER_COLOR);
+            $sub_color = $menu_colors->get(MenuColorConfig::F_SUB_COLOR);
+            $sub_hover_color = $menu_colors->get(MenuColorConfig::F_SUB_HOVER_COLOR);
+            
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss("
+            nav.il-mainbar, div.il-mainbar-triggers, .il-mainbar-triggers .btn-bulky, .il-mainbar-triggers .btn-bulky, .il-mainbar-triggers .il-link.link-bulky {
+                background-color: $main_color !important;
+                color: $main_hover_color !important;
+            }
+            // Round Menu (disbaled, needs setting)
+            .il-mainbar-triggers .btn-bulky, .il-mainbar-triggers .btn-bulky, .il-mainbar-triggers .il-link.link-bulky {
+//                border-radius: 50%;
+//                border: 0px solid $main_hover_color !important;
+//                margin-bottom: 3px
+            }
+ 
+            .il-mainbar-triggers .btn-bulky:hover, .il-mainbar-triggers .il-link.link-bulky:hover,
+            .il-mainbar-triggers .btn-bulky.engaged, .il-mainbar-triggers .il-link.link-bulky.engaged {
+                background-color: $main_hover_color !important;
+                color: $main_color !important;
+            }
+
+            .il-maincontrols-slate .btn-bulky, .il-maincontrols-slate .link-bulky {
+                background-color: $sub_color !important;
+            }
+            
+            .il-maincontrols-slate .btn-bulky:hover, .il-maincontrols-slate .link-bulky:hover,
+            .il-maincontrols-slate .btn-bulky.engaged, .il-maincontrols-slate .link-bulky.engaged {
+                background-color: $sub_hover_color !important;
+            }
+            
+            .il-maincontrols-slate.engaged[data-depth-level=\"2\"] .btn-bulky,
+            .il-maincontrols-slate.engaged[data-depth-level=\"2\"] .link-bulky {
+                padding-left: 35px;
+            }
             ");
         }
 

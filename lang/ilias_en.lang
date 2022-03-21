@@ -2,6 +2,7 @@ tab_login_page#:#Login-Page
 tab_header#:#Header
 tab_footer#:#Footer
 tab_content#:#Content
+tab_menu#:#Menu
 centered_login_page#:#Centered Login-Page
 background_image#:#Background Image
 centered_login_page_css#:#Additional CSS on Login-Page
@@ -35,3 +36,8 @@ send_non_index_headers#:#Send X-Robots-Tag: noindex
 show_components#:#Visibility of Components
 additional_footer_infos#:#Show additional Footer Infos
 config_updated#:#Configuration has been updated
+menu_colors#:#Menu-Colors
+main_color#:#Background Main-Entries
+main_hover_color#:#Background Main-Entries (hover)
+sub_color#:#Background Sub-Entries
+sub_hover_color#:#Background Sub-Entries (hover)

@@ -21,6 +21,7 @@ class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'ILIAS\\UI\\Implementation\\Component\\Card\\ZoomableCardRenderer' => __DIR__ . '/../..' . '/classes/UI/Card/ZoomableCardRenderer.php',
         'ILIAS\\UI\\Implementation\\Component\\Layout\\Page\\Login\\Login' => __DIR__ . '/../..' . '/classes/UI/Login/Login.php',
         'ILIAS\\UI\\Implementation\\Component\\Layout\\Page\\Login\\LoginPageSettings' => __DIR__ . '/../..' . '/classes/UI/Login/LoginPageSettings.php',
@@ -37,6 +38,7 @@ class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
         'ilSrUILoginPageConfigGUI' => __DIR__ . '/../..' . '/classes/Config/LoginPage/class.ilSrUILoginPageConfigGUI.php',
         'ilSrUIMainBarProvider' => __DIR__ . '/../..' . '/classes/class.ilSrUIMainBarProvider.php',
         'ilSrUIMainGUI' => __DIR__ . '/../..' . '/classes/Config/class.ilSrUIMainGUI.php',
+        'ilSrUIMenuConfigGUI' => __DIR__ . '/../..' . '/classes/Config/Menu/class.ilSrUIMenuConfigGUI.php',
         'ilSrUIModificationProvider' => __DIR__ . '/../..' . '/classes/class.ilSrUIModificationProvider.php',
         'ilSrUIPlugin' => __DIR__ . '/../..' . '/classes/class.ilSrUIPlugin.php',
         'ilSrUITrafos' => __DIR__ . '/../..' . '/classes/trait.ilSrUITrafos.php',
@@ -57,6 +59,7 @@ class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
         'srag\\Plugins\\SrUI\\Config\\Header\\HeaderTitleConfiguration' => __DIR__ . '/../..' . '/src/Config/Header/HeaderTitleConfiguration.php',
         'srag\\Plugins\\SrUI\\Config\\LoginPage\\CenteredPageConfig' => __DIR__ . '/../..' . '/src/Config/LoginPage/CenteredPageConfig.php',
         'srag\\Plugins\\SrUI\\Config\\LoginPage\\ShowComponentsConfig' => __DIR__ . '/../..' . '/src/Config/LoginPage/ShowComponentsConfig.php',
+        'srag\\Plugins\\SrUI\\Config\\Menu\\MenuColorConfig' => __DIR__ . '/../..' . '/src/Config/Menu/MenuColorConfig.php',
         'srag\\Plugins\\SrUI\\ResourceStorage\\Factory' => __DIR__ . '/../..' . '/src/ResourceStorage/Factory.php',
         'srag\\Plugins\\SrUI\\ResourceStorage\\ResourceStorage' => __DIR__ . '/../..' . '/src/ResourceStorage/ResourceStorage.php',
         'srag\\Plugins\\SrUI\\ResourceStorage\\ResourceStorage6' => __DIR__ . '/../..' . '/src/ResourceStorage/ResourceStorage6.php',
@@ -68,7 +71,6 @@ class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
         'srag\\Plugins\\SrUI\\UI\\ModificationProvider' => __DIR__ . '/../..' . '/src/UI/ModificationProvider.php',
         'srag\\Plugins\\SrUI\\UI\\PageBuilderStack' => __DIR__ . '/../..' . '/src/UI/PageBuilderStack.php',
         'srag\\Plugins\\SrUI\\UI\\PagePartProviderStack' => __DIR__ . '/../..' . '/src/UI/PagePartProviderStack.php',
-        'srag\\Plugins\\SrUI\\UI\\SettingsTo\\Meta' => __DIR__ . '/../..' . '/src/UI/SettingsTo/SettingsToMeta.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
