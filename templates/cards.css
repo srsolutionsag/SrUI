@@ -5,7 +5,7 @@ div.il-card:hover {
 	/*filter: opacity(1);*/
 }
 div.il-card div.il-card-repository-head {
-	z-index: 4;
+	z-index: 10;
 }
 
 .il-card.thumbnail {

@@ -11,14 +11,9 @@ use ILIAS\UI\Renderer as RendererInterface;
  */
 class ZoomableCardRenderer extends Renderer
 {
-    /**
-     * @param Component\Card\Card $component
-     * @param RendererInterface   $default_renderer
-     * @return string
-     */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    protected function getTemplatePath($name)
     {
-        return parent::render($component, $default_renderer);
+        return "./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/tpl.zoomable_card.html";
     }
     
 }
