@@ -143,6 +143,44 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             }
             ");
         }
+    
+        // Button Colors
+        $button_colors = $this->config()->buttonColorConfig();
+        if ($button_colors->isNamespaceActive()) {
+            $primary = $button_colors->getPrimaryColor();
+            $primary_text_color = $button_colors->getPrimaryTextColor();
+            $primary_hover = $button_colors->getPrimaryHoverColor();
+            $primary_hover_text_color = $button_colors->getPrimaryHoverTextColor();
+            
+            $general = $button_colors->getGeneralColor();
+            $general_text_color = $button_colors->getGeneralTextColor();
+            $general_hover = $button_colors->getGeneralHoverColor();
+            $general_hover_text_color = $button_colors->getGeneralHoverTextColor();
+            
+            
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss("
+                .btn.btn-primary {
+                    background-color: $primary !important;
+                    border-color: $primary_text_color !important;
+                    color: $primary_text_color !important;
+                }
+                .btn.btn-primary:focus, .btn.btn-primary:hover, .btn.btn-primary:active {
+                    background-color: $primary_hover !important;
+                    border-color: $primary_hover_text_color !important;
+                    color: $primary_hover_text_color !important;
+                }
+                .btn.btn-default {
+                    background-color: $general;
+                    border-color: $general_text_color;
+                    color: $general_text_color;
+                }
+                .btn.btn-default:focus, .btn.btn-default:hover, .btn.btn-default:active {
+                    background-color: $general_hover !important;
+                    border-color: $general_hover_text_color !important;
+                    color: $general_hover_text_color !important;
+                }
+            ");
+        }
 
         // Page
         $builder = new PageBuilderStack($this->dic, $this->config());

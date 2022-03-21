@@ -17,6 +17,7 @@ class ilSrUIMainGUI implements ilSrUIGUI
     const TAB_CONTENT = 'tab_content';
     const TAB_CLONE_INFO = 'tab_clone_info';
     const TAB_MENU = 'tab_menu';
+    const TAB_BUTTONS = 'tab_buttons';
     
     public function executeCommand() : void
     {
@@ -52,6 +53,10 @@ class ilSrUIMainGUI implements ilSrUIGUI
             case strtolower(ilSrUIMenuConfigGUI::class):
                 $this->tabs->activateTab(self::TAB_MENU);
                 $this->ctrl->forwardCommand(new ilSrUIMenuConfigGUI($this->dic, $this->plugin));
+                break;
+            case strtolower(ilSrUIButtonConfigGUI::class):
+                $this->tabs->activateTab(self::TAB_BUTTONS);
+                $this->ctrl->forwardCommand(new ilSrUIButtonConfigGUI($this->dic, $this->plugin));
                 break;
             case strtolower(ilSrUIFileHandlerGUI::class):
                 $this->ctrl->forwardCommand(new ilSrUIFileHandlerGUI());
@@ -96,6 +101,11 @@ class ilSrUIMainGUI implements ilSrUIGUI
             self::TAB_MENU,
             $this->plugin->txt(self::TAB_MENU),
             $this->ctrl->getLinkTargetByClass(ilSrUIMenuConfigGUI::class)
+        );
+        $this->tabs->addTab(
+            self::TAB_BUTTONS,
+            $this->plugin->txt(self::TAB_BUTTONS),
+            $this->ctrl->getLinkTargetByClass(ilSrUIButtonConfigGUI::class)
         );
         $this->tabs->addTab(
             self::TAB_CLONE_INFO,

@@ -26,7 +26,10 @@ class MenuColorConfig extends BaseNestedConfig
     public function getFields() : array
     {
         return [
-        
+            self::F_MAIN_COLOR,
+            self::F_MAIN_HOVER_COLOR,
+            self::F_SUB_COLOR,
+            self::F_SUB_HOVER_COLOR,
         ];
     }
     
