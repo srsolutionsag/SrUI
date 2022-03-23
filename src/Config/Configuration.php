@@ -69,7 +69,7 @@ class Configuration
         $resource_storage = Factory::storage();
         
         $zip = new \ZipArchive();
-        $filename = tempnam('/tmp', 'zip');
+        $filename = \ilUtil::ilTempnam();
         $zip->open($filename, \ZipArchive::CREATE);
         $zip->addFromString('version', $this->storage->getStoredVersion());
         $zip->addFromString('config', json_encode($this->storage->getRawData()));
