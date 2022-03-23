@@ -25,6 +25,7 @@ return array(
     'ilSrUIMainBarProvider' => $baseDir . '/classes/class.ilSrUIMainBarProvider.php',
     'ilSrUIMainGUI' => $baseDir . '/classes/Config/class.ilSrUIMainGUI.php',
     'ilSrUIMenuConfigGUI' => $baseDir . '/classes/Config/Menu/class.ilSrUIMenuConfigGUI.php',
+    'ilSrUIMetaBarProvider' => $baseDir . '/classes/class.ilSrUIMetaBarProvider.php',
     'ilSrUIModificationProvider' => $baseDir . '/classes/class.ilSrUIModificationProvider.php',
     'ilSrUIPlugin' => $baseDir . '/classes/class.ilSrUIPlugin.php',
     'ilSrUITrafos' => $baseDir . '/classes/trait.ilSrUITrafos.php',

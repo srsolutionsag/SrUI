@@ -61,6 +61,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
 
             $this->provider_collection->setModificationProvider(new ilSrUIModificationProvider($DIC, $this));
             $this->provider_collection->setMainBarProvider(new ilSrUIMainBarProvider($DIC, $this));
+            $this->provider_collection->setMetaBarProvider(new ilSrUIMetaBarProvider($DIC, $this));
         } catch (LogicException $l) {
 
         }
