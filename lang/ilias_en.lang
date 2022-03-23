@@ -4,6 +4,7 @@ tab_footer#:#Footer
 tab_content#:#Content
 tab_menu#:#Menu
 tab_buttons#:#Buttons
+tab_exchange#:#Exchange Config
 centered_login_page#:#Centered Login-Page
 background_image#:#Background Image
 centered_login_page_css#:#Additional CSS on Login-Page
@@ -52,3 +53,7 @@ general_button_color#:#Standard Background
 general_button_color_text#:#Standard Text
 general_button_color_hover#:#Standard Background (hover)
 general_button_color_text_hover#:#Standard Text (hover)
+panel_import#:#Import
+panel_export#:#Export
+import_file#:#Configuration-File
+download_configuration#:#Download Configuration

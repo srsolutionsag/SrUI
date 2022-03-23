@@ -18,6 +18,7 @@ class ilSrUIMainGUI implements ilSrUIGUI
     const TAB_CLONE_INFO = 'tab_clone_info';
     const TAB_MENU = 'tab_menu';
     const TAB_BUTTONS = 'tab_buttons';
+    const TAB_EXCHANGE = 'tab_exchange';
     
     public function executeCommand() : void
     {
@@ -57,6 +58,10 @@ class ilSrUIMainGUI implements ilSrUIGUI
             case strtolower(ilSrUIButtonConfigGUI::class):
                 $this->tabs->activateTab(self::TAB_BUTTONS);
                 $this->ctrl->forwardCommand(new ilSrUIButtonConfigGUI($this->dic, $this->plugin));
+                break;
+            case strtolower(ilSrUIExchangeGUI::class):
+                $this->tabs->activateTab(self::TAB_EXCHANGE);
+                $this->ctrl->forwardCommand(new ilSrUIExchangeGUI($this->dic, $this->plugin));
                 break;
             case strtolower(ilSrUIFileHandlerGUI::class):
                 $this->ctrl->forwardCommand(new ilSrUIFileHandlerGUI());
@@ -112,6 +117,13 @@ class ilSrUIMainGUI implements ilSrUIGUI
             $this->plugin->txt(self::TAB_CLONE_INFO),
             $this->ctrl->getLinkTargetByClass(ilSrUICloneInfoConfigGUI::class)
         );
+        if (version_compare(ILIAS_VERSION_NUMERIC, '7.0', ">")) {
+            $this->tabs->addTab(
+                self::TAB_EXCHANGE,
+                $this->plugin->txt(self::TAB_EXCHANGE),
+                $this->ctrl->getLinkTargetByClass(ilSrUIExchangeGUI::class)
+            );
+        }
     }
     
     public function index() : void

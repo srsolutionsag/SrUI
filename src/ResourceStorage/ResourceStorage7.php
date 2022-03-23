@@ -5,14 +5,16 @@ namespace srag\Plugins\SrUI\ResourceStorage;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Interface ResourceStorage7
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ResourceStorage7 implements ResourceStorage
 {
-
+    
     /**
      * @var \ILIAS\ResourceStorage\Services
      */
@@ -21,7 +23,7 @@ class ResourceStorage7 implements ResourceStorage
      * @var Stakeholder7
      */
     protected $stakeholder;
-
+    
     public function __construct()
     {
         global $DIC;
@@ -31,7 +33,7 @@ class ResourceStorage7 implements ResourceStorage
         $this->services = $DIC->resourceStorage();
         $this->stakeholder = new Stakeholder7();
     }
-
+    
     public function fromUpload(UploadResult $u) : string
     {
         return $this->services->manage()->upload(
@@ -39,7 +41,7 @@ class ResourceStorage7 implements ResourceStorage
             $this->stakeholder
         );
     }
-
+    
     public function fromPath(string $u, string $mime_type = null) : string
     {
         $stream = Streams::ofResource(fopen($u, "r"));
@@ -48,7 +50,7 @@ class ResourceStorage7 implements ResourceStorage
             $this->stakeholder
         );
     }
-
+    
     public function getDataURL(string $identification) : string
     {
         $identification = $this->services->manage()->find($identification);
@@ -57,7 +59,7 @@ class ResourceStorage7 implements ResourceStorage
         }
         return $this->services->consume()->src($identification)->getSrc();
     }
-
+    
     public function remove(string $identification) : bool
     {
         $identification = $this->services->manage()->find($identification);
@@ -67,7 +69,7 @@ class ResourceStorage7 implements ResourceStorage
         $this->services->manage()->remove($identification, $this->stakeholder);
         return true;
     }
-
+    
     public function getRevisionInfo(string $identification) : array
     {
         $identification = $this->services->manage()->find($identification);
@@ -78,12 +80,45 @@ class ResourceStorage7 implements ResourceStorage
         $title = $info->getTitle();
         $size = $info->getSize();
         $mime_type = $info->getMimeType();
-
+        
         return [
             'title' => $title,
             'size' => $size,
             'mime_type' => $mime_type
         ];
     }
-
+    
+    public function has(string $identification) : bool
+    {
+        return $this->services->manage()->find($identification) instanceof ResourceIdentification;
+    }
+    
+    public function getString(string $identification) : string
+    {
+        $identification = $this->services->manage()->find($identification);
+        if ($identification === null) {
+            return '';
+        }
+        return $this->services->consume()->stream($identification)->getStream()->getContents();
+    }
+    
+    public function getPath(string $identification) : string
+    {
+        $identification = $this->services->manage()->find($identification);
+        if ($identification === null) {
+            return '';
+        }
+        return $this->services->consume()->stream($identification)->getStream()->getMetadata('uri');
+    }
+    
+    public function fromString(string $content) : string
+    {
+        $stream = Streams::ofString($content);
+        return $this->services->manage()->stream(
+            $stream,
+            $this->stakeholder,
+            'imported_file'
+        );
+    }
+    
 }

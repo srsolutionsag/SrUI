@@ -31,7 +31,7 @@ class ArtifactSaver
         $this->file_name = $file_name;
     }
 
-    private function getPath() : string
+    public function getPath() : string
     {
         return $this->base_path . "/" . $this->file_name . self::SUFFIX;
     }

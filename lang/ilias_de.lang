@@ -4,6 +4,7 @@ tab_footer#:#Footer
 tab_content#:#Inhalt
 tab_menu#:#Menu
 tab_buttons#:#Buttons
+tab_exchange#:#Konfiguration Ex-/Importieren
 centered_login_page#:#Mittige Login-Page
 background_image#:#Hintergrundbild
 centered_login_page_css#:#Zusätzliches CSS auf Login-Seite
@@ -51,3 +52,7 @@ general_button_color#:#Standard Hintergrund
 general_button_color_text#:#Standard Text
 general_button_color_hover#:#Standard Hintergrund (hover)
 general_button_color_text_hover#:#Standard Text (hover)
+panel_import#:#Import
+panel_export#:#Export
+import_file#:#Konfigurations-Datei
+download_configuration#:#Konfiguration herunterladen

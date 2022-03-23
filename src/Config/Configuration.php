@@ -13,6 +13,7 @@ use srag\Plugins\SrUI\Config\Content\SpecialContentFeaturesConfig;
 use srag\Plugins\SrUI\Config\Footer\FooterColorsConfig;
 use srag\Plugins\SrUI\Config\Menu\MenuColorConfig;
 use srag\Plugins\SrUI\Config\Buttons\ButtonColorConfig;
+use srag\Plugins\SrUI\ResourceStorage\Factory;
 
 /**
  * Class ConfigurationStorage
@@ -60,6 +61,60 @@ class Configuration
     
     public function save()
     {
+        $this->storage->write();
+    }
+    
+    public function export() : string
+    {
+        $resource_storage = Factory::storage();
+        
+        $zip = new \ZipArchive();
+        $filename = tempnam('/tmp', 'zip');
+        $zip->open($filename, \ZipArchive::CREATE);
+        $zip->addFromString('version', $this->storage->getStoredVersion());
+        $zip->addFromString('config', json_encode($this->storage->getRawData()));
+        foreach ($this->collection->getAll() as $config) {
+            $data = $config->getRawData();
+            if (!is_array($data)) {
+                continue;
+            }
+            foreach ($data as $datum) {
+                if (is_array($datum) && is_string($datum[0]) && $resource_storage->has($datum[0])) {
+                    $zip->addFromString($datum[0], $resource_storage->getString($datum[0]));
+                }
+            }
+        }
+        $zip->close();
+        
+        return $filename;
+    }
+    
+    public function import(\ZipArchive $zip) : void
+    {
+        $zip = $zip;
+        $resource_storage = Factory::storage();
+        
+        function array_map_recursive(callable $func, array $arr)
+        {
+            array_walk_recursive($arr, function (&$v) use ($func) {
+                $v = $func($v);
+            });
+            return $arr;
+        }
+        
+        $version = $zip->getFromName('version');
+        $config = $zip->getFromName('config');
+        $config_array = json_decode($config, true);
+        
+        $config_array = array_map_recursive(function ($value) use ($zip, $resource_storage) {
+            if ($file_content = $zip->getFromName($value)) {
+                $new_rid = $resource_storage->fromString($file_content);
+                return $new_rid;
+            }
+            return $value;
+        }, $config_array);
+        
+        $this->storage->readFromArray($config_array);
         $this->storage->write();
     }
     

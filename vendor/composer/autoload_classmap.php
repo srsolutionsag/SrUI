@@ -16,6 +16,7 @@ return array(
     'ilSrUIConfigArtifact' => $baseDir . '/classes/Config/class.ilSrUIConfigArtifact.php',
     'ilSrUIConfigGUI' => $baseDir . '/classes/class.ilSrUIConfigGUI.php',
     'ilSrUIContentConfigGUI' => $baseDir . '/classes/Config/Content/class.ilSrUIContentConfigGUI.php',
+    'ilSrUIExchangeGUI' => $baseDir . '/classes/Exchange/class.ilSrUIExchangeGUI.php',
     'ilSrUIFileHandlerGUI' => $baseDir . '/classes/Config/class.ilSrUIFileHandlerGUI.php',
     'ilSrUIFooterConfigGUI' => $baseDir . '/classes/Config/Footer/class.ilSrUIFooterConfigGUI.php',
     'ilSrUIGUI' => $baseDir . '/classes/Config/interface.ilSrUIGUI.php',
