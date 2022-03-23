@@ -3,6 +3,7 @@ tab_header#:#Header
 tab_footer#:#Footer
 tab_content#:#Inhalt
 tab_menu#:#Menu
+tab_buttons#:#Buttons
 centered_login_page#:#Mittige Login-Page
 background_image#:#Hintergrundbild
 centered_login_page_css#:#Zusätzliches CSS auf Login-Seite
@@ -41,3 +42,6 @@ main_color#:#Hintergrund Haupteinträge
 main_hover_color#:#Hintergrund Haupteinträge (hover)
 sub_color#:#Hintergrund Untereinträge
 sub_hover_color#:#Hintergrund Untereinträge (hover)
+button_colors#:#Button Colors
+primary_button_color#:#Primary
+general_button_color#:#General
