@@ -44,5 +44,11 @@ main_hover_color#:#Background Main-Entries (hover)
 sub_color#:#Background Sub-Entries
 sub_hover_color#:#Background Sub-Entries (hover)
 button_colors#:#Button Colors
-primary_button_color#:#Primary
-general_button_color#:#General
+primary_button_color#:#Primary Background
+primary_button_color_text#:#Primary Text
+primary_button_color_hover#:#Primary Background (hover)
+primary_button_color_text_hover#:#Primary Text (hover)
+general_button_color#:#Standard Background
+general_button_color_text#:#Standard Text
+general_button_color_hover#:#Standard Background (hover)
+general_button_color_text_hover#:#Standard Text (hover)
