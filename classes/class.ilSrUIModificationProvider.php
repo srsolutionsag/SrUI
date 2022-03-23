@@ -21,23 +21,24 @@ use srag\Plugins\SrUI\Config\Menu\MenuColorConfig;
 
 /**
  * Class ilSrUIModificationProvider
+ *
  * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 {
     const PRIORITY = 60;
-
+    
     protected function config() : Configuration
     {
         /** @var $this- >plugin ilSrUIPlugin */
         return $this->plugin->getConfiguration();
     }
-
+    
     public function isInterestedInContexts() : ContextCollection
     {
         return $this->context_collection->main()->main();
     }
-
+    
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
     {
         // Non-Productive Systems
@@ -52,13 +53,13 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 }
             }
         }
-
+        
         // Cards
         $content_settings = $this->config()->contentConfig();
         if ($content_settings->hasFancyCards()) {
             $this->dic->globalScreen()->layout()->meta()->addCss(ilSrUIPlugin::TEMPLATES_BASE . "cards.css");
         }
-
+        
         // Header-Colors
         $header_colors = $this->config()->headerColorConfig();
         if ($header_colors->isNamespaceActive()) {
@@ -66,7 +67,8 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $bc_bg_color = $header_colors->getBreadcrumbBackgroundColor();
             $bc_text_color = $header_colors->getBreadcrumbTextColor();
             $title_color = $header_colors->getTitleColor();
-            $this->dic->globalScreen()->layout()->meta()->addInlineCss("
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss(
+                "
             div.header-inner {
                 background-color: $header_bg_color;
             }
@@ -80,16 +82,18 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             div.il-pagetitle {
                 color: $title_color;
             }
-            ");
+            "
+            );
         }
-
+        
         // Footer Colors
         $footer_colors = $this->config()->footerColorConfig();
         if ($footer_colors->isNamespaceActive()) {
             $footer_bg_color = $footer_colors->getBackgroundColor();
             $footer_text_color = $footer_colors->getTextColor();
-
-            $this->dic->globalScreen()->layout()->meta()->addInlineCss("
+            
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss(
+                "
             footer, div.il-maincontrols-footer {
                 background-color: $footer_bg_color !important;
                 color: $footer_text_color;
@@ -99,7 +103,8 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 color: $footer_text_color !important;
             }
            
-            ");
+            "
+            );
         }
         
         // Menu Colors
@@ -110,7 +115,8 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $sub_color = $menu_colors->get(MenuColorConfig::F_SUB_COLOR);
             $sub_hover_color = $menu_colors->get(MenuColorConfig::F_SUB_HOVER_COLOR);
             
-            $this->dic->globalScreen()->layout()->meta()->addInlineCss("
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss(
+                "
             nav.il-mainbar, div.il-mainbar-triggers, .il-mainbar-triggers .btn-bulky, .il-mainbar-triggers .btn-bulky, .il-mainbar-triggers .il-link.link-bulky {
                 background-color: $main_color !important;
                 color: $main_hover_color !important;
@@ -141,14 +147,15 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             .il-maincontrols-slate.engaged[data-depth-level=\"2\"] .link-bulky {
                 padding-left: 35px;
             }
-            ");
+            "
+            );
         }
-
+        
         // Page
         $builder = new PageBuilderStack($this->dic, $this->config());
         return $builder->getAsModification();
     }
-
+    
     private function setPriority(LayoutModification $m) : LayoutModification
     {
         try {
@@ -157,52 +164,57 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             return $m->withHighPriority();
         }
     }
-
+    
     public function getLogoModification(CalledContexts $screen_context_stack) : ?LogoModification
     {
         $header_logo = $this->config()->headerLogoConfig();
+        $header_logo_link = $header_logo->getHeaderIconLink();
+        $logo_modification = $this->factory->logo();
+        $logo_modification = $this->setPriority($logo_modification);
+        
         if ($header_logo->hasHeaderLogo()) {
             $with = $header_logo->getHeaderLogoWidth();
             $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo img { width: {$with};}");
             $s = Factory::storage()->getDataURL($header_logo->getHeaderlogo());
             if (!empty($s)) {
-                $logo_modification = $this->factory->logo();
-                $logo_modification = $this->setPriority($logo_modification);
-
-                return $logo_modification->withModification(function (Image $image) use ($s) {
-                    return $image->withSource($s);
+                return $logo_modification->withModification(function (Image $image) use ($s, $header_logo_link) {
+                    return $image->withSource($s)
+                                 ->withAction($header_logo_link === '' ? $image->getAction() : $header_logo_link);
                 });
-
             }
-
         }
-        return null;
+        
+        return $logo_modification->withModification(function (Image $image) use ($s, $header_logo_link) {
+            return $image->withAction($header_logo_link === '' ? $image->getAction() : $header_logo_link);
+        });
     }
-
+    
     public function getFooterModification(CalledContexts $screen_context_stack) : ?FooterModification
     {
         $footer_additional_infos_config = $this->config()->footerAdditionalInfosConfig();
         if ($footer_additional_infos_config->showRenderedBy()) {
-
+            
             $footer_modification = $this->factory->footer();
             $footer_modification = $this->setPriority($footer_modification);
-
+            
             return $footer_modification
                 ->withModification(function () : \ILIAS\UI\Component\MainControls\Footer {
                     $pageContentProvider = new PageContentProvider($this->dic);
-                    $footer = $pageContentProvider->getFooterModification($this->dic->globalScreen()->tool()->context()->stack())->getModification();
+                    $footer = $pageContentProvider->getFooterModification(
+                        $this->dic->globalScreen()->tool()->context()->stack()
+                    )->getModification();
                     /**
                      * @var $f Footer
                      */
                     $f = $footer();
-
+                    
                     $hostname = gethostname();
                     $ilias_version = ILIAS_VERSION_NUMERIC;
                     preg_match('/\d+\.\d+.\d+/', PHP_VERSION, $php_version);
-
+                    
                     $links = $f->getLinks();
                     $mmprovider = new ilSrUIMainBarProvider($this->dic, $this->plugin);
-
+                    
                     $replaced_footer = $this->dic->ui()->factory()->mainControls()->footer(
                         $links,
                         "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version[0]
@@ -215,28 +227,28 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         }
         return null;
     }
-
+    
     public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification
     {
         $title_config = $this->config()->titleConfig();
         if ($title_config->isNamespaceActive()) {
             $title_modification = $this->factory->title();
             $title_modification = $this->setPriority($title_modification);
-
+            
             return $title_modification->withModification(function (string $f) use ($title_config) : string {
                 return $title_config->getHeaderTitle();
             });
         }
         return null;
     }
-
+    
     public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification
     {
         $title_config = $this->config()->titleConfig();
         if ($title_config->isNamespaceActive()) {
             $short_title_modification = $this->factory->short_title();
             $short_title_modification = $this->setPriority($short_title_modification);
-
+            
             return $short_title_modification->withModification(function (string $f) use ($title_config) : string {
                 return $title_config->getHeaderTitle();
             });

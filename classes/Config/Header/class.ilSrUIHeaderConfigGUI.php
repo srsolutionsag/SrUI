@@ -36,7 +36,9 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
                     $this->plugin->txt(Logo::F_ICON)
                 )->withAcceptedMimeTypes(self::MIME_TYPES),
                 // Width
-                Logo::F_ICON_WIDTH => $factory->field()->text($this->plugin->txt(Logo::F_ICON_WIDTH))
+                Logo::F_ICON_WIDTH => $factory->field()->text($this->plugin->txt(Logo::F_ICON_WIDTH)),
+                Logo::F_ICON_LINK => $factory->field()->text($this->plugin->txt(Logo::F_ICON_LINK)),
+                
             ],
             $this->plugin->txt(Logo::NS))
                                ->withValue($this->config->get(Logo::NS)->getData())
@@ -57,7 +59,7 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
                                     $this->config->get(Title::NS)->loadData($v);
                                     return true;
                                 }));
-
+        
         // Header Colors
         $header_colors = $factory->field()->optionalGroup([
             Colors::F_HEADER_BG_COLOR => $factory->field()->text(

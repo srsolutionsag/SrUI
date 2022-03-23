@@ -12,6 +12,7 @@ show_main_bar#:#Show Main-Bar
 header_logo#:#Header Logo
 icon#:#Logo
 icon_width#:#Logo Width
+icon_link#:#Logo Link
 show_rendered_by#:#Show "Rendered by" (Hostname of Server)
 header_title#:#Header Title
 fancy_cards#:#Zoom-Effect on Cards
