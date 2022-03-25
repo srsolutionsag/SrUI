@@ -59,7 +59,7 @@ class PageLoaderDetector extends \srag\Plugins\SrUI\UI\Loader\AbstractLoaderDete
 
         switch (true) {
             case $component instanceof LoginPage:
-                return new LoginPageRender(
+                $loginPageRenderer = new LoginPageRender(
                     $DIC["ui.factory"],
                     $DIC["ui.template_factory"],
                     $DIC["lng"],
@@ -67,8 +67,10 @@ class PageLoaderDetector extends \srag\Plugins\SrUI\UI\Loader\AbstractLoaderDete
                     $DIC['refinery'],
                     $uipathresolver
                 );
+                $loginPageRenderer->registerResources($DIC['ui.resource_registry']);
+                return $loginPageRenderer;
             case $component instanceof Card:
-                return new ZoomableCardRenderer(
+                $zoomableCardRenderer = new ZoomableCardRenderer(
                     $DIC["ui.factory"],
                     $DIC["ui.template_factory"],
                     $DIC["lng"],
@@ -76,6 +78,8 @@ class PageLoaderDetector extends \srag\Plugins\SrUI\UI\Loader\AbstractLoaderDete
                     $DIC['refinery'],
                     $uipathresolver
                 );
+                $zoomableCardRenderer->registerResources($DIC['ui.resource_registry']);
+                return $zoomableCardRenderer;
             default:
                 return parent::getRendererFor($component, $contexts);
         }

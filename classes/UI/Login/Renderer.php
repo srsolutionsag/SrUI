@@ -12,7 +12,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 {
     const TEMPLATE_BASE = \ilSrUIPlugin::TEMPLATES_BASE;
-
+    
     public function render(Component\Component $component, RendererInterface $default_renderer)
     {
         return $this->renderLoginPage($component, $default_renderer);
@@ -25,8 +25,6 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         }else {
             $tpl = new \ilTemplate(self::TEMPLATE_BASE . 'tpl.login_page_7.html', true, true);
         }
-
-
 
         if ($component->hasMetabar()) {
             $tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
