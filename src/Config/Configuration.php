@@ -108,9 +108,16 @@ class Configuration
         $config = $zip->getFromName('config');
         $config_array = json_decode($config, true);
         
-        $config_array = array_map_recursive(function ($value) use ($zip, $resource_storage) {
+        $finfo_possible = class_exists('finfo');
+        
+        $config_array = array_map_recursive(function ($value) use ($zip, $resource_storage, $finfo_possible) {
             if ($file_content = $zip->getFromName($value)) {
-                $new_rid = $resource_storage->fromString($file_content, \ilMimeTypeUtil::IMAGE__SVG_XML);
+                $mime_type = null;
+                if ($finfo_possible) {
+                    $finfo = new \finfo(FILEINFO_MIME_TYPE);
+                    $mime_type = $finfo->buffer($file_content);
+                }
+                $new_rid = $resource_storage->fromString($file_content, $mime_type);
                 return $new_rid;
             }
             return $value;
