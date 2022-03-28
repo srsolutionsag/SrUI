@@ -61,6 +61,7 @@ class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
         'srag\\Plugins\\SrUI\\Config\\Header\\HeaderColorsConfiguration' => __DIR__ . '/../..' . '/src/Config/Header/HeaderColorsConfiguration.php',
         'srag\\Plugins\\SrUI\\Config\\Header\\HeaderLogoConfiguration' => __DIR__ . '/../..' . '/src/Config/Header/HeaderLogoConfiguration.php',
         'srag\\Plugins\\SrUI\\Config\\Header\\HeaderTitleConfiguration' => __DIR__ . '/../..' . '/src/Config/Header/HeaderTitleConfiguration.php',
+        'srag\\Plugins\\SrUI\\Config\\Header\\ResponsiveHeaderLogoConfiguration' => __DIR__ . '/../..' . '/src/Config/Header/ResponsiveHeaderLogoConfiguration.php',
         'srag\\Plugins\\SrUI\\Config\\LoginPage\\CenteredPageConfig' => __DIR__ . '/../..' . '/src/Config/LoginPage/CenteredPageConfig.php',
         'srag\\Plugins\\SrUI\\Config\\LoginPage\\ShowComponentsConfig' => __DIR__ . '/../..' . '/src/Config/LoginPage/ShowComponentsConfig.php',
         'srag\\Plugins\\SrUI\\Config\\Menu\\MenuColorConfig' => __DIR__ . '/../..' . '/src/Config/Menu/MenuColorConfig.php',

@@ -2,6 +2,7 @@
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use srag\Plugins\SrUI\Config\Header\HeaderLogoConfiguration as Logo;
+use srag\Plugins\SrUI\Config\Header\ResponsiveHeaderLogoConfiguration as ResponsiveLogo;
 use srag\Plugins\SrUI\Config\Header\HeaderTitleConfiguration as Title;
 use srag\Plugins\SrUI\Config\Header\HeaderColorsConfiguration as Colors;
 
@@ -47,6 +48,24 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
                                    return true;
                                }));
 
+        // RESPONSIVE HEADER ICON
+        $responsive_header_logo = $factory->field()->optionalGroup(
+            [
+                // Icon
+                ResponsiveLogo::F_ICON => $factory->field()->file(
+                    new ilSrUIFileHandlerGUI(),
+                    $this->plugin->txt(ResponsiveLogo::F_ICON)
+                )->withAcceptedMimeTypes(self::MIME_TYPES),
+                // Width
+                ResponsiveLogo::F_ICON_WIDTH => $factory->field()->text($this->plugin->txt(ResponsiveLogo::F_ICON_WIDTH))
+            ],
+            $this->plugin->txt(ResponsiveLogo::NS))
+                               ->withValue($this->config->get(ResponsiveLogo::NS)->getData())
+                               ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) {
+                                   $this->config->get(ResponsiveLogo::NS)->loadData($v);
+                                   return true;
+                               }));
+
         // Header Title
         $header_title = $factory->field()->optionalGroup([
             Title::NS => $factory->field()->text(
@@ -87,6 +106,7 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
                 Logo::NS => $header_logo,
+                ResponsiveLogo::NS => $responsive_header_logo,
                 Title::NS => $header_title,
                 Colors::NS => $header_colors,
             ]

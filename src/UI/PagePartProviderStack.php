@@ -71,6 +71,11 @@ class PagePartProviderStack implements PagePartProvider
         return $this->parts->getLogo();
     }
 
+    public function getResponsiveLogo() : ?Image
+    {
+        return $this->parts->getResponsiveLogo();
+    }
+
     public function getFooter() : ?Footer
     {
         return $this->parts->getFooter();

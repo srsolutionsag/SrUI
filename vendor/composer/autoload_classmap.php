@@ -46,6 +46,7 @@ return array(
     'srag\\Plugins\\SrUI\\Config\\Header\\HeaderColorsConfiguration' => $baseDir . '/src/Config/Header/HeaderColorsConfiguration.php',
     'srag\\Plugins\\SrUI\\Config\\Header\\HeaderLogoConfiguration' => $baseDir . '/src/Config/Header/HeaderLogoConfiguration.php',
     'srag\\Plugins\\SrUI\\Config\\Header\\HeaderTitleConfiguration' => $baseDir . '/src/Config/Header/HeaderTitleConfiguration.php',
+    'srag\\Plugins\\SrUI\\Config\\Header\\ResponsiveHeaderLogoConfiguration' => $baseDir . '/src/Config/Header/ResponsiveHeaderLogoConfiguration.php',
     'srag\\Plugins\\SrUI\\Config\\LoginPage\\CenteredPageConfig' => $baseDir . '/src/Config/LoginPage/CenteredPageConfig.php',
     'srag\\Plugins\\SrUI\\Config\\LoginPage\\ShowComponentsConfig' => $baseDir . '/src/Config/LoginPage/ShowComponentsConfig.php',
     'srag\\Plugins\\SrUI\\Config\\Menu\\MenuColorConfig' => $baseDir . '/src/Config/Menu/MenuColorConfig.php',

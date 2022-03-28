@@ -14,6 +14,7 @@ use srag\Plugins\SrUI\Config\Footer\FooterColorsConfig;
 use srag\Plugins\SrUI\Config\Menu\MenuColorConfig;
 use srag\Plugins\SrUI\Config\Buttons\ButtonColorConfig;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
+use srag\Plugins\SrUI\Config\Header\ResponsiveHeaderLogoConfiguration;
 
 /**
  * Class ConfigurationStorage
@@ -38,6 +39,7 @@ class Configuration
             new FooterColorsConfig(),
             new AdditionalInfoConfig(),
             new HeaderLogoConfiguration(),
+            new ResponsiveHeaderLogoConfiguration(),
             new HeaderTitleConfiguration(),
             new HeaderColorsConfiguration(),
             new CenteredPageConfig(),
@@ -141,6 +143,11 @@ class Configuration
     public function headerLogoConfig() : HeaderLogoConfiguration
     {
         return $this->get(HeaderLogoConfiguration::NS);
+    }
+    
+    public function responsiveHeaderLogoConfig() : ResponsiveHeaderLogoConfiguration
+    {
+        return $this->get(ResponsiveHeaderLogoConfiguration::NS);
     }
     
     public function titleConfig() : HeaderTitleConfiguration

@@ -15,6 +15,9 @@ header_logo#:#Header Logo in Login
 icon#:#Logo
 icon_width#:#Breite Logo
 icon_link#:#Verlinkung
+responsive_header_logo#:#Responsives Header Logo in Login
+responsive_icon#:#Logo
+responsive_icon_width#:#Breite Logo
 show_rendered_by#:#Zeige "Rendered by" (Hostname des Servers)
 header_title#:#Installationstitel
 fancy_cards#:#Zoom-Effekt bei Cards

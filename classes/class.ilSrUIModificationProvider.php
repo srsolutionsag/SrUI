@@ -150,7 +150,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             "
             );
         }
-    
+        
         // Button Colors
         $button_colors = $this->config()->buttonColorConfig();
         if ($button_colors->isNamespaceActive()) {
@@ -165,7 +165,8 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $general_hover_text_color = $button_colors->getGeneralHoverTextColor();
             
             
-            $this->dic->globalScreen()->layout()->meta()->addInlineCss("
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss(
+                "
                 .btn.btn-primary {
                     background-color: $primary !important;
                     border-color: $primary_text_color !important;
@@ -186,9 +187,10 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                     border-color: $general_hover_text_color !important;
                     color: $general_hover_text_color !important;
                 }
-            ");
+            "
+            );
         }
-
+        
         // Page
         $builder = new PageBuilderStack($this->dic, $this->config());
         return $builder->getAsModification();
@@ -211,8 +213,8 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         $logo_modification = $this->setPriority($logo_modification);
         
         if ($header_logo->hasHeaderLogo()) {
-            $with = $header_logo->getHeaderLogoWidth();
-            $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo img { width: {$with};}");
+            $width = $header_logo->getHeaderLogoWidth();
+            $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo .hidden-xs img { width: {$width};}");
             $s = Factory::storage()->getDataURL($header_logo->getHeaderlogo());
             if (!empty($s)) {
                 return $logo_modification->withModification(function (Image $image) use ($s, $header_logo_link) {
@@ -225,6 +227,26 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         return $logo_modification->withModification(function (Image $image) use ($s, $header_logo_link) {
             return $image->withAction($header_logo_link === '' ? $image->getAction() : $header_logo_link);
         });
+    }
+    
+    public function getResponsiveLogoModification(CalledContexts $screen_context_stack) : ?LogoModification
+    {
+        $responsive_header_logo = $this->config()->responsiveHeaderLogoConfig();
+        if ($responsive_header_logo->hasResponsiveHeaderLogo()) {
+            $width = $responsive_header_logo->getResponsiveHeaderLogoWidth();
+            $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo .visible-xs img { width: {$width};}");
+            $s = Factory::storage()->getDataURL($responsive_header_logo->getResponsiveHeaderLogo());
+            if (!empty($s)) {
+                $logo_modification = $this->factory->logo();
+                $logo_modification = $this->setPriority($logo_modification);
+                
+                return $logo_modification->withModification(function (Image $image) use ($s) {
+                    return $image->withSource($s);
+                });
+            }
+            
+        }
+        return null;
     }
     
     public function getFooterModification(CalledContexts $screen_context_stack) : ?FooterModification

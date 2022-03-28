@@ -15,6 +15,9 @@ header_logo#:#Header Logo
 icon#:#Logo
 icon_width#:#Logo Width
 icon_link#:#Logo Link
+responsive_header_logo#:#Responsive Header Logo
+responsive_icon#:#Logo
+responsive_icon_width#:#Logo Width
 show_rendered_by#:#Show "Rendered by" (Hostname of Server)
 header_title#:#Header Title
 fancy_cards#:#Zoom-Effect on Cards
