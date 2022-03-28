@@ -111,14 +111,23 @@ class ResourceStorage7 implements ResourceStorage
         return $this->services->consume()->stream($identification)->getStream()->getMetadata('uri');
     }
     
-    public function fromString(string $content) : string
+    public function fromString(string $content, string $mime_type = null) : string
     {
         $stream = Streams::ofString($content);
-        return $this->services->manage()->stream(
+        $identification = $this->services->manage()->stream(
             $stream,
             $this->stakeholder,
             'imported_file'
         );
+        if ($mime_type !== null) {
+            $revision = $this->services->manage()->getCurrentRevision($identification);
+            $information = $revision->getInformation();
+            $information->setMimeType($mime_type);
+            $revision->setInformation($information);
+            $this->services->manage()->updateRevision($revision);
+        }
+        
+        return $identification;
     }
     
 }

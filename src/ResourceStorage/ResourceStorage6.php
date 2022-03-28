@@ -181,7 +181,7 @@ class ResourceStorage6 implements ResourceStorage
         return '';
     }
     
-    public function fromString(string $content) : string
+    public function fromString(string $content, string $mime_type = null) : string
     {
         throw new \LogicException('cannot perform in ILIAS 6');
     }

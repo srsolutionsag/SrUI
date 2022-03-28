@@ -26,6 +26,7 @@ darkmode#:#Darkmode
 show_header_logo#:#Icon in Login-Container anzeigen
 header_colors#:#Header-Farben
 header_bg_color#:#Header Hintergrundfarbe
+header_title_color#:#Titelfarbe
 header_bc_bg_color#:#Bread-Crumb Hintergrundfarbe
 header_bc_text_color#:#Bread-Crumb Textfarbe
 footer_colors#:#Footer Farben

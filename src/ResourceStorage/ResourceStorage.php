@@ -15,7 +15,7 @@ interface ResourceStorage
     
     public function fromPath(string $u, string $mime_type = null) : string;
     
-    public function fromString(string $content) : string;
+    public function fromString(string $content, string $mime_type = null) : string;
     
     public function remove(string $identification) : bool;
     

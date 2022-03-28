@@ -110,7 +110,7 @@ class Configuration
         
         $config_array = array_map_recursive(function ($value) use ($zip, $resource_storage) {
             if ($file_content = $zip->getFromName($value)) {
-                $new_rid = $resource_storage->fromString($file_content);
+                $new_rid = $resource_storage->fromString($file_content, \ilMimeTypeUtil::IMAGE__SVG_XML);
                 return $new_rid;
             }
             return $value;
