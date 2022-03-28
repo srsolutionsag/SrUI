@@ -16,9 +16,11 @@ use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig;
 use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
 use srag\Plugins\SrUI\Config\Content\SpecialContentFeaturesConfig;
+use srag\Plugins\SrUI\Version;
 
 /**
  * Class ilSrUIPlugin
+ *
  * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class ilSrUIPlugin extends ilUserInterfaceHookPlugin
@@ -31,24 +33,34 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
      * @var Configuration
      */
     protected $configuration;
-
+    /**
+     * @var Version
+     */
+    protected $ilias_version;
+    /**
+     * @var Factory
+     */
+    protected $storage_factory;
+    
     public function getPluginName()
     {
         return 'SrUI';
     }
-
+    
     public function exchangeUIRendererAfterInitialization(Container $dic) : Closure
     {
         return PageLoaderDetector::exchange();
     }
-
+    
     public function __construct()
     {
         global $DIC;
-
+        
         parent::__construct();
+        $this->ilias_version = new Version(ILIAS_VERSION_NUMERIC);
+        $this->storage_factory = new Factory();
         $this->configuration = new Configuration($this->getVersion());
-
+        
         try {
             $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
                 self::OUTSIDE_ILIAS,
@@ -58,23 +70,33 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
                 self::ON_LOGIN_PAGE,
                 $this->isOnLoginPage()
             );
-
+            
             $this->provider_collection->setModificationProvider(new ilSrUIModificationProvider($DIC, $this));
             $this->provider_collection->setMainBarProvider(new ilSrUIMainBarProvider($DIC, $this));
-            if (version_compare(ILIAS_VERSION_NUMERIC, '7.0', ">")) {
+            if ($this->ilias_version->sevenOrNewer()) {
                 $this->provider_collection->setMetaBarProvider(new ilSrUIMetaBarProvider($DIC, $this));
             }
         } catch (LogicException $l) {
-
+        
         }
         // $this->updateLanguages();
     }
-
+    
     public function getConfiguration() : Configuration
     {
         return $this->configuration;
     }
-
+    
+    public function getILIASVersion() : Version
+    {
+        return $this->ilias_version;
+    }
+    
+    public function getStorageFactory() : Factory
+    {
+        return $this->storage_factory;
+    }
+    
     /**
      * @param Container $DIC
      * @return bool
@@ -84,28 +106,28 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         return (
             ($DIC->user()->isAnonymous() || $DIC->user()->getId() === 0)
             && strtolower($DIC->http()->request()->getQueryParams()["baseClass"]) !== strtolower(ilRepositoryGUI::class)
-
+        
         );
     }
-
+    
     public function isOnLoginPage() : bool
     {
         return strpos($_SERVER['SCRIPT_NAME'], 'login.php') !== false;
     }
-
+    
     protected function afterInstall()
     {
         $this->onBoarding();
     }
-
+    
     protected function afterUpdate()
     {
         $this->checkAndPerformConfigMigration();
     }
-
+    
     protected function onBoarding() : void
     {
-        $s = Factory::storage();
+        $s = $this->storage_factory->storage();
         // LOGIN PAGE
         $this->configuration->get(CenteredPageConfig::NS)->loadData([
             CenteredPageConfig::F_SHOW_HEADER_LOGO => true,
@@ -122,7 +144,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
             ShowComponentsConfig::F_SHOW_FOOTER => false,
             ShowComponentsConfig::F_SHOW_MAIN_BAR => false,
         ]);
-
+        
         // HEADER
         $this->configuration->get(HeaderColorsConfiguration::NS)->loadData([
             HeaderColorsConfiguration::F_HEADER_BG_COLOR => '#202020',
@@ -134,14 +156,15 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
             HeaderLogoConfiguration::F_ICON => [
                 $s->fromPath(
                     self::TEMPLATES_BASE . "HeaderIconPlus.svg",
-                    ilMimeTypeUtil::IMAGE__SVG_XML)
+                    ilMimeTypeUtil::IMAGE__SVG_XML
+                )
             ],
             HeaderLogoConfiguration::F_ICON_WIDTH => '45px'
         ]);
         $this->configuration->get(HeaderTitleConfiguration::NS)->loadData([
             HeaderTitleConfiguration::F_HEADER_TITLE => 'ILIAS+ 6'
         ]);
-
+        
         // FOOTER
         $this->configuration->get(FooterColorsConfig::NS)->loadData([
             FooterColorsConfig::F_FOOTER_TEXT_COLOR => '#F6F6F6',
@@ -150,10 +173,10 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         $this->configuration->get(AdditionalInfoConfig::NS)->loadData([
             AdditionalInfoConfig::F_SHOW_RENDERED_BY => true
         ]);
-
+        
         $this->configuration->save();
     }
-
+    
     public function checkAndPerformConfigMigration() : void
     {
         if ($this->configuration->getStorage()->needsUpdate()) {
@@ -162,7 +185,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
                     $existing_file = rtrim(CLIENT_DATA_DIR, "/") . "/sr_ui_setting.php";
                     if (file_exists($existing_file)) {
                         $current_settings = include $existing_file;
-
+                        
                         // PROD SERVER
                         if (isset($current_settings['prod_system'])) {
                             $this->configuration->get(ProdServerConfig::NS)->loadData([
@@ -175,7 +198,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
                             SpecialContentFeaturesConfig::F_FANCY_CARDS => $current_settings['fancy_cards'],
                             SpecialContentFeaturesConfig::F_FANCY_TABS => $current_settings['fancy_tabs'],
                         ]);
-
+                        
                         // FOOTER
                         $this->configuration->get(AdditionalInfoConfig::NS)->loadData([
                             AdditionalInfoConfig::F_SHOW_RENDERED_BY => $current_settings['show_rendered_by']
@@ -184,7 +207,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
                             FooterColorsConfig::F_FOOTER_BG_COLOR => $current_settings['footer_bg_color'],
                             FooterColorsConfig::F_FOOTER_TEXT_COLOR => $current_settings['footer_text_color'],
                         ]);
-
+                        
                         // HEADER
                         $this->configuration->get(HeaderColorsConfiguration::NS)->loadData([
                             HeaderColorsConfiguration::F_HEADER_BC_TEXT_COLOR => $current_settings['header_bc_text_color'],
@@ -198,7 +221,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
                         $this->configuration->get(HeaderTitleConfiguration::NS)->loadData([
                             HeaderTitleConfiguration::F_HEADER_TITLE => $current_settings['header_title'],
                         ]);
-
+                        
                         // LOGIN PAGE
                         $this->configuration->get(CenteredPageConfig::NS)->loadData([
                             CenteredPageConfig::F_SHOW_HEADER_LOGO => $current_settings['show_header_logo'],
@@ -216,5 +239,5 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
             $this->configuration->save();
         }
     }
-
+    
 }

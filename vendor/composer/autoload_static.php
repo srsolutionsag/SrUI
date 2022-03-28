@@ -76,6 +76,7 @@ class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
         'srag\\Plugins\\SrUI\\UI\\ModificationProvider' => __DIR__ . '/../..' . '/src/UI/ModificationProvider.php',
         'srag\\Plugins\\SrUI\\UI\\PageBuilderStack' => __DIR__ . '/../..' . '/src/UI/PageBuilderStack.php',
         'srag\\Plugins\\SrUI\\UI\\PagePartProviderStack' => __DIR__ . '/../..' . '/src/UI/PagePartProviderStack.php',
+        'srag\\Plugins\\SrUI\\Version' => __DIR__ . '/../..' . '/src/Version.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

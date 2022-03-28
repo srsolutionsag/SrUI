@@ -1,6 +1,8 @@
 <?php
 
 use ILIAS\DI\Container;
+use srag\Plugins\SrUI\Version;
+use srag\Plugins\SrUI\ResourceStorage\Factory;
 
 /**
  * Trait ilSrUIHelperGUI
@@ -52,7 +54,15 @@ trait ilSrUIHelperGUI
      * @var \srag\Plugins\SrUI\Config\Configuration
      */
     protected $config;
-
+    /**
+     * @var Version
+     */
+    protected $ilias_version;
+    /**
+     * @var Factory
+     */
+    protected $storage_factory;
+    
     /**
      * ilSrUIMainGUI constructor.
      * @param Container    $dic
@@ -71,6 +81,8 @@ trait ilSrUIHelperGUI
         $this->filesystems = $dic->filesystem();
         $this->http = $dic->http();
         $this->config = $this->plugin->getConfiguration();
+        $this->ilias_version = new Version(ILIAS_VERSION_NUMERIC);
+        $this->storage_factory = new Factory();
     }
 
     public function executeCommand() : void

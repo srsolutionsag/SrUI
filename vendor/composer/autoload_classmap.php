@@ -61,4 +61,5 @@ return array(
     'srag\\Plugins\\SrUI\\UI\\ModificationProvider' => $baseDir . '/src/UI/ModificationProvider.php',
     'srag\\Plugins\\SrUI\\UI\\PageBuilderStack' => $baseDir . '/src/UI/PageBuilderStack.php',
     'srag\\Plugins\\SrUI\\UI\\PagePartProviderStack' => $baseDir . '/src/UI/PagePartProviderStack.php',
+    'srag\\Plugins\\SrUI\\Version' => $baseDir . '/src/Version.php',
 );

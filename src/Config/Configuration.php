@@ -26,6 +26,10 @@ class Configuration
     protected $collection;
     protected $version = '1.0.0';
     protected $storage;
+    /**
+     * @var Factory
+     */
+    protected $resource_storage_factory;
     
     /**
      * @param string $version
@@ -33,6 +37,7 @@ class Configuration
     public function __construct(string $version)
     {
         $this->version = $version;
+        $this->resource_storage_factory = new Factory();
         $this->collection = new ConfigCollection([
             new ProdServerConfig(),
             new SpecialContentFeaturesConfig(),
@@ -68,7 +73,7 @@ class Configuration
     
     public function export() : string
     {
-        $resource_storage = Factory::storage();
+        $resource_storage = $this->resource_storage_factory->storage();
         
         $zip = new \ZipArchive();
         $filename = \ilUtil::ilTempnam();
@@ -93,8 +98,7 @@ class Configuration
     
     public function import(\ZipArchive $zip) : void
     {
-        $zip = $zip;
-        $resource_storage = Factory::storage();
+        $resource_storage = $this->resource_storage_factory->storage();
         
         function array_map_recursive(callable $func, array $arr)
         {

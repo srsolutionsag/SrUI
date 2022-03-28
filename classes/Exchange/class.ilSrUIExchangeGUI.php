@@ -36,7 +36,7 @@ class ilSrUIExchangeGUI implements ilSrUIGUI
     
     private function index() : void
     {
-        ilUtil::sendInfo('Importing Logos and other files currently fails');
+        ilUtil::sendInfo('Importing Logos and other files currently not always possible');
         
         $import = $this->ui_factory->panel()->standard(
             $this->plugin->txt('panel_import'),
@@ -64,7 +64,7 @@ class ilSrUIExchangeGUI implements ilSrUIGUI
         $form = $this->getForm()->withRequest($this->http->request());
         
         if ($rid = $form->getData()) {
-            $storage = Factory::storage();
+            $storage = $this->storage_factory->storage();
             $path = $storage->getPath($rid);
             $zip = new ZipArchive();
             $zip->open($path);

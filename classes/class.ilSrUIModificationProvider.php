@@ -215,7 +215,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         if ($header_logo->hasHeaderLogo()) {
             $width = $header_logo->getHeaderLogoWidth();
             $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo .hidden-xs img { width: {$width};}");
-            $s = Factory::storage()->getDataURL($header_logo->getHeaderlogo());
+            $s = $this->plugin->getStorageFactory()->storage()->getDataURL($header_logo->getHeaderlogo());
             if (!empty($s)) {
                 return $logo_modification->withModification(function (Image $image) use ($s, $header_logo_link) {
                     return $image->withSource($s)
@@ -235,7 +235,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         if ($responsive_header_logo->hasResponsiveHeaderLogo()) {
             $width = $responsive_header_logo->getResponsiveHeaderLogoWidth();
             $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo .visible-xs img { width: {$width};}");
-            $s = Factory::storage()->getDataURL($responsive_header_logo->getResponsiveHeaderLogo());
+            $s = $this->plugin->getStorageFactory()->storage()->getDataURL($responsive_header_logo->getResponsiveHeaderLogo());
             if (!empty($s)) {
                 $logo_modification = $this->factory->logo();
                 $logo_modification = $this->setPriority($logo_modification);

@@ -38,7 +38,11 @@ class PageBuilderStack extends StandardPageBuilder
      * @var \ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent
      */
     protected $meta;
-
+    /**
+     * @var Factory
+     */
+    protected $storage_factory;
+    
     /**
      * @inheritDoc
      */
@@ -49,6 +53,7 @@ class PageBuilderStack extends StandardPageBuilder
         $this->context_stack = $dic->globalScreen()->tool()->context()->stack();
         $this->factory = $dic->globalScreen()->layout()->factory();
         $this->meta = $dic->globalScreen()->layout()->meta();
+        $this->storage_factory = new Factory();
     }
 
     public function build(PagePartProvider $parts) : Page
@@ -108,7 +113,7 @@ class PageBuilderStack extends StandardPageBuilder
             true)));
 
         if ($centered_page->get(CenteredPageConfig::F_BACKGROUND_IMAGE)) {
-            $s = Factory::storage()->getDataURL((string) $centered_page->get(CenteredPageConfig::F_BACKGROUND_IMAGE)[0]);
+            $s = $this->storage_factory->storage()->getDataURL((string) $centered_page->get(CenteredPageConfig::F_BACKGROUND_IMAGE)[0]);
             if (!empty($s)) {
                 $login_page_settings->setBackgroundImage($s);
             }

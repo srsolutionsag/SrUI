@@ -117,7 +117,7 @@ class ilSrUIMainGUI implements ilSrUIGUI
             $this->plugin->txt(self::TAB_CLONE_INFO),
             $this->ctrl->getLinkTargetByClass(ilSrUICloneInfoConfigGUI::class)
         );
-        if (version_compare(ILIAS_VERSION_NUMERIC, '7.0', ">")) {
+        if ($this->ilias_version->sevenOrNewer()) {
             $this->tabs->addTab(
                 self::TAB_EXCHANGE,
                 $this->plugin->txt(self::TAB_EXCHANGE),

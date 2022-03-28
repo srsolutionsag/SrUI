@@ -4,6 +4,7 @@ namespace ILIAS\UI\Implementation\Component\Layout\Page\Login;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Renderer as RendererInterface;
+use srag\Plugins\SrUI\Version;
 
 /**
  * Class Renderer
@@ -13,6 +14,7 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 {
     const TEMPLATE_BASE = \ilSrUIPlugin::TEMPLATES_BASE;
     
+    
     public function render(Component\Component $component, RendererInterface $default_renderer)
     {
         return $this->renderLoginPage($component, $default_renderer);
@@ -20,10 +22,11 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 
     protected function renderLoginPage(Login $component, RendererInterface $default_renderer)
     {
-        if (version_compare(ILIAS_VERSION_NUMERIC, '7.0', "<")) {
-            $tpl = new \ilTemplate(self::TEMPLATE_BASE . 'tpl.login_page.html', true, true);
-        }else {
+        $version = new Version(ILIAS_VERSION_NUMERIC);
+        if ($version->sevenOrNewer()) {
             $tpl = new \ilTemplate(self::TEMPLATE_BASE . 'tpl.login_page_7.html', true, true);
+        } else {
+            $tpl = new \ilTemplate(self::TEMPLATE_BASE . 'tpl.login_page.html', true, true);
         }
 
         if ($component->hasMetabar()) {
