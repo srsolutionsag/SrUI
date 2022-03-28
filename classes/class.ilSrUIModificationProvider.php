@@ -76,8 +76,8 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 background-color: $bc_bg_color;
                 border-color: $bc_bg_color;
             }
-            div.breadcrumbs, nav.breadcrumb_wrapper a {
-                color: $bc_text_color;
+            div.breadcrumbs, nav.breadcrumb_wrapper a, span.crumb, span.crumb a {
+                color: $bc_text_color !important;
             }
             div.il-pagetitle {
                 color: $title_color;
