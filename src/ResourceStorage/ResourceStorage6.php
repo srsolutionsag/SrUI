@@ -183,7 +183,37 @@ class ResourceStorage6 implements ResourceStorage
     
     public function fromString(string $content, string $mime_type = null) : string
     {
-        throw new \LogicException('cannot perform in ILIAS 6');
+        $id = $this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification();
+        
+        $r = new StorableFileResource($id);
+        $r->setStorageId($this->storage_handler->getID());
+        
+        $rev = new FileRevision($id);
+        $rev->setVersionNumber(1);
+        
+        $info = $rev->getInformation();
+        $info->setTitle('import');
+        $info->setMimeType($mime_type);
+        $info->setSize(strlen($content));
+        $info->setCreationDate(new \DateTimeImmutable());
+        $rev->setInformation($info);
+        
+        $r->addRevision($rev);
+        
+        $this->resource_builder->store($r);
+        
+        $directory = rtrim(CLIENT_DATA_DIR, "/") . "/" . FileSystemStorageHandler::BASE . '/' . str_replace(
+                "-",
+                "/",
+                $id->serialize()
+            ) . '/1/';
+        $path = $directory . FileSystemStorageHandler::DATA;
+        if (!mkdir($directory, 0777, true) && !is_dir($directory)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
+        }
+        file_put_contents($path, $content);
+        
+        return $id->serialize();
     }
     
 }
