@@ -15,6 +15,7 @@ use ILIAS\UI\Implementation\Component\Layout\Page\Login\Login;
 use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig;
 use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig;
 use srag\Plugins\SrUI\Config\Configuration;
+use ILIAS\Container\Screen\MemberViewLayoutProvider;
 
 /**
  * Class PageBuilderStack
@@ -42,6 +43,10 @@ class PageBuilderStack extends StandardPageBuilder
      * @var Factory
      */
     protected $storage_factory;
+    /**
+     * @var Container
+     */
+    protected $dic;
     
     /**
      * @inheritDoc
@@ -49,6 +54,7 @@ class PageBuilderStack extends StandardPageBuilder
     public function __construct(Container $dic, Configuration $settings)
     {
         parent::__construct();
+        $this->dic = $dic;
         $this->configuration = $settings;
         $this->context_stack = $dic->globalScreen()->tool()->context()->stack();
         $this->factory = $dic->globalScreen()->layout()->factory();
@@ -79,8 +85,15 @@ class PageBuilderStack extends StandardPageBuilder
             /** @noinspection PhpIncompatibleReturnTypeInspection */
             return $this->getLoginPage($parts);
         }
-
-        return parent::build($parts);
+    
+        // Fix for ModeInfo/MemberView
+        $page = parent::build($parts);
+        $mv_mode_info = MemberViewLayoutProvider::getMemberViewModeInfo($this->dic);
+        if (!is_null($mv_mode_info)) {
+            $page = $page->withModeInfo($mv_mode_info);
+        }
+    
+        return $page;
     }
 
     public function getAsModification() : ?PageBuilderModification
