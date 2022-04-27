@@ -57,7 +57,13 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         // Cards
         $content_settings = $this->config()->contentConfig();
         if ($content_settings->hasFancyCards()) {
-            $this->dic->globalScreen()->layout()->meta()->addCss(ilSrUIPlugin::TEMPLATES_BASE . "cards.css");
+            if ($this->plugin instanceof ilSrUIPlugin) {
+                if ($this->plugin->getILIASVersion()->hasCardFix()) {
+                    $this->dic->globalScreen()->layout()->meta()->addCss(ilSrUIPlugin::TEMPLATES_BASE . "cards_77.css");
+                } else {
+                    $this->dic->globalScreen()->layout()->meta()->addCss(ilSrUIPlugin::TEMPLATES_BASE . "cards.css");
+                }
+            }
         }
         
         // Header-Colors

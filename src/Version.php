@@ -32,4 +32,10 @@ class Version
         return version_compare($this->ilias_version, self::ILIAS_SEVEN, self::SMALLER_THAN);
     }
     
+    public function hasCardFix() : bool
+    {
+        return version_compare($this->ilias_version, "7.7", self::GREATER_THAN)
+            ||version_compare($this->ilias_version, "6.15", self::GREATER_THAN);
+    }
+    
 }
