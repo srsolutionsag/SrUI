@@ -22,7 +22,7 @@ class ZoomableCardRenderer extends Renderer
     protected function getTemplatePath($name)
     {
         if ($this->hasFixedCardsInCore()) {
-            return self::TEMPLATES . "tpl.zoomable_card_77.html";
+            return parent::getTemplatePath($name);
         }
         return self::TEMPLATES . "tpl.zoomable_card.html";
     }
