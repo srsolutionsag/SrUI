@@ -18,6 +18,7 @@ use srag\Plugins\SrUI\ResourceStorage\Factory;
 use srag\Plugins\SrUI\UI\PageBuilderStack;
 use srag\Plugins\SrUI\Config\Configuration;
 use srag\Plugins\SrUI\Config\Menu\MenuColorConfig;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * Class ilSrUIModificationProvider
@@ -47,9 +48,15 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             if (!$prod_system->onProdSystem()) {
                 // Send X-Robots-Tag: noindex
                 if ($prod_system->sendNonIdexHeader()) {
-                    $repsonse = $this->dic->http()->response()->withAddedHeader('X-Robots-Tag', 'noindex');
-                    $this->dic->http()->saveResponse($repsonse);
-                    $this->dic->http()->sendResponse();
+                    $http = $this->dic->http();
+    
+                    $http->saveResponse(
+                        $http->response()->withAddedHeader('X-Robots-Tag', 'noindex')
+                    );
+                    $http->sendResponse();
+                    $http->saveResponse(
+                        $http->response()->withBody(Streams::ofString(''))
+                    );
                 }
             }
         }
