@@ -9,33 +9,32 @@ namespace srag\Plugins\SrUI;
  */
 class Version
 {
-    const ILIAS_SEVEN = '7.0';
     const GREATER_THAN = ">";
     const SMALLER_THAN = "<";
-    protected $ilias_version = '';
+    
+    protected $version = '';
     
     /**
-     * @param string $ilias_version
+     * @param string $version
      */
-    public function __construct(string $ilias_version)
+    public function __construct(string $version)
     {
-        $this->ilias_version = $ilias_version;
+        $this->version = $version;
     }
     
-    public function sevenOrNewer() : bool
+    public function getVersionString() : string
     {
-        return version_compare($this->ilias_version, self::ILIAS_SEVEN, self::GREATER_THAN);
+        return $this->version;
     }
     
-    public function lessThanSeven() : bool
+    public function isNewerThan(Version $version) : bool
     {
-        return version_compare($this->ilias_version, self::ILIAS_SEVEN, self::SMALLER_THAN);
+        return version_compare($this->version, $version->getVersionString(), self::GREATER_THAN);
     }
     
-    public function hasCardFix() : bool
+    public function isOlderThan(Version $version) : bool
     {
-        return version_compare($this->ilias_version, "7.7", self::GREATER_THAN)
-            ||version_compare($this->ilias_version, "6.15", self::GREATER_THAN);
+        return version_compare($this->version, $version->getVersionString(), self::SMALLER_THAN);
     }
     
 }

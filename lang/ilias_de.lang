@@ -47,6 +47,8 @@ main_color#:#Hintergrund Haupteinträge
 main_hover_color#:#Hintergrund Haupteinträge (hover)
 sub_color#:#Hintergrund Untereinträge
 sub_hover_color#:#Hintergrund Untereinträge (hover)
+tools_color#:#Hintergrund Tools-Button
+tools_hover_color#:#Hintergrund Tools-Button (aktiv)
 button_colors#:#Button Colors
 primary_button_color#:#Primary Hintergrund
 primary_button_color_text#:#Primary Text

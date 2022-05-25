@@ -120,9 +120,12 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $main_hover_color = $menu_colors->get(MenuColorConfig::F_MAIN_HOVER_COLOR);
             $sub_color = $menu_colors->get(MenuColorConfig::F_SUB_COLOR);
             $sub_hover_color = $menu_colors->get(MenuColorConfig::F_SUB_HOVER_COLOR);
+            $tools_color = $menu_colors->get(MenuColorConfig::F_TOOLS_COLOR);
+            $tools_hover_color = $menu_colors->get(MenuColorConfig::F_TOOLS_HOVER_COLOR);
             
             $this->dic->globalScreen()->layout()->meta()->addInlineCss(
                 "
+                
             nav.il-mainbar, div.il-mainbar-triggers, .il-mainbar-triggers .btn-bulky, .il-mainbar-triggers .btn-bulky, .il-mainbar-triggers .il-link.link-bulky {
                 background-color: $main_color !important;
                 color: $main_hover_color !important;
@@ -148,10 +151,17 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             .il-maincontrols-slate .btn-bulky.engaged, .il-maincontrols-slate .link-bulky.engaged {
                 background-color: $sub_hover_color !important;
             }
-            
+           
             .il-maincontrols-slate.engaged[data-depth-level=\"2\"] .btn-bulky,
             .il-maincontrols-slate.engaged[data-depth-level=\"2\"] .link-bulky {
                 padding-left: 35px;
+            }
+         
+            .il-mainbar-tools-button .btn-bulky {
+                background-color: $tools_color !important;
+            }
+            .il-mainbar-tools-button .btn-bulky.engaged {
+                background-color: $tools_hover_color !important;
             }
             "
             );

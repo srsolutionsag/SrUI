@@ -1,7 +1,7 @@
 <?php
 
 use ILIAS\DI\Container;
-use srag\Plugins\SrUI\Version;
+use srag\Plugins\SrUI\ILIASVersion;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
 
 /**
@@ -55,7 +55,7 @@ trait ilSrUIHelperGUI
      */
     protected $config;
     /**
-     * @var Version
+     * @var ILIASVersion
      */
     protected $ilias_version;
     /**
@@ -81,7 +81,7 @@ trait ilSrUIHelperGUI
         $this->filesystems = $dic->filesystem();
         $this->http = $dic->http();
         $this->config = $this->plugin->getConfiguration();
-        $this->ilias_version = new Version(ILIAS_VERSION_NUMERIC);
+        $this->ilias_version = new ILIASVersion(ILIAS_VERSION_NUMERIC);
         $this->storage_factory = new Factory();
     }
 

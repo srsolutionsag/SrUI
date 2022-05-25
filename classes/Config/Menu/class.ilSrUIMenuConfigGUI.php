@@ -33,6 +33,12 @@ class ilSrUIMenuConfigGUI implements ilSrUIGUI
             MenuColorConfig::F_SUB_HOVER_COLOR => $factory->field()->text(
                 $this->plugin->txt(MenuColorConfig::F_SUB_HOVER_COLOR)
             )->withRequired(true),
+            MenuColorConfig::F_TOOLS_COLOR => $factory->field()->text(
+                $this->plugin->txt(MenuColorConfig::F_TOOLS_COLOR)
+            )->withRequired(true),
+            MenuColorConfig::F_TOOLS_HOVER_COLOR => $factory->field()->text(
+                $this->plugin->txt(MenuColorConfig::F_TOOLS_HOVER_COLOR)
+            )->withRequired(true),
         
         ], $this->plugin->txt(MenuColorConfig::NS))
                                ->withValue($this->config->get(MenuColorConfig::NS)->getData())

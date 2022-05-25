@@ -17,6 +17,8 @@ class MenuColorConfig extends BaseNestedConfig
     const F_MAIN_HOVER_COLOR = 'main_hover_color';
     const F_SUB_COLOR = 'sub_color';
     const F_SUB_HOVER_COLOR = 'sub_hover_color';
+    const F_TOOLS_COLOR = 'tools_color';
+    const F_TOOLS_HOVER_COLOR = 'tools_hover_color';
     
     public function __construct()
     {
@@ -30,6 +32,8 @@ class MenuColorConfig extends BaseNestedConfig
             self::F_MAIN_HOVER_COLOR,
             self::F_SUB_COLOR,
             self::F_SUB_HOVER_COLOR,
+            self::F_TOOLS_COLOR,
+            self::F_TOOLS_HOVER_COLOR,
         ];
     }
     

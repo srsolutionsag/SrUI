@@ -1,0 +1,50 @@
+<?php
+
+namespace srag\Plugins\SrUI\Config\Migration;
+
+use srag\Plugins\SrUI\ILIASVersion;
+use srag\Plugins\SrUI\Version;
+use srag\Plugins\SrUI\Config\Configuration;
+
+/**
+ * Class MigrationCollection
+ *
+ * @author Fabian Schmid <fs@studer-raimann.ch>
+ */
+class MigrationCollection
+{
+    /**
+     * @var Migration[]
+     */
+    private $migrations = [];
+    /**
+     * @var Version
+     */
+    private $current_version;
+    /**
+     * @var Configuration
+     */
+    protected $configuration;
+    
+    public function __construct(Version $current_version, Configuration $configuration, ...$migrations)
+    {
+        $this->current_version = $current_version;
+        $this->configuration = $configuration;
+        $this->migrations = $migrations;
+    }
+    
+    public function perform() : void
+    {
+        // sort by version
+        usort($this->migrations, function (Migration $m, Migration $m_2):int {
+            return $m->appliesToVersionsPrior()->isNewerThan($m_2->appliesToVersionsPrior()) ? 1 : -1;
+        });
+        $current_config_version = $this->configuration->getStoredConfigVersion();
+        foreach ($this->migrations as $migration) {
+            if ($current_config_version->isOlderThan($migration->appliesToVersionsPrior())) {
+                $migration->perform($this->configuration);
+            }
+        }
+    }
+    
+}

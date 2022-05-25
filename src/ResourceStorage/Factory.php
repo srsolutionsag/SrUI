@@ -2,7 +2,7 @@
 
 namespace srag\Plugins\SrUI\ResourceStorage;
 
-use srag\Plugins\SrUI\Version;
+use srag\Plugins\SrUI\ILIASVersion;
 
 /**
  * Class Factory
@@ -12,13 +12,13 @@ use srag\Plugins\SrUI\Version;
 class Factory
 {
     /**
-     * @var Version
+     * @var ILIASVersion
      */
     protected $ilias_version;
     
     public function __construct()
     {
-        $this->ilias_version = new Version(ILIAS_VERSION_NUMERIC);
+        $this->ilias_version = new ILIASVersion(ILIAS_VERSION_NUMERIC);
     }
     
     public function storage() : ResourceStorage

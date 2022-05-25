@@ -15,6 +15,7 @@ use srag\Plugins\SrUI\Config\Menu\MenuColorConfig;
 use srag\Plugins\SrUI\Config\Buttons\ButtonColorConfig;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
 use srag\Plugins\SrUI\Config\Header\ResponsiveHeaderLogoConfiguration;
+use srag\Plugins\SrUI\Version;
 
 /**
  * Class ConfigurationStorage
@@ -59,6 +60,11 @@ class Configuration
     public function isUpToDate() : bool
     {
         return !$this->storage->needsUpdate();
+    }
+    
+    public function getStoredConfigVersion() : Version
+    {
+        return new Version($this->storage->getStoredVersion());
     }
     
     public function get(string $namespace) : Config

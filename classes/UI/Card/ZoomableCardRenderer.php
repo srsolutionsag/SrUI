@@ -4,7 +4,7 @@ namespace ILIAS\UI\Implementation\Component\Card;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Renderer as RendererInterface;
-use srag\Plugins\SrUI\Version;
+use srag\Plugins\SrUI\ILIASVersion;
 
 /**
  * Class ZoomableCardRenderer
@@ -30,7 +30,7 @@ class ZoomableCardRenderer extends Renderer
     private function hasFixedCardsInCore() : bool
     {
         if ($this->has_fix === null) {
-            $version = new Version(ILIAS_VERSION_NUMERIC);
+            $version = new ILIASVersion(ILIAS_VERSION_NUMERIC);
             $this->has_fix = $version->hasCardFix();
         }
         return $this->has_fix;

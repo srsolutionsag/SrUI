@@ -47,6 +47,8 @@ main_color#:#Background Main-Entries
 main_hover_color#:#Background Main-Entries (hover)
 sub_color#:#Background Sub-Entries
 sub_hover_color#:#Background Sub-Entries (hover)
+tools_color#:#Background Tools-Button
+tools_hover_color#:#Background Tools-Button (active)
 button_colors#:#Button Colors
 primary_button_color#:#Primary Background
 primary_button_color_text#:#Primary Text
