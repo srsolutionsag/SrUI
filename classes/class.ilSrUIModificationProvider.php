@@ -258,10 +258,13 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         $responsive_header_logo = $this->config()->responsiveHeaderLogoConfig();
         if ($responsive_header_logo->hasResponsiveHeaderLogo()) {
             $width = $responsive_header_logo->getResponsiveHeaderLogoWidth();
-            $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo .visible-xs img {
-                width: {$width};
-                max-width: {$width};
-            }");
+            $this->globalScreen()->layout()->meta()->addInlineCss("
+            @media (max-width: 767px) {
+                .il-logo, .il-logo img.img-standard {
+                    width: {$width} !important;
+                }
+            }
+            ");
             $s = $this->plugin->getStorageFactory()->storage()->getDataURL($responsive_header_logo->getResponsiveHeaderLogo());
             if (!empty($s)) {
                 $logo_modification = $this->factory->logo();
