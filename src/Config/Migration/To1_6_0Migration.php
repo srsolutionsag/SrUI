@@ -57,8 +57,8 @@ class To1_6_0Migration implements Migration
                 HeaderColorsConfiguration::F_HEADER_BG_COLOR => $current_settings['header_bg_color'],
             ]);
             $configuration->get(HeaderLogoConfiguration::NS)->loadData([
-                HeaderLogoConfiguration::F_ICON => $current_settings['icon'],
-                HeaderLogoConfiguration::F_ICON_WIDTH => $current_settings['icon_width'],
+                HeaderLogoConfiguration::F_ICON => $current_settings['icon'] ?? null,
+                HeaderLogoConfiguration::F_ICON_WIDTH => $current_settings['icon_width'] ?? null,
             ]);
             $configuration->get(HeaderTitleConfiguration::NS)->loadData([
                 HeaderTitleConfiguration::F_HEADER_TITLE => $current_settings['header_title'],
@@ -66,14 +66,14 @@ class To1_6_0Migration implements Migration
             
             // LOGIN PAGE
             $configuration->get(CenteredPageConfig::NS)->loadData([
-                CenteredPageConfig::F_SHOW_HEADER_LOGO => $current_settings['show_header_logo'],
-                CenteredPageConfig::F_BACKGROUND_IMAGE => $current_settings['background_image'],
-                CenteredPageConfig::F_CENTERED_LOGIN_PAGE_CSS => $current_settings['centered_login_page_css'],
+                CenteredPageConfig::F_SHOW_HEADER_LOGO => $current_settings['show_header_logo'] ?? true,
+                CenteredPageConfig::F_BACKGROUND_IMAGE => $current_settings['background_image'] ?? '',
+                CenteredPageConfig::F_CENTERED_LOGIN_PAGE_CSS => $current_settings['centered_login_page_css'] ?? '',
             ]);
             $configuration->get(ShowComponentsConfig::NS)->loadData([
-                ShowComponentsConfig::F_SHOW_FOOTER => $current_settings['show_footer'],
-                ShowComponentsConfig::F_SHOW_MAIN_BAR => $current_settings['show_main_bar'],
-                ShowComponentsConfig::F_SHOW_HEADER => $current_settings['show_header'],
+                ShowComponentsConfig::F_SHOW_FOOTER => $current_settings['show_footer'] ?? true,
+                ShowComponentsConfig::F_SHOW_MAIN_BAR => $current_settings['show_main_bar'] ?? true,
+                ShowComponentsConfig::F_SHOW_HEADER => $current_settings['show_header'] ?? true,
             ]);
         }
         $configuration->save();
