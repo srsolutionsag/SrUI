@@ -79,7 +79,7 @@ class PageBuilderStack extends StandardPageBuilder
                 $modal = $this->ui->factory()->modal()->lightbox([$text]);
                 $parts->prependContent($this->ui->renderer()->render($modal));
                 $id = $modal->getShowSignal()->getId();
-                $this->meta->addOnloadCode("$(document).trigger('$id');");
+                $this->meta->addOnloadCode("$(document).trigger('$id', '{}');");
             }
 
             /** @noinspection PhpIncompatibleReturnTypeInspection */

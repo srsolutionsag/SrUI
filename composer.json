@@ -9,9 +9,9 @@
 	"license":     "GPL-3.0-only",
 	"authors":     [
 		{
-			"name":     "studer + raimann ag - Team Core 1",
-			"email":    "support-core1@studer-raimann.ch",
-			"homepage": "https://studer-raimann.ch",
+			"name":     "sr.solutions",
+			"email":    "support@sr.solutions",
+			"homepage": "https://sr.solutions",
 			"role":     "Developer"
 		}
 	],
@@ -30,5 +30,8 @@
 		"classmap-authoritative": true,
 		"optimize-autoloader":    true,
 		"sort-packages":          true
+	},
+	"require-dev": {
+		"captainhook/captainhook": "^5.12"
 	}
 }

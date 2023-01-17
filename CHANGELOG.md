@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.7.3
+- [FIX] Issue with Productive Server Modal on Login Page
+
+
 ### 1.7.2
 - [FIX] Issue with max-width of Responsive Logos
 
