@@ -53,10 +53,10 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                     $http->saveResponse(
                         $http->response()->withAddedHeader('X-Robots-Tag', 'noindex')
                     );
-                    $http->sendResponse();
                     $http->saveResponse(
                         $http->response()->withBody(Streams::ofString(''))
                     );
+                    $http->sendResponse();
                 }
             }
         }
