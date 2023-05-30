@@ -8,5 +8,4 @@ namespace srag\Plugins\SrUI\UI;
  */
 class ModificationProvider
 {
-
 }

@@ -14,7 +14,7 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
     use ilSrUIHelperGUI;
     use ilSrUITrafos;
 
-    private function getForm() : Form
+    private function getForm(): Form
     {
         $factory = $this->ui_factory->input();
 
@@ -25,8 +25,9 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
 
         ], $this->plugin->txt(AdditionalInfoConfig::NS))
                                     ->withValue($additional_infos_confog->getData())
-                                    ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v
-                                    ) {
+                                    ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function (
+                                        $v
+                                    ): bool {
                                         $this->config->get(AdditionalInfoConfig::NS)->loadData($v);
                                         return true;
                                     }));
@@ -43,7 +44,7 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
 
         ], $this->plugin->txt(FooterColorsConfig::NS))
                                  ->withValue($footer_color_config->getData())
-                                 ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) {
+                                 ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v): bool {
                                      $this->config->get(FooterColorsConfig::NS)->loadData($v);
                                      return true;
                                  }));
@@ -54,9 +55,8 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
                 AdditionalInfoConfig::NS => $additional_infos,
                 FooterColorsConfig::NS => $footer_colors,
             ]
-        )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) {
+        )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v): bool {
             return true;
         }));
     }
-
 }

@@ -1,6 +1,7 @@
 <?php
 
-require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/vendor/autoload.php');
+/** @noRector  */
+require_once(__DIR__ . '/../vendor/autoload.php');
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuPluginProvider;
 
@@ -10,40 +11,38 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuPluginProvi
  */
 class ilSrUIMainBarProvider extends AbstractStaticMainMenuPluginProvider
 {
-
     /**
      * @return \ILIAS\GlobalScreen\Identification\IdentificationInterface
      */
-    public function getFooterIdentification() : \ILIAS\GlobalScreen\Identification\IdentificationInterface
+    public function getFooterIdentification(): \ILIAS\GlobalScreen\Identification\IdentificationInterface
     {
         return $this->if->identifier('footer');
     }
 
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [
             $this->mainmenu->topParentItem($this->getFooterIdentification())
                            ->withTitle('Footer Container')
-                           ->withAvailableCallable(static function () {
+                           ->withAvailableCallable(static function (): bool {
                                return true;
                            })
-                           ->withVisibilityCallable(static function () {
+                           ->withVisibilityCallable(static function (): bool {
                                return false;
                            }),
             $this->mainmenu->topParentItem($this->if->identifier('metabar'))
                            ->withTitle('MetaBar Container')
-                           ->withAvailableCallable(static function () {
+                           ->withAvailableCallable(static function (): bool {
                                return true;
                            })
-                           ->withVisibilityCallable(static function () {
+                           ->withVisibilityCallable(static function (): bool {
                                return false;
                            })
         ];
     }
 
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         return [];
     }
-
 }

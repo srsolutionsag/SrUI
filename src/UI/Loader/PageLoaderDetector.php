@@ -19,22 +19,21 @@ use Pimple\Container;
  */
 class PageLoaderDetector extends \srag\Plugins\SrUI\UI\Loader\AbstractLoaderDetector
 {
-
     /**
      * @return Closure
      */
-    public static function exchange() : Closure
+    public static function exchange(): Closure
     {
         global $DIC;
         $previous_renderer = Closure::bind(function () {
             return $this->raw("ui.renderer");
         }, $DIC, Container::class)();
 
-        return function () use ($previous_renderer, $DIC) : Renderer {
+        return function () use ($previous_renderer, $DIC): Renderer {
             $previous_renderer = $previous_renderer($DIC);
 
             if ($previous_renderer instanceof DefaultRenderer) {
-                $previous_renderer_loader = Closure::bind(function () {
+                $previous_renderer_loader = Closure::bind(function (): \ILIAS\UI\Implementation\Render\Loader {
                     return $this->component_renderer_loader;
                 }, $previous_renderer, DefaultRenderer::class)();
             } else {
@@ -48,14 +47,10 @@ class PageLoaderDetector extends \srag\Plugins\SrUI\UI\Loader\AbstractLoaderDete
     /**
      * @inheritDoc
      */
-    public function getRendererFor(Component $component, array $contexts) : ComponentRenderer
+    public function getRendererFor(Component $component, array $contexts): ComponentRenderer
     {
         global $DIC;
-        if ($DIC->offsetExists('ui.pathresolver')) {
-            $uipathresolver = $DIC['ui.pathresolver'];
-        } else {
-            $uipathresolver = null;
-        }
+        $uipathresolver = $DIC->offsetExists('ui.pathresolver') ? $DIC['ui.pathresolver'] : null;
 
         switch (true) {
             case $component instanceof LoginPage:

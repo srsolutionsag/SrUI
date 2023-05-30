@@ -8,9 +8,9 @@ namespace srag\Plugins\SrUI\Config;
  */
 interface Config
 {
-    public function getNamespace() : string;
+    public function getNamespace(): string;
 
-    public function has(string $key) : bool;
+    public function has(string $key): bool;
 
     /**
      * @param string     $key
@@ -19,11 +19,11 @@ interface Config
      */
     public function get(string $key, $default = null);
 
-    public function loadData($data) : void;
+    public function loadData($data): void;
 
     public function getData();
 
     public function getRawData();
 
-    public function isNamespaceActive() : bool;
+    public function isNamespaceActive(): bool;
 }

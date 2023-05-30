@@ -3,6 +3,7 @@
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig as CenterPage;
 use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig as ShowComponents;
+use ILIAS\FileUpload\MimeType;
 
 /**
  * Class ilSrUILoginPageConfigGUI
@@ -14,14 +15,14 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
     use ilSrUIHelperGUI;
     use ilSrUITrafos;
 
-    const MIME_TYPES = [
-        ilMimeTypeUtil::IMAGE__SVG_XML,
-        ilMimeTypeUtil::IMAGE__JPEG,
-        ilMimeTypeUtil::IMAGE__GIF,
-        ilMimeTypeUtil::IMAGE__PNG
+    public const MIME_TYPES = [
+        MimeType::IMAGE__SVG_XML,
+        MimeType::IMAGE__JPEG,
+        MimeType::IMAGE__GIF,
+        MimeType::IMAGE__PNG
     ];
 
-    private function getForm() : Form
+    private function getForm(): Form
     {
         $factory = $this->ui_factory->input();
 
@@ -45,7 +46,7 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
                                        ->withValue($this->config->get(CenterPage::NS)->getData())
                                        ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function (
                                            $v
-                                       ) {
+                                       ): bool {
                                            $this->config->get(CenterPage::NS)->loadData($v);
                                            return true;
                                        }));
@@ -60,7 +61,7 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
                                    ->withValue($this->config->get(ShowComponents::NS)->getData())
                                    ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function (
                                        $v
-                                   ) {
+                                   ): bool {
                                        $this->config->get(ShowComponents::NS)->loadData($v);
                                        return true;
                                    }));
@@ -73,9 +74,8 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
                 //                Title::NS => $header_title,
                 //                Colors::NS => $header_colors,
             ]
-        )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) {
+        )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v): bool {
             return true;
         }));
     }
-
 }

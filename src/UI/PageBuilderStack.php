@@ -26,28 +26,19 @@ class PageBuilderStack extends StandardPageBuilder
     /**
      * @var ContextCollection
      */
-    protected $context_stack;
+    protected \ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $context_stack;
     /**
      * @var ToolFactory
      */
-    protected $factory;
-    /**
-     * @var Configuration
-     */
-    protected $configuration;
+    protected \ILIAS\GlobalScreen\Scope\Layout\Factory\ModificationFactory $factory;
+    protected \srag\Plugins\SrUI\Config\Configuration $configuration;
     /**
      * @var \ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent
      */
-    protected $meta;
-    /**
-     * @var Factory
-     */
-    protected $storage_factory;
-    /**
-     * @var Container
-     */
-    protected $dic;
-    
+    protected \ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent $meta;
+    protected \srag\Plugins\SrUI\ResourceStorage\Factory $storage_factory;
+    protected \ILIAS\DI\Container $dic;
+
     /**
      * @inheritDoc
      */
@@ -62,7 +53,7 @@ class PageBuilderStack extends StandardPageBuilder
         $this->storage_factory = new Factory();
     }
 
-    public function build(PagePartProvider $parts) : Page
+    public function build(PagePartProvider $parts): Page
     {
         $parts = new \srag\Plugins\SrUI\UI\PagePartProviderStack($parts);
 
@@ -85,20 +76,20 @@ class PageBuilderStack extends StandardPageBuilder
             /** @noinspection PhpIncompatibleReturnTypeInspection */
             return $this->getLoginPage($parts);
         }
-    
+
         // Fix for ModeInfo/MemberView
         $page = parent::build($parts);
         $mv_mode_info = MemberViewLayoutProvider::getMemberViewModeInfo($this->dic);
         if (!is_null($mv_mode_info)) {
             $page = $page->withModeInfo($mv_mode_info);
         }
-    
+
         return $page;
     }
 
-    public function getAsModification() : ?PageBuilderModification
+    public function getAsModification(): ?PageBuilderModification
     {
-        return $this->factory->page()->withPriority(16)->withModification(function (PagePartProvider $p) : Page {
+        return $this->factory->page()->withPriority(16)->withModification(function (PagePartProvider $p): Page {
             return $this->build($p);
         });
     }
@@ -107,7 +98,7 @@ class PageBuilderStack extends StandardPageBuilder
      * @param PagePartProvider $parts
      * @return Login
      */
-    private function getLoginPage(PagePartProvider $parts) : Login
+    private function getLoginPage(PagePartProvider $parts): Login
     {
         $centered_page = $this->configuration->get(CenteredPageConfig::NS);
         $show_components = $this->configuration->get(ShowComponentsConfig::NS);
@@ -120,10 +111,14 @@ class PageBuilderStack extends StandardPageBuilder
         }
         $login_page_settings->setShowHeader((bool) ($show_components->get(ShowComponentsConfig::F_SHOW_HEADER, true)));
         $login_page_settings->setShowFooter((bool) ($show_components->get(ShowComponentsConfig::F_SHOW_FOOTER, true)));
-        $login_page_settings->setShowMainBar((bool) ($show_components->get(ShowComponentsConfig::F_SHOW_MAIN_BAR,
-            true)));
-        $login_page_settings->setShowHeaderLogo((bool) ($centered_page->get(CenteredPageConfig::F_SHOW_HEADER_LOGO,
-            true)));
+        $login_page_settings->setShowMainBar((bool) ($show_components->get(
+            ShowComponentsConfig::F_SHOW_MAIN_BAR,
+            true
+        )));
+        $login_page_settings->setShowHeaderLogo((bool) ($centered_page->get(
+            CenteredPageConfig::F_SHOW_HEADER_LOGO,
+            true
+        )));
 
         if ($centered_page->get(CenteredPageConfig::F_BACKGROUND_IMAGE)) {
             $s = $this->storage_factory->storage()->getDataURL((string) $centered_page->get(CenteredPageConfig::F_BACKGROUND_IMAGE)[0]);

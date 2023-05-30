@@ -1,25 +1,23 @@
 <?php
 
 /**
- * Class ilSrUIUIHookGUI
- * @author studer + raimann ag - Team Core 1 <support-core1@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
+ *
+ * @ilCtrl_isCalledBy ilSrUIConfigGUI: ilObjComponentSettingsGUI
  */
 class ilSrUIConfigGUI extends ilPluginConfigGUI
 {
-
     /**
      * @inheritDoc
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         global $DIC;
         parent::executeCommand();
-        switch ($DIC->ctrl()->getNextClass()) {
-            case strtolower(ilSrUIMainGUI::class):
-                $h = new ilSrUIMainGUI($DIC, $this->plugin_object);
-                $DIC->ctrl()->forwardCommand($h);
-
-                return;
+        if ($DIC->ctrl()->getNextClass() === strtolower(ilSrUIMainGUI::class)) {
+            $h = new ilSrUIMainGUI($DIC, $this->plugin_object);
+            $DIC->ctrl()->forwardCommand($h);
+            return;
         }
         $DIC->ctrl()->redirectByClass([ilSrUIMainGUI::class]);
     }
@@ -27,7 +25,7 @@ class ilSrUIConfigGUI extends ilPluginConfigGUI
     /**
      * @param string $cmd
      */
-    public function performCommand($cmd)
+    public function performCommand(string $cmd): void
     {
         // noting to to here
     }

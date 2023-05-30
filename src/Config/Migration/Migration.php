@@ -12,7 +12,7 @@ use srag\Plugins\SrUI\Config\Configuration;
  */
 interface Migration
 {
-    public function appliesToVersionsPrior() : Version;
-    
-    public function perform(Configuration $configuration) : void;
+    public function appliesToVersionsPrior(): Version;
+
+    public function perform(Configuration $configuration): void;
 }

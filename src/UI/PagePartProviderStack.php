@@ -10,6 +10,7 @@ use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\SystemInfo;
+use ILIAS\UI\Component\Toast\Container as TContainer;
 
 /**
  * Class PagePartProviderStack
@@ -17,10 +18,7 @@ use ILIAS\UI\Component\MainControls\SystemInfo;
  */
 class PagePartProviderStack implements PagePartProvider
 {
-    /**
-     * @var \ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider
-     */
-    protected $parts;
+    protected \ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider $parts;
     /**
      * @var \ILIAS\UI\Factory
      */
@@ -40,65 +38,74 @@ class PagePartProviderStack implements PagePartProvider
         $this->ui_renderer = $DIC->ui()->renderer();
     }
 
-    public function prependContent(string $content) : void
+    public function prependContent(string $content): void
     {
         $this->prepended_content = $content . $this->prepended_content;
     }
 
-    public function getContent() : ?Legacy
+    public function getContent(): ?Legacy
     {
         $legacy = $this->ui_renderer->render($this->parts->getContent());
         return $this->ui_factory->legacy($this->prepended_content . $legacy . "");
     }
 
-    public function getMetaBar() : ?MetaBar
+    public function getMetaBar(): ?MetaBar
     {
         return $this->parts->getMetaBar();
     }
 
-    public function getMainBar() : ?MainBar
+    public function getMainBar(): ?MainBar
     {
         return $this->parts->getMainBar();
     }
 
-    public function getBreadCrumbs() : ?Breadcrumbs
+    public function getBreadCrumbs(): ?Breadcrumbs
     {
         return $this->parts->getBreadCrumbs();
     }
 
-    public function getLogo() : ?Image
+    public function getLogo(): ?Image
     {
         return $this->parts->getLogo();
     }
 
-    public function getResponsiveLogo() : ?Image
+    public function getResponsiveLogo(): ?Image
     {
         return $this->parts->getResponsiveLogo();
     }
 
-    public function getFooter() : ?Footer
+    public function getFooter(): ?Footer
     {
         return $this->parts->getFooter();
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->parts->getTitle();
     }
 
-    public function getShortTitle() : string
+    public function getShortTitle(): string
     {
         return $this->parts->getShortTitle();
     }
 
-    public function getViewTitle() : string
+    public function getViewTitle(): string
     {
         return $this->parts->getViewTitle();
     }
 
-    public function getSystemInfos() : array
+    public function getSystemInfos(): array
     {
         return $this->parts->getSystemInfos();
     }
 
+    public function getFaviconPath(): string
+    {
+        return $this->parts->getFaviconPath();
+    }
+
+    public function getToastContainer(): ?TContainer
+    {
+        return $this->parts->getToastContainer();
+    }
 }

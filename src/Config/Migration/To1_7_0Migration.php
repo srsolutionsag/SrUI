@@ -6,15 +6,14 @@ use srag\Plugins\SrUI\Version;
 use srag\Plugins\SrUI\Config\Configuration;
 use srag\Plugins\SrUI\Config\Menu\MenuColorConfig;
 
-
 class To1_7_0Migration implements Migration
 {
-    public function appliesToVersionsPrior() : Version
+    public function appliesToVersionsPrior(): Version
     {
         return new Version('1.7.0');
     }
-    
-    public function perform(Configuration $configuration) : void
+
+    public function perform(Configuration $configuration): void
     {
         $config = $configuration->get(MenuColorConfig::NS);
         $data = $config->getRawData();
@@ -23,5 +22,4 @@ class To1_7_0Migration implements Migration
         $config->loadData($data);
         $configuration->save();
     }
-    
 }

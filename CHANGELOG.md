@@ -1,5 +1,8 @@
 # Changelog
 
+### 2.0.0
+- [FEATURE] Added support for ILIAS 8 (only)
+
 ### 1.7.3
 - [FIX] Issue with Productive Server Modal on Login Page
 

@@ -11,21 +11,21 @@ use srag\Plugins\SrUI\Config\BaseNestedConfig;
  */
 class CenteredPageConfig extends BaseNestedConfig
 {
-    const NS = 'centered_login_page';
-    const F_SHOW_HEADER_LOGO = 'show_header_logo';
-    const F_BACKGROUND_IMAGE = 'background_image';
-    const F_CENTERED_LOGIN_PAGE_CSS = 'centered_login_page_css';
-    
+    public const NS = 'centered_login_page';
+    public const F_SHOW_HEADER_LOGO = 'show_header_logo';
+    public const F_BACKGROUND_IMAGE = 'background_image';
+    public const F_CENTERED_LOGIN_PAGE_CSS = 'centered_login_page_css';
+
     public function __construct()
     {
         parent::__construct(self::NS);
     }
-    
-    public function showHeaderLogoInLoginContainer() : bool
+
+    public function showHeaderLogoInLoginContainer(): bool
     {
         return $this->data[self::F_SHOW_HEADER_LOGO] ?? false;
     }
-    
+
     public function getData()
     {
         if (
@@ -35,15 +35,15 @@ class CenteredPageConfig extends BaseNestedConfig
         ) {
             return null;
         }
-        
+
         return $this->data ?? [
                 self::F_SHOW_HEADER_LOGO => false,
                 self::F_BACKGROUND_IMAGE => null,
                 self::F_CENTERED_LOGIN_PAGE_CSS => ''
             ];
     }
-    
-    public function getFields() : array
+
+    public function getFields(): array
     {
         return [
             self::F_SHOW_HEADER_LOGO,
@@ -51,10 +51,9 @@ class CenteredPageConfig extends BaseNestedConfig
             self::F_CENTERED_LOGIN_PAGE_CSS,
         ];
     }
-    
-    public function getLoginCSS() : ?string
+
+    public function getLoginCSS(): ?string
     {
         return $this->data[self::F_CENTERED_LOGIN_PAGE_CSS] ?? '';
     }
-    
 }

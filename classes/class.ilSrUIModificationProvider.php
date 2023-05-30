@@ -1,6 +1,7 @@
 <?php
 
-require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/vendor/autoload.php');
+/** @noRector  */
+require_once(__DIR__ . '/../vendor/autoload.php');
 
 use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LayoutModification;
@@ -27,52 +28,48 @@ use ILIAS\Filesystem\Stream\Streams;
  */
 class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 {
-    const PRIORITY = 60;
-    
-    protected function config() : Configuration
+    public const PRIORITY = 60;
+
+    protected function config(): Configuration
     {
         /** @var $this- >plugin ilSrUIPlugin */
         return $this->plugin->getConfiguration();
     }
-    
-    public function isInterestedInContexts() : ContextCollection
+
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->main();
     }
-    
-    public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
+
+    public function getPageBuilderDecorator(CalledContexts $screen_context_stack): ?PageBuilderModification
     {
         // Non-Productive Systems
         $prod_system = $this->config()->prodServerConfig();
-        if ($prod_system->isNamespaceActive()) {
-            if (!$prod_system->onProdSystem()) {
-                // Send X-Robots-Tag: noindex
-                if ($prod_system->sendNonIdexHeader()) {
-                    $http = $this->dic->http();
-    
-                    $http->saveResponse(
-                        $http->response()->withAddedHeader('X-Robots-Tag', 'noindex')
-                    );
-                    $http->saveResponse(
-                        $http->response()->withBody(Streams::ofString(''))
-                    );
-                    $http->sendResponse();
-                }
+        if ($prod_system->isNamespaceActive() && !$prod_system->onProdSystem()) {
+            // Send X-Robots-Tag: noindex
+            if ($prod_system->sendNonIdexHeader()) {
+                $http = $this->dic->http();
+
+                $http->saveResponse(
+                    $http->response()->withAddedHeader('X-Robots-Tag', 'noindex')
+                );
+                $http->saveResponse(
+                    $http->response()->withBody(Streams::ofString(''))
+                );
+                $http->sendResponse();
             }
         }
-        
+
         // Cards
         $content_settings = $this->config()->contentConfig();
-        if ($content_settings->hasFancyCards()) {
-            if ($this->plugin instanceof ilSrUIPlugin) {
-                if ($this->plugin->getILIASVersion()->hasCardFix()) {
-                    $this->dic->globalScreen()->layout()->meta()->addCss(ilSrUIPlugin::TEMPLATES_BASE . "cards_77.css");
-                } else {
-                    $this->dic->globalScreen()->layout()->meta()->addCss(ilSrUIPlugin::TEMPLATES_BASE . "cards.css");
-                }
+        if ($content_settings->hasFancyCards() && $this->plugin instanceof ilSrUIPlugin) {
+            if ($this->plugin->getILIASVersion()->hasCardFix()) {
+                $this->dic->globalScreen()->layout()->meta()->addCss(ilSrUIPlugin::TEMPLATES_BASE . "cards_77.css");
+            } else {
+                $this->dic->globalScreen()->layout()->meta()->addCss(ilSrUIPlugin::TEMPLATES_BASE . "cards.css");
             }
         }
-        
+
         // Header-Colors
         $header_colors = $this->config()->headerColorConfig();
         if ($header_colors->isNamespaceActive()) {
@@ -98,13 +95,13 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             "
             );
         }
-        
+
         // Footer Colors
         $footer_colors = $this->config()->footerColorConfig();
         if ($footer_colors->isNamespaceActive()) {
             $footer_bg_color = $footer_colors->getBackgroundColor();
             $footer_text_color = $footer_colors->getTextColor();
-            
+
             $this->dic->globalScreen()->layout()->meta()->addInlineCss(
                 "
             footer, div.il-maincontrols-footer {
@@ -119,7 +116,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             "
             );
         }
-        
+
         // Menu Colors
         $menu_colors = $this->config()->menuColorConfig();
         if ($menu_colors->isNamespaceActive()) {
@@ -129,7 +126,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $sub_hover_color = $menu_colors->get(MenuColorConfig::F_SUB_HOVER_COLOR);
             $tools_color = $menu_colors->get(MenuColorConfig::F_TOOLS_COLOR);
             $tools_hover_color = $menu_colors->get(MenuColorConfig::F_TOOLS_HOVER_COLOR);
-            
+
             $this->dic->globalScreen()->layout()->meta()->addInlineCss(
                 "
                 
@@ -173,7 +170,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             "
             );
         }
-        
+
         // Button Colors
         $button_colors = $this->config()->buttonColorConfig();
         if ($button_colors->isNamespaceActive()) {
@@ -181,13 +178,13 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $primary_text_color = $button_colors->getPrimaryTextColor();
             $primary_hover = $button_colors->getPrimaryHoverColor();
             $primary_hover_text_color = $button_colors->getPrimaryHoverTextColor();
-            
+
             $general = $button_colors->getGeneralColor();
             $general_text_color = $button_colors->getGeneralTextColor();
             $general_hover = $button_colors->getGeneralHoverColor();
             $general_hover_text_color = $button_colors->getGeneralHoverTextColor();
-            
-            
+
+
             $this->dic->globalScreen()->layout()->meta()->addInlineCss(
                 "
                 .btn.btn-primary {
@@ -213,13 +210,13 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             "
             );
         }
-        
+
         // Page
         $builder = new PageBuilderStack($this->dic, $this->config());
         return $builder->getAsModification();
     }
-    
-    private function setPriority(LayoutModification $m) : LayoutModification
+
+    private function setPriority(LayoutModification $m): LayoutModification
     {
         try {
             return $m->withPriority(self::PRIORITY);
@@ -227,33 +224,33 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             return $m->withHighPriority();
         }
     }
-    
-    public function getLogoModification(CalledContexts $screen_context_stack) : ?LogoModification
+
+    public function getLogoModification(CalledContexts $screen_context_stack): ?LogoModification
     {
         $header_logo = $this->config()->headerLogoConfig();
         $header_logo_link = $header_logo->getHeaderIconLink();
         $logo_modification = $this->factory->logo();
         $logo_modification = $this->setPriority($logo_modification);
-        
+
         if ($header_logo->hasHeaderLogo()) {
             $width = $header_logo->getHeaderLogoWidth();
             $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo .hidden-xs img { width: {$width};}");
             $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo img.img-standard { width: {$width};}");
             $s = $this->plugin->getStorageFactory()->storage()->getDataURL($header_logo->getHeaderlogo());
             if (!empty($s)) {
-                return $logo_modification->withModification(function (Image $image) use ($s, $header_logo_link) {
+                return $logo_modification->withModification(function (Image $image) use ($s, $header_logo_link): \ILIAS\UI\Component\Image\Image {
                     return $image->withSource($s)
                                  ->withAction($header_logo_link === '' ? $image->getAction() : $header_logo_link);
                 });
             }
         }
-        
-        return $logo_modification->withModification(function (Image $image) use ($s, $header_logo_link) {
+
+        return $logo_modification->withModification(function (Image $image) use ($s, $header_logo_link): \ILIAS\UI\Component\Image\Image {
             return $image->withAction($header_logo_link === '' ? $image->getAction() : $header_logo_link);
         });
     }
-    
-    public function getResponsiveLogoModification(CalledContexts $screen_context_stack) : ?LogoModification
+
+    public function getResponsiveLogoModification(CalledContexts $screen_context_stack): ?LogoModification
     {
         $responsive_header_logo = $this->config()->responsiveHeaderLogoConfig();
         if ($responsive_header_logo->hasResponsiveHeaderLogo()) {
@@ -269,26 +266,24 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             if (!empty($s)) {
                 $logo_modification = $this->factory->logo();
                 $logo_modification = $this->setPriority($logo_modification);
-                
-                return $logo_modification->withModification(function (Image $image) use ($s) {
+
+                return $logo_modification->withModification(function (Image $image) use ($s): \ILIAS\UI\Component\Image\Image {
                     return $image->withSource($s);
                 });
             }
-            
         }
         return null;
     }
-    
-    public function getFooterModification(CalledContexts $screen_context_stack) : ?FooterModification
+
+    public function getFooterModification(CalledContexts $screen_context_stack): ?FooterModification
     {
         $footer_additional_infos_config = $this->config()->footerAdditionalInfosConfig();
         if ($footer_additional_infos_config->showRenderedBy()) {
-            
             $footer_modification = $this->factory->footer();
             $footer_modification = $this->setPriority($footer_modification);
-            
+
             return $footer_modification
-                ->withModification(function () : \ILIAS\UI\Component\MainControls\Footer {
+                ->withModification(function (): \ILIAS\UI\Component\MainControls\Footer {
                     $pageContentProvider = new PageContentProvider($this->dic);
                     $footer = $pageContentProvider->getFooterModification(
                         $this->dic->globalScreen()->tool()->context()->stack()
@@ -297,14 +292,14 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                      * @var $f Footer
                      */
                     $f = $footer();
-                    
+
                     $hostname = gethostname();
                     $ilias_version = ILIAS_VERSION_NUMERIC;
                     preg_match('/\d+\.\d+.\d+/', PHP_VERSION, $php_version);
-                    
+
                     $links = $f->getLinks();
                     $mmprovider = new ilSrUIMainBarProvider($this->dic, $this->plugin);
-                    
+
                     $replaced_footer = $this->dic->ui()->factory()->mainControls()->footer(
                         $links,
                         "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version[0]
@@ -317,29 +312,29 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         }
         return null;
     }
-    
-    public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification
+
+    public function getTitleModification(CalledContexts $screen_context_stack): ?TitleModification
     {
         $title_config = $this->config()->titleConfig();
         if ($title_config->isNamespaceActive()) {
             $title_modification = $this->factory->title();
             $title_modification = $this->setPriority($title_modification);
-            
-            return $title_modification->withModification(function (string $f) use ($title_config) : string {
+
+            return $title_modification->withModification(function (string $f) use ($title_config): string {
                 return $title_config->getHeaderTitle();
             });
         }
         return null;
     }
-    
-    public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification
+
+    public function getShortTitleModification(CalledContexts $screen_context_stack): ?ShortTitleModification
     {
         $title_config = $this->config()->titleConfig();
         if ($title_config->isNamespaceActive()) {
             $short_title_modification = $this->factory->short_title();
             $short_title_modification = $this->setPriority($short_title_modification);
-            
-            return $short_title_modification->withModification(function (string $f) use ($title_config) : string {
+
+            return $short_title_modification->withModification(function (string $f) use ($title_config): string {
                 return $title_config->getHeaderTitle();
             });
         }

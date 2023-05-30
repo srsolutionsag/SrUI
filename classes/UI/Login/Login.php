@@ -15,10 +15,7 @@ use ILIAS\UI\Implementation\Component\Layout\Page\Standard;
  */
 class Login extends Standard
 {
-    /**
-     * @var LoginPageSettings
-     */
-    protected $settings;
+    protected \ILIAS\UI\Implementation\Component\Layout\Page\Login\LoginPageSettings $settings;
 
     public function __construct(
         LoginPageSettings $settings,
@@ -39,9 +36,8 @@ class Login extends Standard
     /**
      * @return LoginPageSettings
      */
-    public function getSettings() : LoginPageSettings
+    public function getSettings(): LoginPageSettings
     {
         return $this->settings;
     }
-
 }

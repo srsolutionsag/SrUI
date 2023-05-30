@@ -14,16 +14,12 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 class ResourceStorage7 implements ResourceStorage
 {
-    
     /**
      * @var \ILIAS\ResourceStorage\Services
      */
     protected $services;
-    /**
-     * @var Stakeholder7
-     */
-    protected $stakeholder;
-    
+    protected \srag\Plugins\SrUI\ResourceStorage\Stakeholder7 $stakeholder;
+
     public function __construct()
     {
         global $DIC;
@@ -33,16 +29,16 @@ class ResourceStorage7 implements ResourceStorage
         $this->services = $DIC->resourceStorage();
         $this->stakeholder = new Stakeholder7();
     }
-    
-    public function fromUpload(UploadResult $u) : string
+
+    public function fromUpload(UploadResult $u): string
     {
         return $this->services->manage()->upload(
             $u,
             $this->stakeholder
         );
     }
-    
-    public function fromPath(string $u, string $mime_type = null) : string
+
+    public function fromPath(string $u, string $mime_type = null): string
     {
         $stream = Streams::ofResource(fopen($u, "r"));
         return $this->services->manage()->stream(
@@ -50,68 +46,68 @@ class ResourceStorage7 implements ResourceStorage
             $this->stakeholder
         );
     }
-    
-    public function getDataURL(string $identification) : string
+
+    public function getDataURL(string $identification): string
     {
         $identification = $this->services->manage()->find($identification);
-        if ($identification === null) {
+        if (!$identification instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
             return '';
         }
         return $this->services->consume()->src($identification)->getSrc();
     }
-    
-    public function remove(string $identification) : bool
+
+    public function remove(string $identification): bool
     {
         $identification = $this->services->manage()->find($identification);
-        if ($identification === null) {
+        if (!$identification instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
             return false;
         }
         $this->services->manage()->remove($identification, $this->stakeholder);
         return true;
     }
-    
-    public function getRevisionInfo(string $identification) : array
+
+    public function getRevisionInfo(string $identification): array
     {
         $identification = $this->services->manage()->find($identification);
-        if ($identification === null) {
+        if (!$identification instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
             return [];
         }
         $info = $this->services->manage()->getCurrentRevision($identification)->getInformation();
         $title = $info->getTitle();
         $size = $info->getSize();
         $mime_type = $info->getMimeType();
-        
+
         return [
             'title' => $title,
             'size' => $size,
             'mime_type' => $mime_type
         ];
     }
-    
-    public function has(string $identification) : bool
+
+    public function has(string $identification): bool
     {
         return $this->services->manage()->find($identification) instanceof ResourceIdentification;
     }
-    
-    public function getString(string $identification) : string
+
+    public function getString(string $identification): string
     {
         $identification = $this->services->manage()->find($identification);
-        if ($identification === null) {
+        if (!$identification instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
             return '';
         }
         return $this->services->consume()->stream($identification)->getStream()->getContents();
     }
-    
-    public function getPath(string $identification) : string
+
+    public function getPath(string $identification): string
     {
         $identification = $this->services->manage()->find($identification);
-        if ($identification === null) {
+        if (!$identification instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
             return '';
         }
         return $this->services->consume()->stream($identification)->getStream()->getMetadata('uri');
     }
-    
-    public function fromString(string $content, string $mime_type = null) : string
+
+    public function fromString(string $content, string $mime_type = null): string
     {
         $stream = Streams::ofString($content);
         $identification = $this->services->manage()->stream(
@@ -126,8 +122,7 @@ class ResourceStorage7 implements ResourceStorage
             $revision->setInformation($information);
             $this->services->manage()->updateRevision($revision);
         }
-        
+
         return $identification;
     }
-    
 }

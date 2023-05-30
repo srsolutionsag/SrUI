@@ -7,10 +7,7 @@ namespace srag\Plugins\SrUI\Artifact;
  */
 class ArrayArtifact
 {
-    /**
-     * @var array
-     */
-    private $data = [];
+    private array $data = [];
 
     /**
      * @param array $data - may only contain primitive data
@@ -21,7 +18,7 @@ class ArrayArtifact
         $this->data = $data;
     }
 
-    final public function serialize() : string
+    final public function serialize(): string
     {
         return "<?" . "php return " . var_export($this->data, true) . ";";
     }
@@ -42,5 +39,4 @@ class ArrayArtifact
             );
         }
     }
-
 }

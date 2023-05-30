@@ -7,19 +7,10 @@ namespace srag\Plugins\SrUI\Artifact;
  */
 class ArtifactSaver
 {
-    const SUFFIX = '.php';
-    /**
-     * @var ArrayArtifact
-     */
-    protected $artifact;
-    /**
-     * @var string
-     */
-    protected $file_name;
-    /**
-     * @var string
-     */
-    protected $base_path;
+    public const SUFFIX = '.php';
+    protected \srag\Plugins\SrUI\Artifact\ArrayArtifact $artifact;
+    protected string $file_name;
+    protected string $base_path;
 
     /**
      * @param string $file_name
@@ -31,12 +22,12 @@ class ArtifactSaver
         $this->file_name = $file_name;
     }
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->base_path . "/" . $this->file_name . self::SUFFIX;
     }
 
-    public function save(ArrayArtifact $artifact) : void
+    public function save(ArrayArtifact $artifact): void
     {
         $this->artifact = $artifact;
         if (!file_exists($this->getPath())) {
@@ -48,7 +39,7 @@ class ArtifactSaver
         }
     }
 
-    public function read() : array
+    public function read(): array
     {
         if (!file_exists($this->getPath())) {
             $data = []; // TODO reset to default
@@ -59,5 +50,4 @@ class ArtifactSaver
         $this->artifact = new ArrayArtifact(is_array($data) ? $data : []);
         return $data;
     }
-
 }

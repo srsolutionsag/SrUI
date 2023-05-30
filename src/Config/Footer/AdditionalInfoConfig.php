@@ -10,20 +10,20 @@ use srag\Plugins\SrUI\Config\BaseNestedConfig;
  */
 class AdditionalInfoConfig extends BaseNestedConfig
 {
-    const NS = 'additional_footer_infos';
-    const F_SHOW_RENDERED_BY = 'show_rendered_by';
+    public const NS = 'additional_footer_infos';
+    public const F_SHOW_RENDERED_BY = 'show_rendered_by';
 
     public function __construct()
     {
         parent::__construct(self::NS);
     }
 
-    public function showRenderedBy() : bool
+    public function showRenderedBy(): bool
     {
         return $this->data[self::F_SHOW_RENDERED_BY] ?? false;
     }
 
-    public function getFields() : array
+    public function getFields(): array
     {
         return [
             self::F_SHOW_RENDERED_BY

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace srag\Plugins\SrUI\Config\Header;
 
@@ -18,22 +20,22 @@ class ResponsiveHeaderLogoConfiguration extends BaseNestedConfig
         parent::__construct(self::NS);
     }
 
-    public function hasResponsiveHeaderLogo() : bool
+    public function hasResponsiveHeaderLogo(): bool
     {
         return isset($this->data[self::F_ICON][0]);
     }
 
-    public function getResponsiveHeaderlogo() : string
+    public function getResponsiveHeaderlogo(): string
     {
         return $this->data[self::F_ICON][0] ?? '';
     }
 
-    public function getResponsiveHeaderLogoWidth() : string
+    public function getResponsiveHeaderLogoWidth(): string
     {
         return $this->data[self::F_ICON_WIDTH] ?? '45px';
     }
 
-    public function getFields() : array
+    public function getFields(): array
     {
         return [
             self::F_ICON_WIDTH,

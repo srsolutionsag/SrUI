@@ -14,7 +14,7 @@ class ilSrUICloneInfoConfigGUI implements ilSrUIGUI
     use ilSrUIHelperGUI;
     use ilSrUITrafos;
 
-    private function getForm() : Form
+    private function getForm(): Form
     {
         $config = $this->config->get(ProdServerConfig::NS);
         // Fields
@@ -45,7 +45,7 @@ class ilSrUICloneInfoConfigGUI implements ilSrUIGUI
             [
                 ProdServerConfig::NS => $prod_system
             ]
-        )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) use ($config) {
+        )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) use ($config): bool {
             $config->loadData($v[ProdServerConfig::NS]);
             return true;
         }));

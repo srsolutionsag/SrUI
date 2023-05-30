@@ -13,21 +13,18 @@ use srag\Plugins\SrUI\ILIASVersion;
  */
 class ZoomableCardRenderer extends Renderer
 {
-    const TEMPLATES = "./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/";
-    /**
-     * @var bool
-     */
-    private $has_fix = null;
-    
-    protected function getTemplatePath($name)
+    public const TEMPLATES = "./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/";
+    private ?bool $has_fix = null;
+
+    protected function getTemplatePath(string $name): string
     {
         if ($this->hasFixedCardsInCore()) {
             return parent::getTemplatePath($name);
         }
         return self::TEMPLATES . "tpl.zoomable_card.html";
     }
-    
-    private function hasFixedCardsInCore() : bool
+
+    private function hasFixedCardsInCore(): bool
     {
         if ($this->has_fix === null) {
             $version = new ILIASVersion(ILIAS_VERSION_NUMERIC);

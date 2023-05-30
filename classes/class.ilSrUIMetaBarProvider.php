@@ -1,6 +1,7 @@
 <?php
 
-require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/vendor/autoload.php');
+/** @noRector  */
+require_once(__DIR__ . '/../vendor/autoload.php');
 
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarPluginProvider;
 use srag\Plugins\SrUI\Artifact\Artifact;
@@ -14,7 +15,7 @@ class ilSrUIMetaBarProvider extends AbstractStaticMetaBarPluginProvider
     /**
      * @return Artifact
      */
-    private function getArtifact() : Artifact
+    private function getArtifact(): Artifact
     {
         static $settings;
         if (!$settings) {
@@ -23,7 +24,7 @@ class ilSrUIMetaBarProvider extends AbstractStaticMetaBarPluginProvider
         return $settings;
     }
 
-    public function getMetaBarItems() : array
+    public function getMetaBarItems(): array
     {
         $ref_id = $_GET['ref_id'] ?? null;
         $obj_id = $ref_id !== null ? \ilObject2::_lookupObjId($ref_id) : '-';
@@ -32,10 +33,13 @@ class ilSrUIMetaBarProvider extends AbstractStaticMetaBarPluginProvider
 
         $items = $factory->listing()->characteristicValue()->text([
             'Reference-ID' => $ref_id ?? '-',
-            'Object-ID' => $obj_id,
-            'Call-History' => implode('<br>', array_map(function (array $i) {
-                return $i['class'];
-            }, $this->dic->ctrl()->getCallHistory()))
+            'Object-ID' => (string) $obj_id,
+            'Call-History' => implode(
+                '<br>',
+                array_map(function (array $i): string {
+                    return $i['cmdClass'] ?? '';
+                }, $this->dic->ctrl()->getCallHistory())
+            )
         ]);
 
         $panel = $factory->panel()->secondary()->legacy(
@@ -49,11 +53,10 @@ class ilSrUIMetaBarProvider extends AbstractStaticMetaBarPluginProvider
             $this->meta_bar->topLegacyItem($this->if->identifier('debug'))
                            ->withLegacyContent($factory->legacy($content))
                            ->withSymbol($factory->symbol()->glyph()->bulletlist())
-                           ->withVisibilityCallable(function () : bool {
+                           ->withVisibilityCallable(function (): bool {
                                return $this->dic->rbac()->review()->isAssigned($this->dic->user()->getId(), 2);
                            })
                            ->withTitle('DEBUG')
         ];
     }
-
 }

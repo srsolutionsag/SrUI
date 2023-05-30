@@ -62,7 +62,7 @@ trait ilSrUIHelperGUI
      * @var Factory
      */
     protected $storage_factory;
-    
+
     /**
      * ilSrUIMainGUI constructor.
      * @param Container    $dic
@@ -85,7 +85,7 @@ trait ilSrUIHelperGUI
         $this->storage_factory = new Factory();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         switch ($this->ctrl->getCmd(self::CMD_INDEX)) {
             case self::CMD_INDEX:
@@ -97,19 +97,19 @@ trait ilSrUIHelperGUI
         }
     }
 
-    private function index() : void
+    private function index(): void
     {
         $this->tpl->setContent($this->ui_renderer->render($this->getForm()));
     }
 
-    private function save() : void
+    private function save(): void
     {
         $form = $this->getForm()->withRequest($this->http->request());
 
         if ($form->getData()) {
             $this->config->save();
             $this->ctrl->redirect($this);
-        }else {
+        } else {
             $this->tpl->setContent($this->ui_renderer->render($form));
         }
     }

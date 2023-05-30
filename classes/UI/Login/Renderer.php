@@ -12,10 +12,10 @@ use srag\Plugins\SrUI\ILIASVersion;
  */
 class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 {
-    const TEMPLATE_BASE = \ilSrUIPlugin::TEMPLATES_BASE;
-    
-    
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public const TEMPLATE_BASE = \ilSrUIPlugin::TEMPLATES_BASE;
+
+
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         return $this->renderLoginPage($component, $default_renderer);
     }
@@ -48,9 +48,9 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         }
         if ($component->hasLogo()) {
             $logo = $component->getLogo();
-            if ($logo) {
+            if ($logo !== null) {
                 $tpl->setVariable("LOGO", $default_renderer->render($logo));
-                if($component->getSettings()->isShowHeaderLogo()) {
+                if ($component->getSettings()->isShowHeaderLogo()) {
                     $tpl->setVariable("LOGO_LOGIN", $default_renderer->render($logo));
                 }
             }
@@ -58,7 +58,7 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 
 
         $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED];
-        if ($slates_cookie && json_decode($slates_cookie, true)['engaged']) {
+        if ($slates_cookie && json_decode($slates_cookie, true, 512, JSON_THROW_ON_ERROR)['engaged']) {
             $tpl->touchBlock('slates_engaged');
         }
 
@@ -68,7 +68,7 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         $tpl->setVariable("LANGUAGE", $this->getLangKey());
         $tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
-        if ($component->getSettings()->getBackgroundImage()) {
+        if ($component->getSettings()->getBackgroundImage() !== '' && $component->getSettings()->getBackgroundImage() !== '0') {
             $tpl->setVariable('BACKGROUND_IMAGE', $component->getSettings()->getBackgroundImage());
         }
 
@@ -83,5 +83,4 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 
         return $tpl->get();
     }
-
 }

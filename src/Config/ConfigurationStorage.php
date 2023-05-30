@@ -12,15 +12,12 @@ use srag\Plugins\SrUI\Artifact\ArtifactSaver;
  */
 class ConfigurationStorage
 {
-    const FIELD_CONFIG_VERSION = 'config_version';
-    protected $config_collection;
-    protected $config_version;
+    public const FIELD_CONFIG_VERSION = 'config_version';
+    protected \srag\Plugins\SrUI\Config\ConfigCollection $config_collection;
+    protected string $config_version;
     protected $data = [];
-    /**
-     * @var ArtifactSaver
-     */
-    protected $artifact_storage;
-    
+    protected \srag\Plugins\SrUI\Artifact\ArtifactSaver $artifact_storage;
+
     /**
      * @param $config_collection
      */
@@ -30,15 +27,15 @@ class ConfigurationStorage
         $this->config_collection = $config_collection;
         $this->artifact_storage = new ArtifactSaver('sr_ui_setting');
     }
-    
-    private function fromConfigsToArray() : void
+
+    private function fromConfigsToArray(): void
     {
         foreach ($this->config_collection->getAll() as $config) {
             $this->data[$config->getNamespace()] = $config->getRawData();
         }
     }
-    
-    private function fromArrayToConfigs() : void
+
+    private function fromArrayToConfigs(): void
     {
         foreach ($this->data as $namespace => $data) {
             if ($this->config_collection->has($namespace)) {
@@ -46,42 +43,42 @@ class ConfigurationStorage
             }
         }
     }
-    
-    public function readFromArray(array $raw_data) : void
+
+    public function readFromArray(array $raw_data): void
     {
         $this->data = $raw_data;
         $this->fromArrayToConfigs();
     }
-    
-    public function read() : void
+
+    public function read(): void
     {
         $this->data = $this->getRawData();
         $this->fromArrayToConfigs();
     }
-    
-    public function write() : void
+
+    public function write(): void
     {
         $this->fromConfigsToArray();
         $this->data[self::FIELD_CONFIG_VERSION] = $this->config_version;
         $this->artifact_storage->save(new ArrayArtifact($this->data));
     }
-    
-    public function needsUpdate() : bool
+
+    public function needsUpdate(): bool
     {
         return version_compare($this->config_version, $this->getStoredVersion());
     }
-    
-    public function getStoredVersion() : string
+
+    public function getStoredVersion(): string
     {
         return $this->data[self::FIELD_CONFIG_VERSION] ?? '';
     }
-    
-    public function getArtifactPath() : string
+
+    public function getArtifactPath(): string
     {
         return $this->artifact_storage->getPath();
     }
-    
-    public function getRawData() : array
+
+    public function getRawData(): array
     {
         return $this->artifact_storage->read();
     }

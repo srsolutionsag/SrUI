@@ -24,14 +24,11 @@ use srag\Plugins\SrUI\Version;
  */
 class Configuration
 {
-    protected $collection;
-    protected $version = '1.0.0';
-    protected $storage;
-    /**
-     * @var Factory
-     */
-    protected $resource_storage_factory;
-    
+    protected \srag\Plugins\SrUI\Config\ConfigCollection $collection;
+    protected string $version;
+    protected \srag\Plugins\SrUI\Config\ConfigurationStorage $storage;
+    protected \srag\Plugins\SrUI\ResourceStorage\Factory $resource_storage_factory;
+
     /**
      * @param string $version
      */
@@ -56,36 +53,36 @@ class Configuration
         $this->storage = new ConfigurationStorage($this->collection, $this->version);
         $this->storage->read();
     }
-    
-    public function isUpToDate() : bool
+
+    public function isUpToDate(): bool
     {
         return !$this->storage->needsUpdate();
     }
-    
-    public function getStoredConfigVersion() : Version
+
+    public function getStoredConfigVersion(): Version
     {
         return new Version($this->storage->getStoredVersion());
     }
-    
-    public function get(string $namespace) : Config
+
+    public function get(string $namespace): Config
     {
         return $this->collection->get($namespace);
     }
-    
-    public function save()
+
+    public function save(): void
     {
         $this->storage->write();
     }
-    
-    public function export() : string
+
+    public function export(): string
     {
         $resource_storage = $this->resource_storage_factory->storage();
-        
+
         $zip = new \ZipArchive();
-        $filename = \ilUtil::ilTempnam();
+        $filename = \ilFileUtils::ilTempnam();
         $zip->open($filename, \ZipArchive::CREATE);
         $zip->addFromString('version', $this->storage->getStoredVersion());
-        $zip->addFromString('config', json_encode($this->storage->getRawData()));
+        $zip->addFromString('config', json_encode($this->storage->getRawData(), JSON_THROW_ON_ERROR));
         foreach ($this->collection->getAll() as $config) {
             $data = $config->getRawData();
             if (!is_array($data)) {
@@ -98,28 +95,28 @@ class Configuration
             }
         }
         $zip->close();
-        
+
         return $filename;
     }
-    
-    public function import(\ZipArchive $zip) : void
+
+    public function import(\ZipArchive $zip): void
     {
         $resource_storage = $this->resource_storage_factory->storage();
-        
+
         function array_map_recursive(callable $func, array $arr)
         {
-            array_walk_recursive($arr, function (&$v) use ($func) {
+            array_walk_recursive($arr, function (&$v) use ($func): void {
                 $v = $func($v);
             });
             return $arr;
         }
-        
+
         $version = $zip->getFromName('version');
         $config = $zip->getFromName('config');
-        $config_array = json_decode($config, true);
-        
+        $config_array = json_decode($config, true, 512, JSON_THROW_ON_ERROR);
+
         $finfo_possible = class_exists('finfo');
-        
+
         $config_array = array_map_recursive(function ($value) use ($zip, $resource_storage, $finfo_possible) {
             if ($file_content = $zip->getFromName($value)) {
                 $mime_type = null;
@@ -127,69 +124,67 @@ class Configuration
                     $finfo = new \finfo(FILEINFO_MIME_TYPE);
                     $mime_type = $finfo->buffer($file_content);
                 }
-                $new_rid = $resource_storage->fromString($file_content, $mime_type);
-                return $new_rid;
+                return $resource_storage->fromString($file_content, $mime_type);
             }
             return $value;
         }, $config_array);
-        
+
         $this->storage->readFromArray($config_array);
         $this->storage->write();
     }
-    
-    public function getStorage() : ConfigurationStorage
+
+    public function getStorage(): ConfigurationStorage
     {
         return $this->storage;
     }
-    
-    public function prodServerConfig() : ProdServerConfig
+
+    public function prodServerConfig(): ProdServerConfig
     {
         return $this->get(ProdServerConfig::NS);
     }
-    
-    public function contentConfig() : SpecialContentFeaturesConfig
+
+    public function contentConfig(): SpecialContentFeaturesConfig
     {
         return $this->get(SpecialContentFeaturesConfig::NS);
     }
-    
-    public function headerColorConfig() : HeaderColorsConfiguration
+
+    public function headerColorConfig(): HeaderColorsConfiguration
     {
         return $this->get(HeaderColorsConfiguration::NS);
     }
-    
-    public function headerLogoConfig() : HeaderLogoConfiguration
+
+    public function headerLogoConfig(): HeaderLogoConfiguration
     {
         return $this->get(HeaderLogoConfiguration::NS);
     }
-    
-    public function responsiveHeaderLogoConfig() : ResponsiveHeaderLogoConfiguration
+
+    public function responsiveHeaderLogoConfig(): ResponsiveHeaderLogoConfiguration
     {
         return $this->get(ResponsiveHeaderLogoConfiguration::NS);
     }
-    
-    public function titleConfig() : HeaderTitleConfiguration
+
+    public function titleConfig(): HeaderTitleConfiguration
     {
         return $this->get(HeaderTitleConfiguration::NS);
     }
-    
-    public function footerColorConfig() : FooterColorsConfig
+
+    public function footerColorConfig(): FooterColorsConfig
     {
         return $this->get(FooterColorsConfig::NS);
     }
-    
-    public function menuColorConfig() : MenuColorConfig
+
+    public function menuColorConfig(): MenuColorConfig
     {
         return $this->get(MenuColorConfig::NS);
     }
-    
-    public function footerAdditionalInfosConfig() : AdditionalInfoConfig
+
+    public function footerAdditionalInfosConfig(): AdditionalInfoConfig
     {
         return $this->get(AdditionalInfoConfig::NS);
     }
-    
-    public function buttonColorConfig() : ButtonColorConfig
+
+    public function buttonColorConfig(): ButtonColorConfig
     {
         return $this->get(ButtonColorConfig::NS);
     }
-    
 }

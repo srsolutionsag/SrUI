@@ -6,5 +6,4 @@
  */
 class ilSrUIConfigArtifact extends ArrayObject
 {
-
 }

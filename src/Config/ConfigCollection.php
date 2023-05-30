@@ -24,12 +24,12 @@ class ConfigCollection
         }
     }
 
-    public function has(string $namespace) : bool
+    public function has(string $namespace): bool
     {
         return isset($this->configs[$namespace]);
     }
 
-    public function get(string $namespace) : Config
+    public function get(string $namespace): Config
     {
         if (!$this->has($namespace)) {
             throw new \InvalidArgumentException('unknown $namespace ' . $namespace);
@@ -40,7 +40,7 @@ class ConfigCollection
     /**
      * @return Config[]
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         return $this->configs;
     }

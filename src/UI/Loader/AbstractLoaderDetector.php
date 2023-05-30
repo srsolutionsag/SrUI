@@ -14,11 +14,7 @@ use ILIAS\UI\Implementation\Render\RendererFactory;
  */
 abstract class AbstractLoaderDetector implements Loader
 {
-
-    /**
-     * @var Loader
-     */
-    protected $loader;
+    protected \ILIAS\UI\Implementation\Render\Loader $loader;
 
     /**
      * AbstractLoaderDetector constructor
@@ -32,7 +28,7 @@ abstract class AbstractLoaderDetector implements Loader
     /**
      * @inheritDoc
      */
-    public function getRendererFor(Component $component, array $contexts) : ComponentRenderer
+    public function getRendererFor(Component $component, array $contexts): ComponentRenderer
     {
         return $this->loader->getRendererFor($component, $contexts);
     }
@@ -40,7 +36,7 @@ abstract class AbstractLoaderDetector implements Loader
     /**
      * @inheritDoc
      */
-    public function getRendererFactoryFor(Component $component) : RendererFactory
+    public function getRendererFactoryFor(Component $component): RendererFactory
     {
         return $this->loader->getRendererFactoryFor($component);
     }

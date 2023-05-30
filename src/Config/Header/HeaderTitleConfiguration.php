@@ -10,20 +10,20 @@ use srag\Plugins\SrUI\Config\BaseNestedConfig;
  */
 class HeaderTitleConfiguration extends BaseNestedConfig
 {
-    const NS = 'header_title';
-    const F_HEADER_TITLE = 'header_title';
+    public const NS = 'header_title';
+    public const F_HEADER_TITLE = 'header_title';
 
     public function __construct()
     {
         parent::__construct(self::NS);
     }
 
-    public function getHeaderTitle() : string
+    public function getHeaderTitle(): string
     {
         return $this->data[self::F_HEADER_TITLE] ?? '';
     }
 
-    public function getFields() : array
+    public function getFields(): array
     {
         return [
             self::F_HEADER_TITLE

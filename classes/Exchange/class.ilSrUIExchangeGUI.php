@@ -15,11 +15,11 @@ class ilSrUIExchangeGUI implements ilSrUIGUI
 {
     use ilSrUIHelperGUI;
     use ilSrUITrafos;
-    
-    const CMD_DOWNLOAD = 'download';
-    const F_IMPORT_FILE = 'import_file';
-    
-    public function executeCommand() : void
+
+    public const CMD_DOWNLOAD = 'download';
+    public const F_IMPORT_FILE = 'import_file';
+
+    public function executeCommand(): void
     {
         switch ($this->ctrl->getCmd(self::CMD_INDEX)) {
             case self::CMD_INDEX:
@@ -33,11 +33,14 @@ class ilSrUIExchangeGUI implements ilSrUIGUI
                 break;
         }
     }
-    
-    private function index() : void
+
+    private function index(): void
     {
-        ilUtil::sendInfo('Importing Logos and other files currently not always possible');
-        
+        $this->tpl->setOnScreenMessage(
+            'info',
+            'Importing Logos and other files currently not always possible'
+        );
+
         $import = $this->ui_factory->panel()->standard(
             $this->plugin->txt('panel_import'),
             $this->getForm()
@@ -49,20 +52,20 @@ class ilSrUIExchangeGUI implements ilSrUIGUI
                 $this->ctrl->getLinkTarget($this, self::CMD_DOWNLOAD)
             )
         );
-        
+
         $this->tpl->setContent($this->ui_renderer->render([$export, $import]));
     }
-    
-    private function download() : void
+
+    private function download(): void
     {
         $zip_file = $this->config->export();
         ilFileDelivery::deliverFileAttached($zip_file, 'sr_ui_config.zip');
     }
-    
-    private function save() : void
+
+    private function save(): void
     {
         $form = $this->getForm()->withRequest($this->http->request());
-        
+
         if ($rid = $form->getData()) {
             $storage = $this->storage_factory->storage();
             $path = $storage->getPath($rid);
@@ -74,11 +77,11 @@ class ilSrUIExchangeGUI implements ilSrUIGUI
             $this->tpl->setContent($this->ui_renderer->render($form));
         }
     }
-    
-    private function getForm() : Form
+
+    private function getForm(): Form
     {
         $factory = $this->ui_factory->input();
-        
+
         return $factory->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
@@ -95,5 +98,4 @@ class ilSrUIExchangeGUI implements ilSrUIGUI
             })
         );
     }
-    
 }

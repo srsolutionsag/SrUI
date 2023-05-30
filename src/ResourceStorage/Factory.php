@@ -11,17 +11,14 @@ use srag\Plugins\SrUI\ILIASVersion;
  */
 class Factory
 {
-    /**
-     * @var ILIASVersion
-     */
-    protected $ilias_version;
-    
+    protected \srag\Plugins\SrUI\ILIASVersion $ilias_version;
+
     public function __construct()
     {
         $this->ilias_version = new ILIASVersion(ILIAS_VERSION_NUMERIC);
     }
-    
-    public function storage() : ResourceStorage
+
+    public function storage(): ResourceStorage
     {
         if ($this->ilias_version->lessThanSeven()) {
             return new ResourceStorage6();

@@ -14,7 +14,7 @@ class ilSrUIContentConfigGUI implements ilSrUIGUI
     use ilSrUIHelperGUI;
     use ilSrUITrafos;
 
-    private function getForm() : Form
+    private function getForm(): Form
     {
         $config = $this->config->get(Content::NS);
         // Fields
@@ -30,10 +30,9 @@ class ilSrUIContentConfigGUI implements ilSrUIGUI
                 Content::F_FANCY_CARDS => $cards,
                 Content::F_FANCY_TABS => $tabs,
             ]
-        )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) {
+        )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v): bool {
             $this->config->get(Content::NS)->loadData($v);
             return true;
         }));
     }
-
 }

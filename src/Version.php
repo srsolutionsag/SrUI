@@ -9,11 +9,11 @@ namespace srag\Plugins\SrUI;
  */
 class Version
 {
-    const GREATER_THAN = ">";
-    const SMALLER_THAN = "<";
-    
-    protected $version = '';
-    
+    public const GREATER_THAN = ">";
+    public const SMALLER_THAN = "<";
+
+    protected string $version;
+
     /**
      * @param string $version
      */
@@ -21,20 +21,19 @@ class Version
     {
         $this->version = $version;
     }
-    
-    public function getVersionString() : string
+
+    public function getVersionString(): string
     {
         return $this->version;
     }
-    
-    public function isNewerThan(Version $version) : bool
+
+    public function isNewerThan(Version $version): bool
     {
         return version_compare($this->version, $version->getVersionString(), self::GREATER_THAN);
     }
-    
-    public function isOlderThan(Version $version) : bool
+
+    public function isOlderThan(Version $version): bool
     {
         return version_compare($this->version, $version->getVersionString(), self::SMALLER_THAN);
     }
-    
 }

@@ -11,43 +11,43 @@ use srag\Plugins\SrUI\Config\BaseNestedConfig;
  */
 class HeaderLogoConfiguration extends BaseNestedConfig
 {
-    const NS = 'header_logo';
-    const F_ICON = 'icon';
-    const F_ICON_WIDTH = 'icon_width';
-    const F_ICON_LINK = 'icon_link';
-    
+    public const NS = 'header_logo';
+    public const F_ICON = 'icon';
+    public const F_ICON_WIDTH = 'icon_width';
+    public const F_ICON_LINK = 'icon_link';
+
     public function __construct()
     {
         parent::__construct(self::NS);
     }
-    
+
     public function getData()
     {
-        $this->data[self::F_ICON_LINK] = $this->data[self::F_ICON_LINK] ?? '';
+        $this->data[self::F_ICON_LINK] ??= '';
         return parent::getData();
     }
-    
-    public function hasHeaderLogo() : bool
+
+    public function hasHeaderLogo(): bool
     {
         return isset($this->data[self::F_ICON][0]);
     }
-    
-    public function getHeaderlogo() : string
+
+    public function getHeaderlogo(): string
     {
         return $this->data[self::F_ICON][0] ?? '';
     }
-    
-    public function getHeaderLogoWidth() : string
+
+    public function getHeaderLogoWidth(): string
     {
         return $this->data[self::F_ICON_WIDTH] ?? '45px';
     }
-    
-    public function getHeaderIconLink() : string
+
+    public function getHeaderIconLink(): string
     {
         return $this->data[self::F_ICON_LINK] ?? '';
     }
-    
-    public function getFields() : array
+
+    public function getFields(): array
     {
         return [
             self::F_ICON_WIDTH,

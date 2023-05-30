@@ -10,7 +10,6 @@ use srag\Plugins\SrUI\Artifact\Artifact;
  */
 class Meta
 {
-
     protected $meta;
 
     public function __construct()
@@ -20,8 +19,7 @@ class Meta
         $this->meta = $DIC->globalScreen()->layout()->meta();
     }
 
-    public function transfer(Artifact $artifact)
+    public function transfer(Artifact $artifact): void
     {
-
     }
 }

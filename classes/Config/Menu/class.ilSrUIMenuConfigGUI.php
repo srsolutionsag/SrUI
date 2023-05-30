@@ -14,9 +14,9 @@ class ilSrUIMenuConfigGUI implements ilSrUIGUI
 {
     use ilSrUIHelperGUI;
     use ilSrUITrafos;
-    
-    
-    private function getForm() : Form
+
+
+    private function getForm(): Form
     {
         $factory = $this->ui_factory->input();
         // Menu Colors
@@ -39,27 +39,27 @@ class ilSrUIMenuConfigGUI implements ilSrUIGUI
             MenuColorConfig::F_TOOLS_HOVER_COLOR => $factory->field()->text(
                 $this->plugin->txt(MenuColorConfig::F_TOOLS_HOVER_COLOR)
             )->withRequired(true),
-        
+
         ], $this->plugin->txt(MenuColorConfig::NS))
                                ->withValue($this->config->get(MenuColorConfig::NS)->getData())
                                ->withAdditionalTransformation(
-                                   $this->getCustomTrafo($this->refinery)(function ($v
-                                   ) {
+                                   $this->getCustomTrafo($this->refinery)(function (
+                                       $v
+                                   ): bool {
                                        $this->config->get(MenuColorConfig::NS)->loadData($v);
                                        return true;
                                    })
                                );
-        
+
         return $factory->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
                 MenuColorConfig::NS => $menu_colors,
             ]
         )->withAdditionalTransformation(
-            $this->getCustomTrafo($this->refinery)(function ($v) {
+            $this->getCustomTrafo($this->refinery)(function ($v): bool {
                 return true;
             })
         );
     }
-    
 }

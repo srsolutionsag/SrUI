@@ -14,20 +14,19 @@ use srag\Plugins\SrUI\Config\Header\HeaderTitleConfiguration;
 use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig;
 use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig;
 
-
 class To1_6_0Migration implements Migration
 {
-    public function appliesToVersionsPrior() : Version
+    public function appliesToVersionsPrior(): Version
     {
         return new Version('1.6.0');
     }
-    
-    public function perform(Configuration $configuration) : void
+
+    public function perform(Configuration $configuration): void
     {
         $existing_file = rtrim(CLIENT_DATA_DIR, "/") . "/sr_ui_setting.php";
         if (file_exists($existing_file)) {
             $current_settings = include $existing_file;
-            
+
             // PROD SERVER
             if (isset($current_settings['prod_system'])) {
                 $configuration->get(ProdServerConfig::NS)->loadData([
@@ -40,7 +39,7 @@ class To1_6_0Migration implements Migration
                 SpecialContentFeaturesConfig::F_FANCY_CARDS => $current_settings['fancy_cards'],
                 SpecialContentFeaturesConfig::F_FANCY_TABS => $current_settings['fancy_tabs'],
             ]);
-            
+
             // FOOTER
             $configuration->get(AdditionalInfoConfig::NS)->loadData([
                 AdditionalInfoConfig::F_SHOW_RENDERED_BY => $current_settings['show_rendered_by']
@@ -49,7 +48,7 @@ class To1_6_0Migration implements Migration
                 FooterColorsConfig::F_FOOTER_BG_COLOR => $current_settings['footer_bg_color'],
                 FooterColorsConfig::F_FOOTER_TEXT_COLOR => $current_settings['footer_text_color'],
             ]);
-            
+
             // HEADER
             $configuration->get(HeaderColorsConfiguration::NS)->loadData([
                 HeaderColorsConfiguration::F_HEADER_BC_TEXT_COLOR => $current_settings['header_bc_text_color'],
@@ -63,7 +62,7 @@ class To1_6_0Migration implements Migration
             $configuration->get(HeaderTitleConfiguration::NS)->loadData([
                 HeaderTitleConfiguration::F_HEADER_TITLE => $current_settings['header_title'],
             ]);
-            
+
             // LOGIN PAGE
             $configuration->get(CenteredPageConfig::NS)->loadData([
                 CenteredPageConfig::F_SHOW_HEADER_LOGO => $current_settings['show_header_logo'] ?? true,
@@ -78,5 +77,4 @@ class To1_6_0Migration implements Migration
         }
         $configuration->save();
     }
-    
 }

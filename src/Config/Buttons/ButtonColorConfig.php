@@ -11,23 +11,23 @@ use srag\Plugins\SrUI\Config\BaseNestedConfig;
  */
 class ButtonColorConfig extends BaseNestedConfig
 {
-    const NS = 'button_colors';
-    
-    const F_PRIMARY_BUTTON_COLOR = 'primary_button_color';
-    const F_PRIMARY_BUTTON_COLOR_HOVER = 'primary_button_color_hover';
-    const F_PRIMARY_BUTTON_COLOR_TEXT = 'primary_button_color_text';
-    const F_PRIMARY_BUTTON_COLOR_TEXT_HOVER = 'primary_button_color_text_hover';
-    const F_GENERAL_BUTTON_COLOR = 'general_button_color';
-    const F_GENERAL_BUTTON_COLOR_HOVER = 'general_button_color_hover';
-    const F_GENERAL_BUTTON_COLOR_TEXT = 'general_button_color_text';
-    const F_GENERAL_BUTTON_COLOR_TEXT_HOVER = 'general_button_color_text_hover';
-    
+    public const NS = 'button_colors';
+
+    public const F_PRIMARY_BUTTON_COLOR = 'primary_button_color';
+    public const F_PRIMARY_BUTTON_COLOR_HOVER = 'primary_button_color_hover';
+    public const F_PRIMARY_BUTTON_COLOR_TEXT = 'primary_button_color_text';
+    public const F_PRIMARY_BUTTON_COLOR_TEXT_HOVER = 'primary_button_color_text_hover';
+    public const F_GENERAL_BUTTON_COLOR = 'general_button_color';
+    public const F_GENERAL_BUTTON_COLOR_HOVER = 'general_button_color_hover';
+    public const F_GENERAL_BUTTON_COLOR_TEXT = 'general_button_color_text';
+    public const F_GENERAL_BUTTON_COLOR_TEXT_HOVER = 'general_button_color_text_hover';
+
     public function __construct()
     {
         parent::__construct(self::NS);
     }
-    
-    public function getFields() : array
+
+    public function getFields(): array
     {
         return [
             self::F_PRIMARY_BUTTON_COLOR,
@@ -40,45 +40,44 @@ class ButtonColorConfig extends BaseNestedConfig
             self::F_GENERAL_BUTTON_COLOR_TEXT_HOVER,
         ];
     }
-    
-    public function getPrimaryColor() : ?string
+
+    public function getPrimaryColor(): ?string
     {
         return $this->data[self::F_PRIMARY_BUTTON_COLOR] ?? '';
     }
-    
-    public function getPrimaryTextColor() : ?string
+
+    public function getPrimaryTextColor(): ?string
     {
         return $this->data[self::F_PRIMARY_BUTTON_COLOR_TEXT] ?? '';
     }
-    
-    public function getPrimaryHoverColor() : ?string
+
+    public function getPrimaryHoverColor(): ?string
     {
         return $this->data[self::F_PRIMARY_BUTTON_COLOR_HOVER] ?? '';
     }
-    
-    public function getPrimaryHoverTextColor() : ?string
+
+    public function getPrimaryHoverTextColor(): ?string
     {
         return $this->data[self::F_PRIMARY_BUTTON_COLOR_TEXT_HOVER] ?? '';
     }
-    
-    public function getGeneralColor() : ?string
+
+    public function getGeneralColor(): ?string
     {
         return $this->data[self::F_GENERAL_BUTTON_COLOR] ?? '';
     }
-    
-    public function getGeneralHoverColor() : ?string
+
+    public function getGeneralHoverColor(): ?string
     {
         return $this->data[self::F_GENERAL_BUTTON_COLOR_HOVER] ?? '';
     }
-    
-    public function getGeneralTextColor() : ?string
+
+    public function getGeneralTextColor(): ?string
     {
         return $this->data[self::F_GENERAL_BUTTON_COLOR_TEXT] ?? '';
     }
-    
-    public function getGeneralHoverTextColor() : ?string
+
+    public function getGeneralHoverTextColor(): ?string
     {
         return $this->data[self::F_GENERAL_BUTTON_COLOR_TEXT_HOVER] ?? '';
     }
-    
 }

@@ -10,26 +10,26 @@ use srag\Plugins\SrUI\Config\BaseNestedConfig;
  */
 class FooterColorsConfig extends BaseNestedConfig
 {
-    const F_FOOTER_BG_COLOR = 'footer_bg_color';
-    const F_FOOTER_TEXT_COLOR = 'footer_text_color';
-    const NS = 'footer_colors';
+    public const F_FOOTER_BG_COLOR = 'footer_bg_color';
+    public const F_FOOTER_TEXT_COLOR = 'footer_text_color';
+    public const NS = 'footer_colors';
 
     public function __construct()
     {
         parent::__construct(self::NS);
     }
 
-    public function getBackgroundColor() : string
+    public function getBackgroundColor(): string
     {
         return $this->data[self::F_FOOTER_BG_COLOR] ?? '';
     }
 
-    public function getTextColor() : string
+    public function getTextColor(): string
     {
         return $this->data[self::F_FOOTER_TEXT_COLOR] ?? '';
     }
 
-    public function getFields() : array
+    public function getFields(): array
     {
         return [
             self::F_FOOTER_BG_COLOR,

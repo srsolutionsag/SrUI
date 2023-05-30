@@ -27,7 +27,7 @@ class ResourceStorage6 implements ResourceStorage
     /**
      * @var Stakeholder
      */
-    protected $stakeholder;
+    protected \srag\Plugins\SrUI\ResourceStorage\Stakeholder6 $stakeholder;
     /**
      * @var ResourceBuilder
      */
@@ -48,7 +48,7 @@ class ResourceStorage6 implements ResourceStorage
      * @var InformationARRepository
      */
     protected $information_repository;
-    
+
     /**
      * ResourceStorage6 constructor.
      */
@@ -56,7 +56,7 @@ class ResourceStorage6 implements ResourceStorage
     {
         $this->services = new Services();
         $this->stakeholder = new Stakeholder6();
-        
+
         $this->storage_handler = new FileSystemStorageHandler();
         $this->revision_repository = new RevisionARRepository();
         $this->resource_repository = new ResourceARRepository();
@@ -67,51 +67,50 @@ class ResourceStorage6 implements ResourceStorage
             $this->resource_repository,
             $this->information_repository
         );
-        
     }
-    
-    public function fromUpload(UploadResult $u) : string
+
+    public function fromUpload(UploadResult $u): string
     {
         $i = $this->services->upload($u, $this->stakeholder);
         return $i->serialize();
     }
-    
-    public function fromPath(string $u, string $mime_type = null) : string
+
+    public function fromPath(string $u, string $mime_type = null): string
     {
         $id = $this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification();
-        
+
         $r = new StorableFileResource($id);
         $r->setStorageId($this->storage_handler->getID());
-        
+
         $rev = new FileRevision($id);
         $rev->setVersionNumber(1);
-        
+
         $info = $rev->getInformation();
         $info->setTitle(basename($u));
         $info->setMimeType($mime_type ?? mime_content_type($u));
         $info->setSize(filesize($u));
         $info->setCreationDate(new \DateTimeImmutable());
         $rev->setInformation($info);
-        
+
         $r->addRevision($rev);
-        
+
         $this->resource_builder->store($r);
-        
+
         $directory = rtrim(CLIENT_DATA_DIR, "/") . "/" . FileSystemStorageHandler::BASE . '/' . str_replace(
-                "-",
-                "/",
-                $id->serialize()
-            ) . '/1/';
+            "-",
+            "/",
+            $id->serialize()
+        ) . '/1/';
         $path = $directory . FileSystemStorageHandler::DATA;
         if (!mkdir($directory, 0777, true) && !is_dir($directory)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
         }
         copy($u, $path);
-        
+
         return $id->serialize();
     }
-    
-    public function getDataURL(string $identification) : string
+
+    public function getDataURL(string $identification): string
     {
         $id = $this->services->find($identification);
         if ($id instanceof ResourceIdentification) {
@@ -125,12 +124,11 @@ class ResourceStorage6 implements ResourceStorage
                 default:
                     return 'data:' . $mime_type . ';base64,' . base64_encode($contents);
             }
-            
         }
         return '';
     }
-    
-    public function remove(string $identification) : bool
+
+    public function remove(string $identification): bool
     {
         $id = $this->services->find($identification);
         if ($id instanceof ResourceIdentification) {
@@ -139,8 +137,11 @@ class ResourceStorage6 implements ResourceStorage
         }
         return false;
     }
-    
-    public function getRevisionInfo(string $identification) : array
+
+    /**
+     * @return array{title: mixed, size: mixed, mime_type: mixed}
+     */
+    public function getRevisionInfo(string $identification): array
     {
         $id = $this->services->find($identification);
         if ($id instanceof ResourceIdentification) {
@@ -155,14 +156,14 @@ class ResourceStorage6 implements ResourceStorage
             'mime_type' => $mime_type
         ];
     }
-    
-    public function has(string $identification) : bool
+
+    public function has(string $identification): bool
     {
         $id = $this->services->find($identification);
         return $id instanceof ResourceIdentification;
     }
-    
-    public function getString(string $identification) : string
+
+    public function getString(string $identification): string
     {
         $id = $this->services->find($identification);
         if ($id instanceof ResourceIdentification) {
@@ -171,8 +172,8 @@ class ResourceStorage6 implements ResourceStorage
         }
         return '';
     }
-    
-    public function getPath(string $identification) : string
+
+    public function getPath(string $identification): string
     {
         $id = $this->services->find($identification);
         if ($id instanceof ResourceIdentification) {
@@ -180,40 +181,39 @@ class ResourceStorage6 implements ResourceStorage
         }
         return '';
     }
-    
-    public function fromString(string $content, string $mime_type = null) : string
+
+    public function fromString(string $content, string $mime_type = null): string
     {
         $id = $this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification();
-        
+
         $r = new StorableFileResource($id);
         $r->setStorageId($this->storage_handler->getID());
-        
+
         $rev = new FileRevision($id);
         $rev->setVersionNumber(1);
-        
+
         $info = $rev->getInformation();
         $info->setTitle('import');
         $info->setMimeType($mime_type);
         $info->setSize(strlen($content));
         $info->setCreationDate(new \DateTimeImmutable());
         $rev->setInformation($info);
-        
+
         $r->addRevision($rev);
-        
+
         $this->resource_builder->store($r);
-        
+
         $directory = rtrim(CLIENT_DATA_DIR, "/") . "/" . FileSystemStorageHandler::BASE . '/' . str_replace(
-                "-",
-                "/",
-                $id->serialize()
-            ) . '/1/';
+            "-",
+            "/",
+            $id->serialize()
+        ) . '/1/';
         $path = $directory . FileSystemStorageHandler::DATA;
         if (!mkdir($directory, 0777, true) && !is_dir($directory)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
         }
         file_put_contents($path, $content);
-        
+
         return $id->serialize();
     }
-    
 }

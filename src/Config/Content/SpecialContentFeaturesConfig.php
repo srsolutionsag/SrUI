@@ -10,26 +10,26 @@ use srag\Plugins\SrUI\Config\BaseNestedConfig;
  */
 class SpecialContentFeaturesConfig extends BaseNestedConfig
 {
-    const NS = 'content';
-    const F_FANCY_CARDS = 'fancy_cards';
-    const F_FANCY_TABS = 'fancy_tabs';
+    public const NS = 'content';
+    public const F_FANCY_CARDS = 'fancy_cards';
+    public const F_FANCY_TABS = 'fancy_tabs';
 
     public function __construct()
     {
         parent::__construct(self::NS);
     }
 
-    public function hasFancyCards() : bool
+    public function hasFancyCards(): bool
     {
         return $this->data[self::F_FANCY_CARDS] ?? false;
     }
 
-    public function hasFancyTabs() : bool
+    public function hasFancyTabs(): bool
     {
         return $this->data[self::F_FANCY_TABS] ?? false;
     }
 
-    public function getFields() : array
+    public function getFields(): array
     {
         return [
             self::F_FANCY_TABS,

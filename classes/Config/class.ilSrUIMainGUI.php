@@ -10,25 +10,25 @@
 class ilSrUIMainGUI implements ilSrUIGUI
 {
     use ilSrUIHelperGUI;
-    
-    const TAB_LOGIN_PAGE = 'tab_login_page';
-    const TAB_HEADER = 'tab_header';
-    const TAB_FOOTER = 'tab_footer';
-    const TAB_CONTENT = 'tab_content';
-    const TAB_CLONE_INFO = 'tab_clone_info';
-    const TAB_MENU = 'tab_menu';
-    const TAB_BUTTONS = 'tab_buttons';
-    const TAB_EXCHANGE = 'tab_exchange';
-    
-    public function executeCommand() : void
+
+    public const TAB_LOGIN_PAGE = 'tab_login_page';
+    public const TAB_HEADER = 'tab_header';
+    public const TAB_FOOTER = 'tab_footer';
+    public const TAB_CONTENT = 'tab_content';
+    public const TAB_CLONE_INFO = 'tab_clone_info';
+    public const TAB_MENU = 'tab_menu';
+    public const TAB_BUTTONS = 'tab_buttons';
+    public const TAB_EXCHANGE = 'tab_exchange';
+
+    public function executeCommand(): void
     {
         if (!$this->plugin->getConfiguration()->isUpToDate()) {
             $this->plugin->checkAndPerformConfigMigration();
             $this->tpl->setOnScreenMessage('info', $this->plugin->txt('config_updated'));
         }
-        
+
         $this->initTabs();
-        
+
         $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
             case strtolower(ilSrUILoginPageConfigGUI::class):
@@ -68,19 +68,15 @@ class ilSrUIMainGUI implements ilSrUIGUI
                 break;
             case '':
             default:
-                // we are in this GUI class (cmdClass), therefore we execute the command here
-                switch ($this->ctrl->getCmd(self::CMD_INDEX)) {
-                    case self::CMD_INDEX:
-                        $this->index();
-                        break;
+                if ($this->ctrl->getCmd(self::CMD_INDEX) === self::CMD_INDEX) {
+                    $this->index();
                 }
                 break;
-            
+
         }
-        
     }
-    
-    private function initTabs() : void
+
+    private function initTabs(): void
     {
         $this->tabs->addTab(
             self::TAB_LOGIN_PAGE,
@@ -123,10 +119,9 @@ class ilSrUIMainGUI implements ilSrUIGUI
             $this->ctrl->getLinkTargetByClass(ilSrUIExchangeGUI::class)
         );
     }
-    
-    public function index() : void
+
+    public function index(): void
     {
         $this->ctrl->redirectByClass(ilSrUILoginPageConfigGUI::class);
     }
-    
 }

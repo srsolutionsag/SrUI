@@ -8,7 +8,7 @@ namespace srag\Plugins\SrUI\Config;
  */
 abstract class BaseNestedConfig implements Config
 {
-    protected $namespace;
+    protected string $namespace;
 
     protected $data = null;
 
@@ -17,12 +17,12 @@ abstract class BaseNestedConfig implements Config
         $this->namespace = $namespace;
     }
 
-    public function getNamespace() : string
+    public function getNamespace(): string
     {
         return $this->namespace;
     }
 
-    public function has(string $key) : bool
+    public function has(string $key): bool
     {
         return isset($this->data[$key]);
     }
@@ -32,7 +32,7 @@ abstract class BaseNestedConfig implements Config
         return $this->data[$key] ?? $default;
     }
 
-    public function loadData($data) : void
+    public function loadData($data): void
     {
         $this->data = $data;
     }
@@ -53,11 +53,10 @@ abstract class BaseNestedConfig implements Config
         return $this->data;
     }
 
-    public function isNamespaceActive() : bool
+    public function isNamespaceActive(): bool
     {
         return $this->data !== null;
     }
 
-    abstract public function getFields() : array;
-
+    abstract public function getFields(): array;
 }

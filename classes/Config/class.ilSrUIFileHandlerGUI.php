@@ -18,19 +18,12 @@ use srag\Plugins\SrUI\ResourceStorage\Stakeholder;
  */
 class ilSrUIFileHandlerGUI extends AbstractCtrlAwareUploadHandler implements ilSrUIGUI
 {
-//    use ilSrUIHelperGUI {
-//        ilSrUIHelperGUI::executeCommand as helper_executeCommand;
-//    }
-    
-    /**
-     * @var \srag\Plugins\SrUI\ResourceStorage\ResourceStorage
-     */
-    protected $storage;
+    protected \srag\Plugins\SrUI\ResourceStorage\ResourceStorage $storage;
     /**
      * @var Stakeholder
      */
     protected $stakeholder;
-    
+
     /**
      * ilUIDemoFileUploadHandlerGUI constructor.
      */
@@ -41,11 +34,11 @@ class ilSrUIFileHandlerGUI extends AbstractCtrlAwareUploadHandler implements ilS
         $this->storage = $factory->storage();
         $this->stakeholder = $factory->stakeholder();
     }
-    
+
     /**
      * @inheritDoc
      */
-    protected function getUploadResult() : HandlerResultInterface
+    protected function getUploadResult(): HandlerResultInterface
     {
         $this->upload->process();
         /**
@@ -62,38 +55,44 @@ class ilSrUIFileHandlerGUI extends AbstractCtrlAwareUploadHandler implements ilS
             $identifier = '';
             $message = $result->getStatus()->getMessage();
         }
-        
+
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
-    
-    protected function getRemoveResult(string $identifier) : HandlerResultInterface
+
+    protected function getRemoveResult(string $identifier): HandlerResultInterface
     {
         if ($this->storage->remove($identifier)) {
             return new BasicHandlerResult(
-                $this->getFileIdentifierParameterName(), HandlerResultInterface::STATUS_OK,
-                $identifier, 'file deleted'
+                $this->getFileIdentifierParameterName(),
+                HandlerResultInterface::STATUS_OK,
+                $identifier,
+                'file deleted'
             );
         }
-        
+
         return new BasicHandlerResult(
-            $this->getFileIdentifierParameterName(), HandlerResultInterface::STATUS_FAILED,
-            $identifier, 'file not found'
+            $this->getFileIdentifierParameterName(),
+            HandlerResultInterface::STATUS_FAILED,
+            $identifier,
+            'file not found'
         );
     }
-    
-    protected function getInfoResult(string $identifier) : FileInfoResult
+
+    public function getInfoResult(string $identifier): ?FileInfoResult
     {
         $info = $this->storage->getRevisionInfo($identifier);
-        
+
         return new BasicFileInfoResult(
-            $this->getFileIdentifierParameterName(), $identifier, (string) $info['title'],
-            (int) $info['size'], (string) $info['mime_type']
+            $this->getFileIdentifierParameterName(),
+            $identifier,
+            (string) $info['title'],
+            (int) $info['size'],
+            (string) $info['mime_type']
         );
     }
-    
-    public function getInfoForExistingFiles(array $file_ids) : array
+
+    public function getInfoForExistingFiles(array $file_ids): array
     {
         return [];
     }
-    
 }

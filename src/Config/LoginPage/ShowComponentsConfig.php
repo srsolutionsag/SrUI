@@ -10,17 +10,17 @@ use srag\Plugins\SrUI\Config\BaseNestedConfig;
  */
 class ShowComponentsConfig extends BaseNestedConfig
 {
-    const NS = 'show_components';
-    const F_SHOW_HEADER = 'show_header';
-    const F_SHOW_FOOTER = 'show_footer';
-    const F_SHOW_MAIN_BAR = 'show_main_bar';
+    public const NS = 'show_components';
+    public const F_SHOW_HEADER = 'show_header';
+    public const F_SHOW_FOOTER = 'show_footer';
+    public const F_SHOW_MAIN_BAR = 'show_main_bar';
 
     public function __construct()
     {
         parent::__construct(self::NS);
     }
 
-    public function getFields() : array
+    public function getFields(): array
     {
         return [
             self::F_SHOW_HEADER,
@@ -28,5 +28,4 @@ class ShowComponentsConfig extends BaseNestedConfig
             self::F_SHOW_MAIN_BAR,
         ];
     }
-
 }
