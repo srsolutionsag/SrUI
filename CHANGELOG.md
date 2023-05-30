@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.7.4
+- [FIX] Fixed Detached Stream issue
+- [FIX] Fixed issues with buttons in Page Editor
+- [FIX] Fixed issue with Modal on login page
+- [FIX] Migration of older configs
+
+
 ### 1.7.3
 - [FIX] Issue with Productive Server Modal on Login Page
 
