@@ -101,7 +101,9 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
     {
         return (
             ($DIC->user()->isAnonymous() || $DIC->user()->getId() === 0)
-            && strtolower($DIC->http()->request()->getQueryParams()["baseClass"]) !== strtolower(ilRepositoryGUI::class)
+            && strtolower($DIC->http()->request()->getQueryParams()["baseClass"] ?? '') !== strtolower(
+                ilRepositoryGUI::class
+            )
 
         );
     }

@@ -8,6 +8,7 @@ use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Implementation\Component\Layout\Page\Standard;
+use ILIAS\UI\Component\Toast\Container;
 
 /**
  * Class Login
@@ -20,17 +21,33 @@ class Login extends Standard
     public function __construct(
         LoginPageSettings $settings,
         array $content,
-        MetaBar $metabar = null,
-        MainBar $mainbar = null,
-        Breadcrumbs $locator = null,
-        Image $logo = null,
-        Footer $footer = null,
+        ?MetaBar $metabar = null,
+        ?MainBar $mainbar = null,
+        ?Breadcrumbs $locator = null,
+        ?Image $logo = null,
+        ?Image $responsive_logo = null,
+        string $favicon_path = '',
+        ?Container $overlay = null,
+        ?Footer $footer = null,
         string $title = '',
         string $short_title = '',
         string $view_title = ''
     ) {
         $this->settings = $settings;
-        parent::__construct($content, $metabar, $mainbar, $locator, $logo, $footer, $title, $short_title, $view_title);
+        parent::__construct(
+            $content,
+            $metabar,
+            $mainbar,
+            $locator,
+            $logo,
+            $responsive_logo,
+            $favicon_path,
+            $overlay,
+            $footer,
+            $title,
+            $short_title,
+            $view_title
+        );
     }
 
     /**

@@ -245,7 +245,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             }
         }
 
-        return $logo_modification->withModification(function (Image $image) use ($s, $header_logo_link): \ILIAS\UI\Component\Image\Image {
+        return $logo_modification->withModification(function (Image $image) use ($header_logo_link): \ILIAS\UI\Component\Image\Image {
             return $image->withAction($header_logo_link === '' ? $image->getAction() : $header_logo_link);
         });
     }

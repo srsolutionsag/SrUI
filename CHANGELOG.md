@@ -1,5 +1,8 @@
 # Changelog
 
+### 2.0.1
+- [FIX] Issues with modified Login Page
+
 ### 2.0.0
 - [FEATURE] Added support for ILIAS 8 (only)
 

@@ -28,6 +28,10 @@ class CenteredPageConfig extends BaseNestedConfig
 
     public function getData()
     {
+        if ($this->data === null) {
+            return null;
+        }
+
         if (
             $this->data[self::F_CENTERED_LOGIN_PAGE_CSS] === null
             && $this->data[self::F_SHOW_HEADER_LOGO] === null
