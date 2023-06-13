@@ -31,7 +31,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
     
     protected function config() : Configuration
     {
-        /** @var $this- >plugin ilSrUIPlugin */
+        /** @var $this - >plugin ilSrUIPlugin */
         return $this->plugin->getConfiguration();
     }
     
@@ -49,7 +49,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 // Send X-Robots-Tag: noindex
                 if ($prod_system->sendNonIdexHeader()) {
                     $http = $this->dic->http();
-    
+                    
                     $http->saveResponse(
                         $http->response()->withAddedHeader('X-Robots-Tag', 'noindex')
                     );
@@ -241,16 +241,30 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo img.img-standard { width: {$width};}");
             $s = $this->plugin->getStorageFactory()->storage()->getDataURL($header_logo->getHeaderlogo());
             if (!empty($s)) {
-                return $logo_modification->withModification(function (Image $image) use ($s, $header_logo_link) {
-                    return $image->withSource($s)
-                                 ->withAction($header_logo_link === '' ? $image->getAction() : $header_logo_link);
-                });
+                return $logo_modification->withModification(
+                    function (?\ILIAS\UI\Component\Image\Image $image) use (
+                        $s,
+                        $header_logo_link
+                    ) : ?\ILIAS\UI\Component\Image\Image {
+                        if ($image === null) {
+                            return null;
+                        }
+                        return $image->withSource($s)
+                                     ->withAction($header_logo_link === '' ? $image->getAction() : $header_logo_link);
+                    }
+                );
             }
         }
         
-        return $logo_modification->withModification(function (Image $image) use ($s, $header_logo_link) {
-            return $image->withAction($header_logo_link === '' ? $image->getAction() : $header_logo_link);
-        });
+        return $logo_modification->withModification(
+            function (?\ILIAS\UI\Component\Image\Image $image) use ($header_logo_link
+            ) : ?\ILIAS\UI\Component\Image\Image {
+                if ($image === null) {
+                    return null;
+                }
+                return $image->withAction($header_logo_link === '' ? $image->getAction() : $header_logo_link);
+            }
+        );
     }
     
     public function getResponsiveLogoModification(CalledContexts $screen_context_stack) : ?LogoModification
@@ -258,21 +272,30 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         $responsive_header_logo = $this->config()->responsiveHeaderLogoConfig();
         if ($responsive_header_logo->hasResponsiveHeaderLogo()) {
             $width = $responsive_header_logo->getResponsiveHeaderLogoWidth();
-            $this->globalScreen()->layout()->meta()->addInlineCss("
+            $this->globalScreen()->layout()->meta()->addInlineCss(
+                "
             @media (max-width: 767px) {
                 .il-logo, .il-logo img.img-standard {
                     width: {$width} !important;
                 }
             }
-            ");
-            $s = $this->plugin->getStorageFactory()->storage()->getDataURL($responsive_header_logo->getResponsiveHeaderLogo());
+            "
+            );
+            $s = $this->plugin->getStorageFactory()->storage()->getDataURL(
+                $responsive_header_logo->getResponsiveHeaderLogo()
+            );
             if (!empty($s)) {
                 $logo_modification = $this->factory->logo();
                 $logo_modification = $this->setPriority($logo_modification);
                 
-                return $logo_modification->withModification(function (Image $image) use ($s) {
-                    return $image->withSource($s);
-                });
+                return $logo_modification->withModification(
+                    function (?\ILIAS\UI\Component\Image\Image $image) use ($s) : ?\ILIAS\UI\Component\Image\Image {
+                        if ($image === null) {
+                            return null;
+                        }
+                        return $image->withSource($s);
+                    }
+                );
             }
             
         }
@@ -288,32 +311,37 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $footer_modification = $this->setPriority($footer_modification);
             
             return $footer_modification
-                ->withModification(function () : \ILIAS\UI\Component\MainControls\Footer {
-                    $pageContentProvider = new PageContentProvider($this->dic);
-                    $footer = $pageContentProvider->getFooterModification(
-                        $this->dic->globalScreen()->tool()->context()->stack()
-                    )->getModification();
-                    /**
-                     * @var $f Footer
-                     */
-                    $f = $footer();
-                    
-                    $hostname = gethostname();
-                    $ilias_version = ILIAS_VERSION_NUMERIC;
-                    preg_match('/\d+\.\d+.\d+/', PHP_VERSION, $php_version);
-                    
-                    $links = $f->getLinks();
-                    $mmprovider = new ilSrUIMainBarProvider($this->dic, $this->plugin);
-                    
-                    $replaced_footer = $this->dic->ui()->factory()->mainControls()->footer(
-                        $links,
-                        "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version[0]
-                    );
-                    if ($f->getPermanentURL()) {
-                        $replaced_footer = $replaced_footer->withPermanentURL($f->getPermanentURL());
+                ->withModification(
+                    function (?\ILIAS\UI\Component\MainControls\Footer $f) : ?\ILIAS\UI\Component\MainControls\Footer {
+                        if ($f === null) {
+                            return null;
+                        }
+                        $pageContentProvider = new PageContentProvider($this->dic);
+                        $footer = $pageContentProvider->getFooterModification(
+                            $this->dic->globalScreen()->tool()->context()->stack()
+                        )->getModification();
+                        /**
+                         * @var $f Footer
+                         */
+                        $f = $footer();
+                        
+                        $hostname = gethostname();
+                        $ilias_version = ILIAS_VERSION_NUMERIC;
+                        preg_match('/\d+\.\d+.\d+/', PHP_VERSION, $php_version);
+                        
+                        $links = $f->getLinks();
+                        $mmprovider = new ilSrUIMainBarProvider($this->dic, $this->plugin);
+                        
+                        $replaced_footer = $this->dic->ui()->factory()->mainControls()->footer(
+                            $links,
+                            "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version[0]
+                        );
+                        if ($f->getPermanentURL()) {
+                            $replaced_footer = $replaced_footer->withPermanentURL($f->getPermanentURL());
+                        }
+                        return $replaced_footer;
                     }
-                    return $replaced_footer;
-                });
+                );
         }
         return null;
     }
@@ -325,7 +353,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $title_modification = $this->factory->title();
             $title_modification = $this->setPriority($title_modification);
             
-            return $title_modification->withModification(function (string $f) use ($title_config) : string {
+            return $title_modification->withModification(function (?string $f) use ($title_config) : ?string {
                 return $title_config->getHeaderTitle();
             });
         }
@@ -339,7 +367,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $short_title_modification = $this->factory->short_title();
             $short_title_modification = $this->setPriority($short_title_modification);
             
-            return $short_title_modification->withModification(function (string $f) use ($title_config) : string {
+            return $short_title_modification->withModification(function (?string $f) use ($title_config) : ?string {
                 return $title_config->getHeaderTitle();
             });
         }

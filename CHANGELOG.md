@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.7.5
+- [FIX] Fixed issue changes interface of LayoutModifications in ILIAS
+
 ### 1.7.4
 - [FIX] Fixed Detached Stream issue
 - [FIX] Fixed issues with buttons in Page Editor
