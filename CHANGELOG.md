@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.7.6
+- [FIX] Issue with several PLugins which inject own renderers for UI Components
+
 ### 1.7.5
 - [FIX] Fixed issue changes interface of LayoutModifications in ILIAS
 
