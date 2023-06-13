@@ -1,5 +1,8 @@
 # Changelog
 
+### 2.0.2
+- [FIX] Fixed issue changes interface of LayoutModifications in ILIAS
+
 ### 2.0.1
 - [FIX] Issues with modified Login Page
 
