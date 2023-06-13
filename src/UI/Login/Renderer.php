@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Component\Layout\Page\Login;
+namespace srag\Plugins\SrUI\UI\Login;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -13,8 +13,8 @@ use srag\Plugins\SrUI\ILIASVersion;
 class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 {
     const TEMPLATE_BASE = \ilSrUIPlugin::TEMPLATES_BASE;
-    
-    
+
+
     public function render(Component\Component $component, RendererInterface $default_renderer)
     {
         return $this->renderLoginPage($component, $default_renderer);
@@ -50,7 +50,7 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
             $logo = $component->getLogo();
             if ($logo) {
                 $tpl->setVariable("LOGO", $default_renderer->render($logo));
-                if($component->getSettings()->isShowHeaderLogo()) {
+                if ($component->getSettings()->isShowHeaderLogo()) {
                     $tpl->setVariable("LOGO_LOGIN", $default_renderer->render($logo));
                 }
             }
@@ -83,5 +83,4 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 
         return $tpl->get();
     }
-
 }

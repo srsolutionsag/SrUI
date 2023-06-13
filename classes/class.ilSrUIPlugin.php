@@ -3,7 +3,6 @@
 require_once('./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/vendor/autoload.php');
 
 use ILIAS\DI\Container;
-use srag\Plugins\SrUI\UI\Loader\PageLoaderDetector;
 use srag\Plugins\SrUI\Config\Configuration;
 use srag\Plugins\SrUI\Config\Content\Config;
 use srag\Plugins\SrUI\Config\Footer\AdditionalInfoConfig;
@@ -43,26 +42,35 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
      * @var Factory
      */
     protected $storage_factory;
-    
+
     public function getPluginName()
     {
         return 'SrUI';
     }
-    
-    public function exchangeUIRendererAfterInitialization(Container $dic) : Closure
+
+
+    public function exchangeUIRendererAfterInitialization(\ILIAS\DI\Container $dic) : Closure
     {
-        return PageLoaderDetector::exchange();
+        $default_renderer = $dic->raw('ui.renderer');
+
+        return function () use ($dic, $default_renderer) {
+            return new \srag\Plugins\SrUI\UI\Renderer(
+                $dic,
+                $default_renderer()
+            );
+        };
     }
-    
+
+
     public function __construct()
     {
         global $DIC;
-        
+
         parent::__construct();
         $this->ilias_version = new ILIASVersion(ILIAS_VERSION_NUMERIC);
         $this->storage_factory = new Factory();
         $this->configuration = new Configuration($this->getVersion());
-        
+
         try {
             $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
                 self::OUTSIDE_ILIAS,
@@ -72,33 +80,32 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
                 self::ON_LOGIN_PAGE,
                 $this->isOnLoginPage()
             );
-            
+
             $this->provider_collection->setModificationProvider(new ilSrUIModificationProvider($DIC, $this));
             $this->provider_collection->setMainBarProvider(new ilSrUIMainBarProvider($DIC, $this));
             if ($this->ilias_version->sevenOrNewer()) {
                 $this->provider_collection->setMetaBarProvider(new ilSrUIMetaBarProvider($DIC, $this));
             }
         } catch (LogicException $l) {
-        
         }
         // $this->updateLanguages();
     }
-    
+
     public function getConfiguration() : Configuration
     {
         return $this->configuration;
     }
-    
+
     public function getILIASVersion() : ILIASVersion
     {
         return $this->ilias_version;
     }
-    
+
     public function getStorageFactory() : Factory
     {
         return $this->storage_factory;
     }
-    
+
     /**
      * @param Container $DIC
      * @return bool
@@ -108,25 +115,25 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         return (
             ($DIC->user()->isAnonymous() || $DIC->user()->getId() === 0)
             && strtolower($DIC->http()->request()->getQueryParams()["baseClass"]) !== strtolower(ilRepositoryGUI::class)
-        
+
         );
     }
-    
+
     public function isOnLoginPage() : bool
     {
         return strpos($_SERVER['SCRIPT_NAME'], 'login.php') !== false;
     }
-    
+
     protected function afterInstall()
     {
         $this->onBoarding();
     }
-    
+
     protected function afterUpdate()
     {
         $this->checkAndPerformConfigMigration();
     }
-    
+
     protected function onBoarding() : void
     {
         $s = $this->storage_factory->storage();
@@ -146,7 +153,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
             ShowComponentsConfig::F_SHOW_FOOTER => false,
             ShowComponentsConfig::F_SHOW_MAIN_BAR => false,
         ]);
-        
+
         // HEADER
         $this->configuration->get(HeaderColorsConfiguration::NS)->loadData([
             HeaderColorsConfiguration::F_HEADER_BG_COLOR => '#202020',
@@ -166,7 +173,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         $this->configuration->get(HeaderTitleConfiguration::NS)->loadData([
             HeaderTitleConfiguration::F_HEADER_TITLE => 'ILIAS+ 6'
         ]);
-        
+
         // FOOTER
         $this->configuration->get(FooterColorsConfig::NS)->loadData([
             FooterColorsConfig::F_FOOTER_TEXT_COLOR => '#F6F6F6',
@@ -175,20 +182,19 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         $this->configuration->get(AdditionalInfoConfig::NS)->loadData([
             AdditionalInfoConfig::F_SHOW_RENDERED_BY => true
         ]);
-        
+
         $this->configuration->save();
     }
-    
+
     public function checkAndPerformConfigMigration() : void
     {
-        $migration_collection = New MigrationCollection(
+        $migration_collection = new MigrationCollection(
             new Version($this->getVersion()),
             $this->configuration,
             new To1_6_0Migration(),
             new To1_7_0Migration()
         );
-    
+
         $migration_collection->perform();
     }
-    
 }

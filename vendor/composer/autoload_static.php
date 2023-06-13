@@ -6,26 +6,22 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
 {
-    public static $prefixLengthsPsr4 = array (
-        's' => 
-        array (
+    public static $prefixLengthsPsr4 = array(
+        's' =>
+        array(
             'srag\\Plugins\\SrUI\\' => 18,
         ),
     );
 
-    public static $prefixDirsPsr4 = array (
-        'srag\\Plugins\\SrUI\\' => 
-        array (
+    public static $prefixDirsPsr4 = array(
+        'srag\\Plugins\\SrUI\\' =>
+        array(
             0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
-    public static $classMap = array (
+    public static $classMap = array(
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'ILIAS\\UI\\Implementation\\Component\\Card\\ZoomableCardRenderer' => __DIR__ . '/../..' . '/classes/UI/Card/ZoomableCardRenderer.php',
-        'ILIAS\\UI\\Implementation\\Component\\Layout\\Page\\Login\\Login' => __DIR__ . '/../..' . '/classes/UI/Login/Login.php',
-        'ILIAS\\UI\\Implementation\\Component\\Layout\\Page\\Login\\LoginPageSettings' => __DIR__ . '/../..' . '/classes/UI/Login/LoginPageSettings.php',
-        'ILIAS\\UI\\Implementation\\Component\\Layout\\Page\\Login\\Renderer' => __DIR__ . '/../..' . '/classes/UI/Login/Renderer.php',
         'ilSrUIButtonConfigGUI' => __DIR__ . '/../..' . '/classes/Config/Buttons/class.ilSrUIButtonConfigGUI.php',
         'ilSrUICloneInfoConfigGUI' => __DIR__ . '/../..' . '/classes/Config/CloneInfo/class.ilSrUICloneInfoConfigGUI.php',
         'ilSrUIConfigArtifact' => __DIR__ . '/../..' . '/classes/Config/class.ilSrUIConfigArtifact.php',
@@ -76,11 +72,13 @@ class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
         'srag\\Plugins\\SrUI\\ResourceStorage\\ResourceStorage7' => __DIR__ . '/../..' . '/src/ResourceStorage/ResourceStorage7.php',
         'srag\\Plugins\\SrUI\\ResourceStorage\\Stakeholder6' => __DIR__ . '/../..' . '/src/ResourceStorage/Stakeholder6.php',
         'srag\\Plugins\\SrUI\\ResourceStorage\\Stakeholder7' => __DIR__ . '/../..' . '/src/ResourceStorage/Stakeholder7.php',
-        'srag\\Plugins\\SrUI\\UI\\Loader\\AbstractLoaderDetector' => __DIR__ . '/../..' . '/src/UI/Loader/AbstractLoaderDetector.php',
-        'srag\\Plugins\\SrUI\\UI\\Loader\\PageLoaderDetector' => __DIR__ . '/../..' . '/src/UI/Loader/PageLoaderDetector.php',
+        'srag\\Plugins\\SrUI\\UI\\Login\\Login' => __DIR__ . '/../..' . '/src/UI/Login/Login.php',
+        'srag\\Plugins\\SrUI\\UI\\Login\\LoginPageSettings' => __DIR__ . '/../..' . '/src/UI/Login/LoginPageSettings.php',
+        'srag\\Plugins\\SrUI\\UI\\Login\\Renderer' => __DIR__ . '/../..' . '/src/UI/Login/Renderer.php',
         'srag\\Plugins\\SrUI\\UI\\ModificationProvider' => __DIR__ . '/../..' . '/src/UI/ModificationProvider.php',
         'srag\\Plugins\\SrUI\\UI\\PageBuilderStack' => __DIR__ . '/../..' . '/src/UI/PageBuilderStack.php',
         'srag\\Plugins\\SrUI\\UI\\PagePartProviderStack' => __DIR__ . '/../..' . '/src/UI/PagePartProviderStack.php',
+        'srag\\Plugins\\SrUI\\UI\\Renderer' => __DIR__ . '/../..' . '/src/UI/Renderer.php',
         'srag\\Plugins\\SrUI\\Version' => __DIR__ . '/../..' . '/src/Version.php',
     );
 
@@ -90,7 +88,6 @@ class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
             $loader->prefixLengthsPsr4 = ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de::$classMap;
-
         }, null, ClassLoader::class);
     }
 }

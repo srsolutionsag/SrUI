@@ -9,9 +9,9 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
-use ILIAS\UI\Implementation\Component\Layout\Page\Login\LoginPageSettings;
+use srag\Plugins\SrUI\UI\Login\LoginPageSettings;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
-use ILIAS\UI\Implementation\Component\Layout\Page\Login\Login;
+use srag\Plugins\SrUI\UI\Login\Login;
 use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig;
 use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig;
 use srag\Plugins\SrUI\Config\Configuration;
@@ -47,7 +47,7 @@ class PageBuilderStack extends StandardPageBuilder
      * @var Container
      */
     protected $dic;
-    
+
     /**
      * @inheritDoc
      */
@@ -85,14 +85,14 @@ class PageBuilderStack extends StandardPageBuilder
             /** @noinspection PhpIncompatibleReturnTypeInspection */
             return $this->getLoginPage($parts);
         }
-    
+
         // Fix for ModeInfo/MemberView
         $page = parent::build($parts);
         $mv_mode_info = MemberViewLayoutProvider::getMemberViewModeInfo($this->dic);
         if (!is_null($mv_mode_info)) {
             $page = $page->withModeInfo($mv_mode_info);
         }
-    
+
         return $page;
     }
 
@@ -120,10 +120,14 @@ class PageBuilderStack extends StandardPageBuilder
         }
         $login_page_settings->setShowHeader((bool) ($show_components->get(ShowComponentsConfig::F_SHOW_HEADER, true)));
         $login_page_settings->setShowFooter((bool) ($show_components->get(ShowComponentsConfig::F_SHOW_FOOTER, true)));
-        $login_page_settings->setShowMainBar((bool) ($show_components->get(ShowComponentsConfig::F_SHOW_MAIN_BAR,
-            true)));
-        $login_page_settings->setShowHeaderLogo((bool) ($centered_page->get(CenteredPageConfig::F_SHOW_HEADER_LOGO,
-            true)));
+        $login_page_settings->setShowMainBar((bool) ($show_components->get(
+            ShowComponentsConfig::F_SHOW_MAIN_BAR,
+            true
+        )));
+        $login_page_settings->setShowHeaderLogo((bool) ($centered_page->get(
+            CenteredPageConfig::F_SHOW_HEADER_LOGO,
+            true
+        )));
 
         if ($centered_page->get(CenteredPageConfig::F_BACKGROUND_IMAGE)) {
             $s = $this->storage_factory->storage()->getDataURL((string) $centered_page->get(CenteredPageConfig::F_BACKGROUND_IMAGE)[0]);

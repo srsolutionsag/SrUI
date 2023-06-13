@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Component\Layout\Page\Login;
+namespace srag\Plugins\SrUI\UI\Login;
 
 /**
  * Class LoginPageSettings
@@ -14,7 +14,7 @@ class LoginPageSettings
     protected $show_main_bar = false;
     protected $show_header_logo = false;
     protected $background_image = '';
-    
+
     /**
      * @return bool
      */
@@ -22,7 +22,7 @@ class LoginPageSettings
     {
         return $this->center_login;
     }
-    
+
     /**
      * @param bool $center_login
      */
@@ -30,7 +30,7 @@ class LoginPageSettings
     {
         $this->center_login = $center_login;
     }
-    
+
     /**
      * @return bool
      */
@@ -38,7 +38,7 @@ class LoginPageSettings
     {
         return $this->show_header;
     }
-    
+
     /**
      * @param bool $show_header
      */
@@ -46,7 +46,7 @@ class LoginPageSettings
     {
         $this->show_header = $show_header;
     }
-    
+
     /**
      * @return bool
      */
@@ -54,7 +54,7 @@ class LoginPageSettings
     {
         return $this->show_footer;
     }
-    
+
     /**
      * @param bool $show_footer
      */
@@ -62,7 +62,7 @@ class LoginPageSettings
     {
         $this->show_footer = $show_footer;
     }
-    
+
     /**
      * @return string
      */
@@ -70,7 +70,7 @@ class LoginPageSettings
     {
         return $this->background_image;
     }
-    
+
     /**
      * @param string $background_image
      */
@@ -78,7 +78,7 @@ class LoginPageSettings
     {
         $this->background_image = $background_image;
     }
-    
+
     /**
      * @return bool
      */
@@ -86,7 +86,7 @@ class LoginPageSettings
     {
         return $this->show_main_bar;
     }
-    
+
     /**
      * @param bool $show_main_bar
      */
@@ -94,7 +94,7 @@ class LoginPageSettings
     {
         $this->show_main_bar = $show_main_bar;
     }
-    
+
     /**
      * @return bool
      */
@@ -102,7 +102,7 @@ class LoginPageSettings
     {
         return $this->show_header_logo;
     }
-    
+
     /**
      * @param bool $show_header_logo
      */
@@ -110,5 +110,4 @@ class LoginPageSettings
     {
         $this->show_header_logo = $show_header_logo;
     }
-    
 }
