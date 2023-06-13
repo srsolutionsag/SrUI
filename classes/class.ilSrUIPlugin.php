@@ -4,7 +4,6 @@
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 use ILIAS\DI\Container;
-use srag\Plugins\SrUI\UI\Loader\PageLoaderDetector;
 use srag\Plugins\SrUI\Config\Configuration;
 use srag\Plugins\SrUI\Config\Content\Config;
 use srag\Plugins\SrUI\Config\Footer\AdditionalInfoConfig;
@@ -33,6 +32,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
     public const TEMPLATES_BASE = "./Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/";
     public const OUTSIDE_ILIAS = 'anon';
     public const ON_LOGIN_PAGE = 'on_login_page';
+
     protected \srag\Plugins\SrUI\Config\Configuration $configuration;
     protected ?ILIASVersion $ilias_version = null;
     protected \srag\Plugins\SrUI\ResourceStorage\Factory $storage_factory;
@@ -42,9 +42,16 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         return 'SrUI';
     }
 
-    public function exchangeUIRendererAfterInitialization(Container $dic): Closure
+    public function exchangeUIRendererAfterInitialization(\ILIAS\DI\Container $dic) : Closure
     {
-        return PageLoaderDetector::exchange();
+        $default_renderer = $dic->raw('ui.renderer');
+
+        return function () use ($dic, $default_renderer) {
+            return new \srag\Plugins\SrUI\UI\Renderer(
+                $dic,
+                $default_renderer()
+            );
+        };
     }
 
 
@@ -78,15 +85,18 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         // $this->updateLanguages();
     }
 
-    public function getConfiguration(): Configuration
+
+    public function getConfiguration() : Configuration
     {
         return $this->configuration;
     }
+
 
     public function getILIASVersion(): ILIASVersion
     {
         return $this->ilias_version;
     }
+
 
     public function getStorageFactory(): Factory
     {
@@ -104,11 +114,11 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
             && strtolower($DIC->http()->request()->getQueryParams()["baseClass"] ?? '') !== strtolower(
                 ilRepositoryGUI::class
             )
-
         );
     }
 
     public function isOnLoginPage(): bool
+    public function isOnLoginPage() : bool
     {
         return strpos($_SERVER['SCRIPT_NAME'], 'login.php') !== false;
     }
@@ -118,10 +128,12 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         $this->onBoarding();
     }
 
+
     protected function afterUpdate(): void
     {
         $this->checkAndPerformConfigMigration();
     }
+
 
     protected function onBoarding(): void
     {
@@ -174,6 +186,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
 
         $this->configuration->save();
     }
+
 
     public function checkAndPerformConfigMigration(): void
     {

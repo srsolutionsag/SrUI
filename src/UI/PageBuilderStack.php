@@ -9,9 +9,9 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
-use ILIAS\UI\Implementation\Component\Layout\Page\Login\LoginPageSettings;
+use srag\Plugins\SrUI\UI\Login\LoginPageSettings;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
-use ILIAS\UI\Implementation\Component\Layout\Page\Login\Login;
+use srag\Plugins\SrUI\UI\Login\Login;
 use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig;
 use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig;
 use srag\Plugins\SrUI\Config\Configuration;
@@ -35,6 +35,7 @@ class PageBuilderStack extends StandardPageBuilder
     /**
      * @var \ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent
      */
+
     protected \ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent $meta;
     protected \srag\Plugins\SrUI\ResourceStorage\Factory $storage_factory;
     protected \ILIAS\DI\Container $dic;
@@ -53,7 +54,7 @@ class PageBuilderStack extends StandardPageBuilder
         $this->storage_factory = new Factory();
     }
 
-    public function build(PagePartProvider $parts): Page
+    public function build(PagePartProvider $parts) : Page
     {
         $parts = new \srag\Plugins\SrUI\UI\PagePartProviderStack($parts);
 
@@ -87,9 +88,9 @@ class PageBuilderStack extends StandardPageBuilder
         return $page;
     }
 
-    public function getAsModification(): ?PageBuilderModification
+    public function getAsModification() : ?PageBuilderModification
     {
-        return $this->factory->page()->withPriority(16)->withModification(function (PagePartProvider $p): Page {
+        return $this->factory->page()->withPriority(16)->withModification(function (PagePartProvider $p) : Page {
             return $this->build($p);
         });
     }
@@ -98,7 +99,7 @@ class PageBuilderStack extends StandardPageBuilder
      * @param PagePartProvider $parts
      * @return Login
      */
-    private function getLoginPage(PagePartProvider $parts): Login
+    private function getLoginPage(PagePartProvider $parts) : Login
     {
         $centered_page = $this->configuration->get(CenteredPageConfig::NS);
         $show_components = $this->configuration->get(ShowComponentsConfig::NS);

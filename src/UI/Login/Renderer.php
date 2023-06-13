@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Component\Layout\Page\Login;
+namespace srag\Plugins\SrUI\UI\Login;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -15,8 +15,7 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 {
     public const TEMPLATE_BASE = \ilSrUIPlugin::TEMPLATES_BASE;
 
-
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         return $this->renderLoginPage($component, $default_renderer);
     }

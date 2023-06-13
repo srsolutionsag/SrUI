@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Component\Layout\Page\Login;
+namespace srag\Plugins\SrUI\UI\Login;
 
 /**
  * Class LoginPageSettings
@@ -14,11 +14,10 @@ class LoginPageSettings
     protected bool $show_main_bar = false;
     protected bool $show_header_logo = false;
     protected string $background_image = '';
-
     /**
      * @return bool
      */
-    public function isCenterLogin(): bool
+    public function isCenterLogin() : bool
     {
         return $this->center_login;
     }
@@ -26,7 +25,7 @@ class LoginPageSettings
     /**
      * @param bool $center_login
      */
-    public function setCenterLogin(bool $center_login): void
+    public function setCenterLogin(bool $center_login) : void
     {
         $this->center_login = $center_login;
     }
@@ -34,7 +33,7 @@ class LoginPageSettings
     /**
      * @return bool
      */
-    public function isShowHeader(): bool
+    public function isShowHeader() : bool
     {
         return $this->show_header;
     }
@@ -42,7 +41,7 @@ class LoginPageSettings
     /**
      * @param bool $show_header
      */
-    public function setShowHeader(bool $show_header): void
+    public function setShowHeader(bool $show_header) : void
     {
         $this->show_header = $show_header;
     }
@@ -50,7 +49,7 @@ class LoginPageSettings
     /**
      * @return bool
      */
-    public function isShowFooter(): bool
+    public function isShowFooter() : bool
     {
         return $this->show_footer;
     }
@@ -58,7 +57,7 @@ class LoginPageSettings
     /**
      * @param bool $show_footer
      */
-    public function setShowFooter(bool $show_footer): void
+    public function setShowFooter(bool $show_footer) : void
     {
         $this->show_footer = $show_footer;
     }
@@ -66,7 +65,7 @@ class LoginPageSettings
     /**
      * @return string
      */
-    public function getBackgroundImage(): string
+    public function getBackgroundImage() : string
     {
         return $this->background_image;
     }
@@ -74,7 +73,7 @@ class LoginPageSettings
     /**
      * @param string $background_image
      */
-    public function setBackgroundImage(string $background_image): void
+    public function setBackgroundImage(string $background_image) : void
     {
         $this->background_image = $background_image;
     }
@@ -82,7 +81,7 @@ class LoginPageSettings
     /**
      * @return bool
      */
-    public function isShowMainBar(): bool
+    public function isShowMainBar() : bool
     {
         return $this->show_main_bar;
     }
@@ -90,7 +89,7 @@ class LoginPageSettings
     /**
      * @param bool $show_main_bar
      */
-    public function setShowMainBar(bool $show_main_bar): void
+    public function setShowMainBar(bool $show_main_bar) : void
     {
         $this->show_main_bar = $show_main_bar;
     }
@@ -98,7 +97,7 @@ class LoginPageSettings
     /**
      * @return bool
      */
-    public function isShowHeaderLogo(): bool
+    public function isShowHeaderLogo() : bool
     {
         return $this->show_header_logo;
     }
@@ -106,7 +105,7 @@ class LoginPageSettings
     /**
      * @param bool $show_header_logo
      */
-    public function setShowHeaderLogo(bool $show_header_logo): void
+    public function setShowHeaderLogo(bool $show_header_logo) : void
     {
         $this->show_header_logo = $show_header_logo;
     }

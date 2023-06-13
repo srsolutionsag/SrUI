@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Component\Layout\Page\Login;
+namespace srag\Plugins\SrUI\UI\Login;
 
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
@@ -53,7 +53,7 @@ class Login extends Standard
     /**
      * @return LoginPageSettings
      */
-    public function getSettings(): LoginPageSettings
+    public function getSettings() : LoginPageSettings
     {
         return $this->settings;
     }
