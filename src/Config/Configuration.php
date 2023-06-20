@@ -187,4 +187,9 @@ class Configuration
     {
         return $this->get(ButtonColorConfig::NS);
     }
+
+    public function delete(): void
+    {
+        $this->storage->delete();
+    }
 }

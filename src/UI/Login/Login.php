@@ -16,7 +16,7 @@ use ILIAS\UI\Component\Toast\Container;
  */
 class Login extends Standard
 {
-    protected \ILIAS\UI\Implementation\Component\Layout\Page\Login\LoginPageSettings $settings;
+    protected LoginPageSettings $settings;
 
     public function __construct(
         LoginPageSettings $settings,

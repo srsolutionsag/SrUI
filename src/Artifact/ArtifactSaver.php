@@ -50,4 +50,11 @@ class ArtifactSaver
         $this->artifact = new ArrayArtifact(is_array($data) ? $data : []);
         return $data;
     }
+
+    public function delete(): void
+    {
+        if (file_exists($this->getPath())) {
+            unlink($this->getPath());
+        }
+    }
 }

@@ -252,7 +252,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 );
             }
         }
-        
+
         return $logo_modification->withModification(
             function (?\ILIAS\UI\Component\Image\Image $image) use ($header_logo_link
             ) : ?\ILIAS\UI\Component\Image\Image {
@@ -284,7 +284,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             if (!empty($s)) {
                 $logo_modification = $this->factory->logo();
                 $logo_modification = $this->setPriority($logo_modification);
-                
+
                 return $logo_modification->withModification(
                     function (?\ILIAS\UI\Component\Image\Image $image) use ($s) : ?\ILIAS\UI\Component\Image\Image {
                         if ($image === null) {
@@ -318,15 +318,15 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                         /**
                          * @var $f Footer
                          */
-                        $f = $footer();
-                        
+                        $f = $footer(null);
+
                         $hostname = gethostname();
                         $ilias_version = ILIAS_VERSION_NUMERIC;
                         preg_match('/\d+\.\d+.\d+/', PHP_VERSION, $php_version);
-                        
+
                         $links = $f->getLinks();
                         $mmprovider = new ilSrUIMainBarProvider($this->dic, $this->plugin);
-                        
+
                         $replaced_footer = $this->dic->ui()->factory()->mainControls()->footer(
                             $links,
                             "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version[0]
@@ -347,7 +347,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         if ($title_config->isNamespaceActive()) {
             $title_modification = $this->factory->title();
             $title_modification = $this->setPriority($title_modification);
-            
+
             return $title_modification->withModification(function (?string $f) use ($title_config) : ?string {
                 return $title_config->getHeaderTitle();
             });
@@ -361,7 +361,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         if ($title_config->isNamespaceActive()) {
             $short_title_modification = $this->factory->short_title();
             $short_title_modification = $this->setPriority($short_title_modification);
-            
+
             return $short_title_modification->withModification(function (?string $f) use ($title_config) : ?string {
                 return $title_config->getHeaderTitle();
             });

@@ -82,4 +82,9 @@ class ConfigurationStorage
     {
         return $this->artifact_storage->read();
     }
+
+    public function delete(): void
+    {
+        $this->artifact_storage->delete();
+    }
 }

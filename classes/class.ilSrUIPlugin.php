@@ -20,6 +20,8 @@ use srag\Plugins\SrUI\Version;
 use srag\Plugins\SrUI\Config\Migration\To1_6_0Migration;
 use srag\Plugins\SrUI\Config\Migration\To1_7_0Migration;
 use ILIAS\FileUpload\MimeType;
+use srag\Plugins\SrUI\Config\Header\ResponsiveHeaderLogoConfiguration;
+use srag\Plugins\SrUI\Config\Content\SpecialContentFeaturesConfig;
 
 /**
  * Class ilSrUIPlugin
@@ -42,19 +44,17 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         return 'SrUI';
     }
 
-    public function exchangeUIRendererAfterInitialization(\ILIAS\DI\Container $dic) : Closure
+    public function exchangeUIRendererAfterInitialization(\ILIAS\DI\Container $dic): Closure
     {
         $default_renderer = $dic->raw('ui.renderer');
 
         return function () use ($dic, $default_renderer) {
             return new \srag\Plugins\SrUI\UI\Renderer(
                 $dic,
-                $default_renderer()
+                $default_renderer($dic)
             );
         };
     }
-
-
 
 
     protected function init(): void
@@ -82,11 +82,12 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
             }
         } catch (LogicException $l) {
         }
+        $this->onBoarding();
         // $this->updateLanguages();
     }
 
 
-    public function getConfiguration() : Configuration
+    public function getConfiguration(): Configuration
     {
         return $this->configuration;
     }
@@ -118,7 +119,6 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
     }
 
     public function isOnLoginPage(): bool
-    public function isOnLoginPage() : bool
     {
         return strpos($_SERVER['SCRIPT_NAME'], 'login.php') !== false;
     }
@@ -128,6 +128,10 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         $this->onBoarding();
     }
 
+    protected function afterUninstall(): void
+    {
+        $this->configuration->delete();
+    }
 
     protected function afterUpdate(): void
     {
@@ -144,45 +148,61 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
             CenteredPageConfig::F_CENTERED_LOGIN_PAGE_CSS => file_get_contents(self::TEMPLATES_BASE . "login.css"),
             CenteredPageConfig::F_BACKGROUND_IMAGE => [
                 $s->fromPath(
-                    self::TEMPLATES_BASE . "rose-petals.svg",
+                    self::TEMPLATES_BASE . "background.jpg",
                     MimeType::IMAGE__SVG_XML
                 )
             ],
         ]);
         $this->configuration->get(ShowComponentsConfig::NS)->loadData([
-            ShowComponentsConfig::F_SHOW_HEADER => false,
-            ShowComponentsConfig::F_SHOW_FOOTER => false,
+            ShowComponentsConfig::F_SHOW_HEADER => true,
+            ShowComponentsConfig::F_SHOW_FOOTER => true,
             ShowComponentsConfig::F_SHOW_MAIN_BAR => false,
         ]);
 
         // HEADER
         $this->configuration->get(HeaderColorsConfiguration::NS)->loadData([
-            HeaderColorsConfiguration::F_HEADER_BG_COLOR => '#202020',
-            HeaderColorsConfiguration::F_HEADER_BC_BG_COLOR => '#202020',
-            HeaderColorsConfiguration::F_HEADER_BC_TEXT_COLOR => '#fdfdfd',
-            HeaderColorsConfiguration::F_TITLE_COLOR => '#fdfdfd',
+            HeaderColorsConfiguration::F_HEADER_BG_COLOR => 'white',
+            HeaderColorsConfiguration::F_HEADER_BC_BG_COLOR => 'white',
+            HeaderColorsConfiguration::F_HEADER_BC_TEXT_COLOR => '#202020',
+            HeaderColorsConfiguration::F_TITLE_COLOR => '#202020',
         ]);
         $this->configuration->get(HeaderLogoConfiguration::NS)->loadData([
             HeaderLogoConfiguration::F_ICON => [
                 $s->fromPath(
                     self::TEMPLATES_BASE . "HeaderIconPlus.svg",
-                    cMimeType::IMAGE__SVG_XML
+                    MimeType::IMAGE__SVG_XML
                 )
             ],
-            HeaderLogoConfiguration::F_ICON_WIDTH => '45px'
+            HeaderLogoConfiguration::F_ICON_WIDTH => '45px',
+        ]);
+
+        $this->configuration->get(ResponsiveHeaderLogoConfiguration::NS)->loadData([
+            ResponsiveHeaderLogoConfiguration::F_ICON => [
+                $s->fromPath(
+                    self::TEMPLATES_BASE . "HeaderIconPlus.svg",
+                    MimeType::IMAGE__SVG_XML
+                )
+            ],
+            HeaderLogoConfiguration::F_ICON_WIDTH => '',
         ]);
         $this->configuration->get(HeaderTitleConfiguration::NS)->loadData([
-            HeaderTitleConfiguration::F_HEADER_TITLE => 'ILIAS+ 6'
+            HeaderTitleConfiguration::F_HEADER_TITLE => 'ILIAS+ 8'
         ]);
 
         // FOOTER
         $this->configuration->get(FooterColorsConfig::NS)->loadData([
-            FooterColorsConfig::F_FOOTER_TEXT_COLOR => '#F6F6F6',
-            FooterColorsConfig::F_FOOTER_BG_COLOR => '#2D2D2D',
+            FooterColorsConfig::F_FOOTER_TEXT_COLOR => '#2D2D2D',
+            FooterColorsConfig::F_FOOTER_BG_COLOR => 'white',
         ]);
         $this->configuration->get(AdditionalInfoConfig::NS)->loadData([
             AdditionalInfoConfig::F_SHOW_RENDERED_BY => true
         ]);
+
+        // CARDS
+        $this->configuration->get(SpecialContentFeaturesConfig::NS)->loadData([
+            SpecialContentFeaturesConfig::F_FANCY_CARDS => true
+        ]);
+
 
         $this->configuration->save();
     }

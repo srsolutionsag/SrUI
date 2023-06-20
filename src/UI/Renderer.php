@@ -43,7 +43,7 @@ class Renderer extends DecoratedRenderer
         parent::__construct($default);
     }
 
-    protected function manipulateRendering($component, \ILIAS\UI\Renderer $root) : ?string
+    protected function manipulateRendering($component, \ILIAS\UI\Renderer $root): ?string
     {
         if ($component instanceof LoginPage) {
             $renderer = new \srag\Plugins\SrUI\UI\Login\Renderer(
