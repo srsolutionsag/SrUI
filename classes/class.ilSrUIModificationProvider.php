@@ -200,12 +200,17 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                     border-color: $primary_hover_text_color !important;
                     color: $primary_hover_text_color !important;
                 }
-                .btn.btn-default:not(.copg-add) {
+                .btn.btn-default:not(.copg-add):not([data-copg-ed-type=\"par-action\"])
+                 {
                     background-color: $general;
                     border-color: $general_text_color;
                     color: $general_text_color;
                 }
-                .btn.btn-default:focus:not(.copg-add:focus), .btn.btn-default:hover:not(.copg-add:hover), .btn.btn-default:active:not(.copg-add:active) {
+                .btn.btn-default:focus:not(.copg-add:focus), 
+                .btn.btn-default:hover:not(.copg-add:hover), 
+                .btn.btn-default:active:not(.copg-add:active),
+
+                {
                     background-color: $general_hover !important;
                     border-color: $general_hover_text_color !important;
                     color: $general_hover_text_color !important;
