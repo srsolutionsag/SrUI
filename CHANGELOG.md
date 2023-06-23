@@ -1,5 +1,11 @@
 # Changelog
 
+### 2.0.4
+- [FIX] Issue withing Page Editor when overriding Button colors 
+
+### 2.0.3
+- No specifing Fixes
+
 ### 2.0.2
 - [FIX] Fixed issue changes interface of LayoutModifications in ILIAS
 
