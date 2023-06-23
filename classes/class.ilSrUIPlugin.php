@@ -56,7 +56,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         return function () use ($dic, $default_renderer) {
             return new \srag\Plugins\SrUI\UI\Renderer(
                 $dic,
-                $default_renderer()
+                $default_renderer($dic)
             );
         };
     }
