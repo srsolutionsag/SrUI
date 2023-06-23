@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.7.7
+- [FIX] Issue withing Page Editor when overriding Button colors
+- [FIX] Missing Parameter in Initialisation
+
 ### 1.7.6
 - [FIX] Issue with several PLugins which inject own renderers for UI Components
 
