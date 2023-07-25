@@ -118,7 +118,7 @@ class Configuration
         $finfo_possible = class_exists('finfo');
 
         $config_array = array_map_recursive(function ($value) use ($zip, $resource_storage, $finfo_possible) {
-            if ($file_content = $zip->getFromName($value)) {
+            if (!empty($value) && $file_content = $zip->getFromName($value)) {
                 $mime_type = null;
                 if ($finfo_possible) {
                     $finfo = new \finfo(FILEINFO_MIME_TYPE);

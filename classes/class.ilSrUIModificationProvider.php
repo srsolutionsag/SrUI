@@ -109,7 +109,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 color: $footer_text_color;
             }
             
-            .il-maincontrols-footer .il-footer-links li a {
+            .il-maincontrols-footer a {
                 color: $footer_text_color !important;
             }
            
@@ -205,8 +205,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 }
                 .btn.btn-default:focus:not(.copg-add:focus), 
                 .btn.btn-default:hover:not(.copg-add:hover), 
-                .btn.btn-default:active:not(.copg-add:active),
-
+                .btn.btn-default:active:not(.copg-add:active)
                 {
                     background-color: $general_hover !important;
                     border-color: $general_hover_text_color !important;
