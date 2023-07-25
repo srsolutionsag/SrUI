@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.7.8
+- [FIX] fixed footer text color not being applied to permanent link
+- [FIX] fixed bug which caused config always being overwritten with default values
+- [FIX] fixed bug which caused config import to fail
+- [FIX] Button Hover-Color not applied
+
 ### 1.7.7
 - [FIX] Issue withing Page Editor when overriding Button colors
 - [FIX] Missing Parameter in Initialisation
