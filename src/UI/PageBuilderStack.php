@@ -129,7 +129,7 @@ class PageBuilderStack extends StandardPageBuilder
         }
 
         if (!$login_page_settings->isShowHeader()) {
-            $this->meta->addCss(\ilSrUIPlugin::TEMPLATES_BASE . 'no_header.css');
+//            $this->meta->addCss(\ilSrUIPlugin::TEMPLATES_BASE . 'no_header.css');
         }
 
         if (!$login_page_settings->isShowHeader() && !$login_page_settings->isShowFooter()) {
@@ -145,8 +145,8 @@ class PageBuilderStack extends StandardPageBuilder
         return new Login(
             $login_page_settings,
             [$parts->getContent()],
-            $parts->getMetaBar(),
-            $parts->getMainBar(),
+            $login_page_settings->isShowHeader() ? $parts->getMetaBar() : null,
+            $login_page_settings->isShowMainBar() ? $parts->getMainBar() : null,
             $parts->getBreadCrumbs(),
             $parts->getLogo(),
             $parts->getResponsiveLogo(),

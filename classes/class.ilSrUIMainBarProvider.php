@@ -21,24 +21,7 @@ class ilSrUIMainBarProvider extends AbstractStaticMainMenuPluginProvider
 
     public function getStaticTopItems(): array
     {
-        return [
-            $this->mainmenu->topParentItem($this->getFooterIdentification())
-                           ->withTitle('Footer Container')
-                           ->withAvailableCallable(static function (): bool {
-                               return true;
-                           })
-                           ->withVisibilityCallable(static function (): bool {
-                               return false;
-                           }),
-            $this->mainmenu->topParentItem($this->if->identifier('metabar'))
-                           ->withTitle('MetaBar Container')
-                           ->withAvailableCallable(static function (): bool {
-                               return true;
-                           })
-                           ->withVisibilityCallable(static function (): bool {
-                               return false;
-                           })
-        ];
+        return [];
     }
 
     public function getStaticSubItems(): array
