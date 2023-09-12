@@ -208,7 +208,8 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 }
                 .btn.btn-default:focus:not(.copg-add:focus), 
                 .btn.btn-default:hover:not(.copg-add:hover), 
-                .btn.btn-default:active:not(.copg-add:active)
+                .btn.btn-default:active:not(.copg-add:active),
+                .btn.btn-default.engaged
                 {
                     background-color: $general_hover !important;
                     border-color: $general_hover_text_color !important;
