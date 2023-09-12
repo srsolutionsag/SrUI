@@ -1,5 +1,8 @@
 # Changelog
 
+### 2.0.6
+- [FIX] issue with button colors in mode view controls
+
 ### 2.0.5
 - [FIX] fixed footer text color not being applied to permanent link
 - [FIX] fixed bug which caused config always being overwritten with default values
