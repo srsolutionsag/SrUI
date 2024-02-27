@@ -57,4 +57,9 @@ class Login extends Standard
     {
         return $this->settings;
     }
+
+    public function hasMainbar(): bool
+    {
+        return $this->settings->isShowMainBar();
+    }
 }
