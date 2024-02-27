@@ -1,5 +1,8 @@
 # Changelog
 
+### 2.0.7
+- [FIX] an issue with login page settings: mainbar could not be hidden
+
 ### 2.0.6
 - [FIX] issue with button colors in mode view controls
 
