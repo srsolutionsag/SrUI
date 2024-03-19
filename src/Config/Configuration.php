@@ -89,7 +89,7 @@ class Configuration
                 continue;
             }
             foreach ($data as $datum) {
-                if (is_array($datum) && is_string($datum[0]) && $resource_storage->has($datum[0])) {
+                if (is_array($datum) && isset($datum[0]) && is_string($datum[0]) && $resource_storage->has($datum[0])) {
                     $zip->addFromString($datum[0], $resource_storage->getString($datum[0]));
                 }
             }
