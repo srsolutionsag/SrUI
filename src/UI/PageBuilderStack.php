@@ -139,7 +139,7 @@ class PageBuilderStack extends StandardPageBuilder
         } elseif ($login_page_settings->isShowHeader() && !$login_page_settings->isShowFooter()) {
             $this->meta->addInlineCss(".sr-ui-content {min-height: 90.5vh;}");
         } else {
-            $this->meta->addInlineCss(".sr-ui-content {min-height: 85vh;}");
+            $this->meta->addInlineCss(".sr-ui-content {min-height: 91.5vh;}");
         }
 
         return new Login(

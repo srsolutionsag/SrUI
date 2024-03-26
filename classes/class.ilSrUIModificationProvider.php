@@ -313,6 +313,21 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         $footer_additional_infos_config = $this->config()->footerAdditionalInfosConfig();
         $footer_permant_link_config = $this->config()->footerPermanentLinkConfig();
 
+        // ILIAS 8 css fix
+        $this->globalScreen()->layout()->meta()->addInlineCss(
+            "
+            footer {
+                height: auto !important;
+            }
+            
+            @media only screen and (max-width: 768px) {
+                footer {
+                    margin-bottom: 0px !important;
+                }
+            }
+            "
+        );
+
         $modification = function (?\ILIAS\UI\Component\MainControls\Footer $f) use (
             $page_content_provider,
             $screen_context_stack,
