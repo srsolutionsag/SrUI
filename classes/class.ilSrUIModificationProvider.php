@@ -352,6 +352,10 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 $footer_text
             );
 
+            if (!$footer_permant_link_config->showEnhancedPermanantLink() && $f->getPermanentURL()) {
+                $footer = $footer->withPermanentURL($f->getPermanentURL());
+            }
+
             return $footer;
         };
 
