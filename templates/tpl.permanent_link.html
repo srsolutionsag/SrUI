@@ -6,7 +6,8 @@
         let url = permLinkInput.value;
         handleCopyClick.addEventListener('click', () => {
             document.activeElement.blur();
-            let imgUrl = document.querySelector('.sr-permant-link-copy-trigger').src;
+            let copyImg = document.querySelector('.sr-permant-link-copy-trigger img');
+            let imgUrl = copyImg.src;
             navigator.clipboard.writeText(url).then(() => {
                 console.log('URL copied to clipboard');
                 copyImg.src = 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/copied.svg';
@@ -46,7 +47,7 @@
         padding-top: 0;
         padding-bottom: 0;
         padding-left: 0;
-        // border-radius: 5px;
+    / / border-radius: 5 px;
         overflow: hidden;
     }
 
