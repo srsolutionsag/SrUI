@@ -1,12 +1,12 @@
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
-        let handleCopyClick = document.querySelector('.sr-permant-link-trigger');
+        let handleCopyClick = document.querySelector('.sr-permant-link-copy-trigger');
+        let handleShareClick = document.querySelector('.sr-permant-link-share-trigger');
         let permLinkInput = document.querySelector('.sr-copy-link-input');
-        let copyImg = document.querySelector('.sr-copy-link-container img');
+        let url = permLinkInput.value;
         handleCopyClick.addEventListener('click', () => {
             document.activeElement.blur();
-            let url = permLinkInput.value;
-            let imgUrl = copyImg.src;
+            let imgUrl = document.querySelector('.sr-permant-link-copy-trigger').src;
             navigator.clipboard.writeText(url).then(() => {
                 console.log('URL copied to clipboard');
                 copyImg.src = 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/copied.svg';
@@ -16,6 +16,23 @@
             }).catch((error) => {
                 console.error('Failed to copy URL to clipboard', error);
             });
+        });
+
+        if (navigator.share !== undefined) {
+            handleShareClick.style.display = 'block';
+        }
+
+        handleShareClick.addEventListener('click', async () => {
+            document.activeElement.blur();
+            const data = {
+                url: url,
+            };
+
+            try {
+                await navigator.share(data);
+            } catch (err) {
+                console.error('Error sharing URL: ', err);
+            }
         });
         permLinkInput.addEventListener('click', () => {
             permLinkInput.select();
@@ -37,10 +54,15 @@
         border: none;
         width: 250px;
         background-color: transparent;
+        display: inline-block;
+        height: 24px;
+        margin-left: 10px;
     }
 
-    .sr-permant-link-trigger {
+    .sr-permant-link-copy-trigger, .sr-permant-link-share-trigger {
         margin: -1px;
+        display: inline-block;
+        float: left;
     }
 
     .sr-copy-link-container img {
@@ -58,8 +80,14 @@
 
 <div class="sr-copy-link-container btn btn-default">
     <span style="display: none">{LABEL}: </span>
-    <button class="sr-permant-link-trigger btn btn-default">
+
+    <button class="sr-permant-link-share-trigger btn btn-default" style="display: none">
+        <img src="Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/share.svg">
+    </button>
+
+    <button class="sr-permant-link-copy-trigger btn btn-default">
         <img src="Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/copy.svg">
     </button>
+
     <input class="sr-copy-link-input" type="text" value="{ACTION}" readonly>
 </div>
