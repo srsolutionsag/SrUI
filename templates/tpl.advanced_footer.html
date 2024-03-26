@@ -9,6 +9,9 @@
                 let permLinkInput = document.querySelector('.sr-permanent-link-input');
                 let url = permLinkInputHidden.value;
                 let caption = permLinkInput.value;
+
+                permLinkInput.style.width = caption.length + 'ch';
+
                 handleCopyClick.addEventListener('click', () => {
                     document.activeElement.blur();
                     let copyImg = document.querySelector('.sr-permanent-link-copy-trigger img');
