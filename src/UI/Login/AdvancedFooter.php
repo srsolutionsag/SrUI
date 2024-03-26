@@ -3,10 +3,12 @@
 namespace srag\Plugins\SrUI\UI\Login;
 
 
+use ILIAS\UI\Implementation\Component\MainControls\Footer;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class PermanentLink extends \ILIAS\UI\Implementation\Component\Link\Standard
+class AdvancedFooter extends Footer
 {
 
 }

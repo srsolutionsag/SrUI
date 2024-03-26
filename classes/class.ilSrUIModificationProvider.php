@@ -21,6 +21,7 @@ use srag\Plugins\SrUI\Config\Configuration;
 use srag\Plugins\SrUI\Config\Menu\MenuColorConfig;
 use ILIAS\Filesystem\Stream\Streams;
 use srag\Plugins\SrUI\UI\Login\PermanentLink;
+use srag\Plugins\SrUI\UI\Login\AdvancedFooter;
 
 /**
  * Class ilSrUIModificationProvider
@@ -351,27 +352,18 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 $footer_text = "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version[0];
             }
 
-            $links = $f->getLinks();
-            // Permanent Link
-            if ($footer_permant_link_config->showEnhancedPermanantLink() && $f->getPermanentURL()) {
-                $perma_link = new PermanentLink(
-                    'Link zu dieser Seite kopieren',
-                    $f->getPermanentURL()
+            if ($footer_permant_link_config->showEnhancedPermanantLink()) {
+                $footer = new AdvancedFooter(
+                    $f->getLinks(),
+                    $footer_text
                 );
-                // prepend to links
-                array_unshift($links, $perma_link);
+            } else {
+                $footer = $this->dic->ui()->factory()->mainControls()->footer(
+                    $f->getLinks(),
+                    $footer_text
+                );
             }
-
-            $footer = $this->dic->ui()->factory()->mainControls()->footer(
-                $links,
-                $footer_text
-            );
-
-            if (!$footer_permant_link_config->showEnhancedPermanantLink() && $f->getPermanentURL()) {
-                $footer = $footer->withPermanentURL($f->getPermanentURL());
-            }
-
-            return $footer;
+            return $footer->withPermanentURL($f->getPermanentURL());
         };
 
         return $footer_modification->withModification($modification);

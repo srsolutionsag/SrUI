@@ -58,6 +58,7 @@ return array(
     'srag\\Plugins\\SrUI\\ResourceStorage\\ResourceStorage7' => $baseDir . '/src/ResourceStorage/ResourceStorage7.php',
     'srag\\Plugins\\SrUI\\ResourceStorage\\Stakeholder6' => $baseDir . '/src/ResourceStorage/Stakeholder6.php',
     'srag\\Plugins\\SrUI\\ResourceStorage\\Stakeholder7' => $baseDir . '/src/ResourceStorage/Stakeholder7.php',
+    'srag\\Plugins\\SrUI\\UI\\Login\\AdvancedFooter' => $baseDir . '/src/UI/Login/AdvancedFooter.php',
     'srag\\Plugins\\SrUI\\UI\\Login\\Login' => $baseDir . '/src/UI/Login/Login.php',
     'srag\\Plugins\\SrUI\\UI\\Login\\LoginPageSettings' => $baseDir . '/src/UI/Login/LoginPageSettings.php',
     'srag\\Plugins\\SrUI\\UI\\Login\\PermanentLink' => $baseDir . '/src/UI/Login/PermanentLink.php',

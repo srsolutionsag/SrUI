@@ -4,8 +4,8 @@ namespace srag\Plugins\SrUI\UI\Login;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Renderer as RendererInterface;
-use srag\Plugins\SrUI\ILIASVersion;
 use ILIAS\UI\Implementation\Render\ilTemplateWrapper;
+use ILIAS\Data\URI;
 
 /**
  * Class Renderer
@@ -15,31 +15,55 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 {
     public const TEMPLATE_BASE = \ilSrUIPlugin::TEMPLATES_BASE;
 
+
+
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         switch (true) {
             case $component instanceof Login:
                 return $this->renderLoginPage($component, $default_renderer);
-            case $component instanceof PermanentLink:
-                return $this->renderPermanentLink($component, $default_renderer);
+            case $component instanceof AdvancedFooter:
+                return $this->renderAdvancedFooter($component, $default_renderer);
         }
 
         return $default_renderer->render($component);
     }
 
-    private function renderPermanentLink(PermanentLink $component, RendererInterface $default_renderer): string
+    private function renderAdvancedFooter(AdvancedFooter $component, RendererInterface $default_renderer):string
     {
         global $DIC;
         $tpl = new ilTemplateWrapper(
             $DIC->ui()->mainTemplate(),
-            new \ilTemplate(self::TEMPLATE_BASE . 'tpl.permanent_link.html', true, true)
+            new \ilTemplate(self::TEMPLATE_BASE . 'tpl.advanced_footer.html', true, true)
         );
 
-        $tpl->setVariable('LABEL', $component->getLabel());
-        $tpl->setVariable('ACTION', $component->getAction());
+        $links = $component->getLinks();
+        $modalsWithTriggers = $component->getModals();
+        $links = array_merge($links, array_column($modalsWithTriggers, 1));
 
+        if ($links) {
+            $link_list = $this->getUIFactory()->listing()->unordered($links);
+            $tpl->setVariable('LINKS', $default_renderer->render($link_list));
+        }
+
+        if ($modalsWithTriggers !== []) {
+            $tpl->setVariable('MODALS', $default_renderer->render(
+                array_column($modalsWithTriggers, 0)
+            ));
+        }
+
+        $tpl->setVariable('TEXT', $component->getText());
+
+        $perm_url = $component->getPermanentURL();
+        if ($perm_url instanceof URI) {
+            $tpl->setVariable('PERMANENT_LABEL', $this->txt('perma_link'));
+            $tpl->setVariable('PERMANENT_ACTION', (string)$perm_url);
+
+        }
         return $tpl->get();
     }
+
+
 
     protected function renderLoginPage(Login $component, RendererInterface $default_renderer)
     {

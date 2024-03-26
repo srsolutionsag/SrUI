@@ -73,6 +73,7 @@ class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
         'srag\\Plugins\\SrUI\\ResourceStorage\\ResourceStorage7' => __DIR__ . '/../..' . '/src/ResourceStorage/ResourceStorage7.php',
         'srag\\Plugins\\SrUI\\ResourceStorage\\Stakeholder6' => __DIR__ . '/../..' . '/src/ResourceStorage/Stakeholder6.php',
         'srag\\Plugins\\SrUI\\ResourceStorage\\Stakeholder7' => __DIR__ . '/../..' . '/src/ResourceStorage/Stakeholder7.php',
+        'srag\\Plugins\\SrUI\\UI\\Login\\AdvancedFooter' => __DIR__ . '/../..' . '/src/UI/Login/AdvancedFooter.php',
         'srag\\Plugins\\SrUI\\UI\\Login\\Login' => __DIR__ . '/../..' . '/src/UI/Login/Login.php',
         'srag\\Plugins\\SrUI\\UI\\Login\\LoginPageSettings' => __DIR__ . '/../..' . '/src/UI/Login/LoginPageSettings.php',
         'srag\\Plugins\\SrUI\\UI\\Login\\PermanentLink' => __DIR__ . '/../..' . '/src/UI/Login/PermanentLink.php',
