@@ -5,8 +5,10 @@
             document.addEventListener('DOMContentLoaded', () => {
                 let handleCopyClick = document.querySelector('.sr-permanent-link-copy-trigger');
                 let handleShareClick = document.querySelector('.sr-permanent-link-share-trigger');
+                let permLinkInputHidden = document.querySelector('.sr-permanent-link-input-hidden');
                 let permLinkInput = document.querySelector('.sr-permanent-link-input');
-                let url = permLinkInput.value;
+                let url = permLinkInputHidden.value;
+                let caption = permLinkInput.value;
                 handleCopyClick.addEventListener('click', () => {
                     document.activeElement.blur();
                     let copyImg = document.querySelector('.sr-permanent-link-copy-trigger img');
@@ -38,6 +40,14 @@
                         console.error('Error sharing URL: ', err);
                     }
                 });
+                permLinkInput.addEventListener('mouseenter', () => {
+                    permLinkInput.value = url;
+                });
+
+                permLinkInput.addEventListener('mouseleave', () => {
+                    permLinkInput.value = caption;
+                });
+
                 permLinkInput.addEventListener('click', () => {
                     permLinkInput.select();
                     permLinkInput.setSelectionRange(0, 99999);
@@ -57,7 +67,7 @@
 
             .sr-permanent-link-input {
                 border: none;
-                width: 250px;
+                /*width: 250px;*/
                 background-color: transparent;
                 display: inline-block;
                 height: 22px;
@@ -93,8 +103,8 @@
                 <button class="sr-permanent-link-copy-trigger btn btn-default">
                     <img src="Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/copy.svg">
                 </button>
-
-                <input class="sr-permanent-link-input" type="text" value="{PERMANENT_ACTION}" readonly>
+                <input class="sr-permanent-link-input-hidden" type="hidden" value="{PERMANENT_ACTION}">
+                <input class="sr-permanent-link-input" type="text" value="{PERMANENT_LABEL}" readonly>
             </div>
         </div>
         <!-- END footer_perm_url -->
