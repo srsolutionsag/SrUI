@@ -13,19 +13,18 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
 namespace srag\Plugins\SrUI\UI;
 
 use ILIAS\UI\Implementation\Render\DecoratedRenderer;
-use srag\Plugins\ExtendedUI\UI\Page\LoginPage;
 use srag\Plugins\SrUI\UI\Login\Login;
 use ILIAS\DI\Container;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
 use ILIAS\UI\Component\Card\Card;
-use srag\Plugins\SrUI\UI\Card\ZoomableCardRenderer;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -45,7 +44,7 @@ class Renderer extends DecoratedRenderer
 
     protected function manipulateRendering($component, \ILIAS\UI\Renderer $root): ?string
     {
-        if ($component instanceof LoginPage) {
+        if ($component instanceof Login) {
             $renderer = new \srag\Plugins\SrUI\UI\Login\Renderer(
                 $this->dic["ui.factory"],
                 $this->dic["ui.template_factory"],

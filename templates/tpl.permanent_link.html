@@ -1,0 +1,53 @@
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+        let handleCopyClick = document.querySelector('.sr-permant-link-trigger');
+        let copyImg = document.querySelector('.sr-copy-link-container img');
+        handleCopyClick.addEventListener('click', () => {
+            document.activeElement.blur();
+            let url = document.querySelector('.sr-copy-link-input').value;
+            let imgUrl = copyImg.src;
+            // let text = quoteText.textContent;
+            // let author = quoteAuthor.textContent;
+            navigator.clipboard.writeText(url).then(() => {
+                console.log('URL copied to clipboard');
+                // handleCopyClick.textContent = 'Copied!';
+                copyImg.src = 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/copied.svg';
+                setTimeout(() => {
+                    copyImg.src = imgUrl;
+                }, 2000);
+            }).catch((error) => {
+                console.error('Failed to copy URL to clipboard', error);
+            });
+        });
+    });
+</script>
+<style>
+
+.sr-copy-link-input {
+    width: 250px;
+    margin-left: -4px;
+    background-color: transparent;
+    height: 25px;
+    border: 1px solid white;
+}
+.sr-permant-link-trigger {
+
+}
+.sr-copy-link-container img {
+    width: 15px;
+    height: 15px;
+    color: white;
+    filter: invert(100%);
+}
+.sr-permant-link-trigger:hover img {
+    filter: invert(0%);
+}
+
+</style>
+
+<div class="sr-copy-link-container">
+    <span style="display: none">{LABEL}: </span><button class="sr-permant-link-trigger btn btn-default">
+    <img src="Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/copy.svg">
+</button>
+    <input class="sr-copy-link-input" type="text" value="{ACTION}" readonly>
+</div>

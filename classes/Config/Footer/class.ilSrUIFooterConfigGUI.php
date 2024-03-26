@@ -3,6 +3,7 @@
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use srag\Plugins\SrUI\Config\Footer\FooterColorsConfig;
 use srag\Plugins\SrUI\Config\Footer\AdditionalInfoConfig;
+use srag\Plugins\SrUI\Config\Footer\PermanentLinkConfig;
 
 /**
  * Class ilSrUIFooterConfigGUI
@@ -21,16 +22,40 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
         // ADDITIONAL INFOS
         $additional_infos_confog = $this->config->get(AdditionalInfoConfig::NS);
         $additional_infos = $factory->field()->optionalGroup([
-            AdditionalInfoConfig::F_SHOW_RENDERED_BY => $factory->field()->checkbox($this->plugin->txt(AdditionalInfoConfig::F_SHOW_RENDERED_BY)),
+            AdditionalInfoConfig::F_SHOW_RENDERED_BY => $factory->field()->checkbox(
+                $this->plugin->txt(AdditionalInfoConfig::F_SHOW_RENDERED_BY)
+            ),
 
         ], $this->plugin->txt(AdditionalInfoConfig::NS))
                                     ->withValue($additional_infos_confog->getData())
-                                    ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function (
-                                        $v
-                                    ): bool {
-                                        $this->config->get(AdditionalInfoConfig::NS)->loadData($v);
-                                        return true;
-                                    }));
+                                    ->withAdditionalTransformation(
+                                        $this->getCustomTrafo($this->refinery)(function (
+                                            $v
+                                        ): bool {
+                                            $this->config->get(AdditionalInfoConfig::NS)->loadData($v);
+                                            return true;
+                                        })
+                                    );
+
+        // PERMANANT LINK
+        $permanent_link_config = $this->config->get(PermanentLinkConfig::NS);
+
+        $permanent_link = $factory->field()->optionalGroup([
+            PermanentLinkConfig::F_SHOW_ENHACED_PERMANANT_LINK => $factory->field()->checkbox(
+                $this->plugin->txt(PermanentLinkConfig::F_SHOW_ENHACED_PERMANANT_LINK)
+            ),
+
+        ], $this->plugin->txt(PermanentLinkConfig::NS))
+                                  ->withValue($permanent_link_config->getData())
+                                  ->withAdditionalTransformation(
+                                      $this->getCustomTrafo($this->refinery)(function (
+                                          $v
+                                      ): bool {
+                                          $this->config->get(PermanentLinkConfig::NS)->loadData($v);
+                                          return true;
+                                      })
+                                  );
+
 
         // FOOTER COLORS
         $footer_color_config = $this->config->get(FooterColorsConfig::NS);
@@ -54,6 +79,7 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
             [
                 AdditionalInfoConfig::NS => $additional_infos,
                 FooterColorsConfig::NS => $footer_colors,
+                PermanentLinkConfig::NS => $permanent_link
             ]
         )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v): bool {
             return true;

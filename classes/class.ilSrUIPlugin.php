@@ -64,7 +64,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         $this->ilias_version = new ILIASVersion(ILIAS_VERSION_NUMERIC);
         $this->storage_factory = new Factory();
         $this->configuration = new Configuration($this->getVersion());
-
+        // $this->getLanguageHandler()->updateLanguages();
         try {
             $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
                 self::OUTSIDE_ILIAS,

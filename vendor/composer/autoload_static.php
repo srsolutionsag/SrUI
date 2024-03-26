@@ -6,21 +6,21 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
 {
-    public static $prefixLengthsPsr4 = array(
-        's' =>
-        array(
+    public static $prefixLengthsPsr4 = array (
+        's' => 
+        array (
             'srag\\Plugins\\SrUI\\' => 18,
         ),
     );
 
-    public static $prefixDirsPsr4 = array(
-        'srag\\Plugins\\SrUI\\' =>
-        array(
+    public static $prefixDirsPsr4 = array (
+        'srag\\Plugins\\SrUI\\' => 
+        array (
             0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
-    public static $classMap = array(
+    public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'ilSrUIButtonConfigGUI' => __DIR__ . '/../..' . '/classes/Config/Buttons/class.ilSrUIButtonConfigGUI.php',
         'ilSrUICloneInfoConfigGUI' => __DIR__ . '/../..' . '/classes/Config/CloneInfo/class.ilSrUICloneInfoConfigGUI.php',
@@ -54,6 +54,7 @@ class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
         'srag\\Plugins\\SrUI\\Config\\Content\\SpecialContentFeaturesConfig' => __DIR__ . '/../..' . '/src/Config/Content/SpecialContentFeaturesConfig.php',
         'srag\\Plugins\\SrUI\\Config\\Footer\\AdditionalInfoConfig' => __DIR__ . '/../..' . '/src/Config/Footer/AdditionalInfoConfig.php',
         'srag\\Plugins\\SrUI\\Config\\Footer\\FooterColorsConfig' => __DIR__ . '/../..' . '/src/Config/Footer/FooterColorsConfig.php',
+        'srag\\Plugins\\SrUI\\Config\\Footer\\PermanentLinkConfig' => __DIR__ . '/../..' . '/src/Config/Footer/PermanentLinkConfig.php',
         'srag\\Plugins\\SrUI\\Config\\Header\\HeaderColorsConfiguration' => __DIR__ . '/../..' . '/src/Config/Header/HeaderColorsConfiguration.php',
         'srag\\Plugins\\SrUI\\Config\\Header\\HeaderLogoConfiguration' => __DIR__ . '/../..' . '/src/Config/Header/HeaderLogoConfiguration.php',
         'srag\\Plugins\\SrUI\\Config\\Header\\HeaderTitleConfiguration' => __DIR__ . '/../..' . '/src/Config/Header/HeaderTitleConfiguration.php',
@@ -74,6 +75,7 @@ class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
         'srag\\Plugins\\SrUI\\ResourceStorage\\Stakeholder7' => __DIR__ . '/../..' . '/src/ResourceStorage/Stakeholder7.php',
         'srag\\Plugins\\SrUI\\UI\\Login\\Login' => __DIR__ . '/../..' . '/src/UI/Login/Login.php',
         'srag\\Plugins\\SrUI\\UI\\Login\\LoginPageSettings' => __DIR__ . '/../..' . '/src/UI/Login/LoginPageSettings.php',
+        'srag\\Plugins\\SrUI\\UI\\Login\\PermanentLink' => __DIR__ . '/../..' . '/src/UI/Login/PermanentLink.php',
         'srag\\Plugins\\SrUI\\UI\\Login\\Renderer' => __DIR__ . '/../..' . '/src/UI/Login/Renderer.php',
         'srag\\Plugins\\SrUI\\UI\\ModificationProvider' => __DIR__ . '/../..' . '/src/UI/ModificationProvider.php',
         'srag\\Plugins\\SrUI\\UI\\PageBuilderStack' => __DIR__ . '/../..' . '/src/UI/PageBuilderStack.php',
@@ -88,6 +90,7 @@ class ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de
             $loader->prefixLengthsPsr4 = ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit7cc3a12db4f8a9039d5ca9696e04b0de::$classMap;
+
         }, null, ClassLoader::class);
     }
 }

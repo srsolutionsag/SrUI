@@ -15,9 +15,30 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 {
     public const TEMPLATE_BASE = \ilSrUIPlugin::TEMPLATES_BASE;
 
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        return $this->renderLoginPage($component, $default_renderer);
+        switch (true) {
+            case $component instanceof Login:
+                return $this->renderLoginPage($component, $default_renderer);
+            case $component instanceof PermanentLink:
+                return $this->renderPermanentLink($component, $default_renderer);
+        }
+
+        return $default_renderer->render($component);
+    }
+
+    private function renderPermanentLink(PermanentLink $component, RendererInterface $default_renderer): string
+    {
+        global $DIC;
+        $tpl = new ilTemplateWrapper(
+            $DIC->ui()->mainTemplate(),
+            new \ilTemplate(self::TEMPLATE_BASE . 'tpl.permanent_link.html', true, true)
+        );
+
+        $tpl->setVariable('LABEL', $component->getLabel());
+        $tpl->setVariable('ACTION', $component->getAction());
+
+        return $tpl->get();
     }
 
     protected function renderLoginPage(Login $component, RendererInterface $default_renderer)
@@ -77,7 +98,8 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         $tpl->setVariable("TEXT_DIRECTION", $component->getTextDirection());
         $tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
-        if ($component->getSettings()->getBackgroundImage() !== '' && $component->getSettings()->getBackgroundImage() !== '0') {
+        if ($component->getSettings()->getBackgroundImage() !== '' && $component->getSettings()->getBackgroundImage(
+        ) !== '0') {
             $tpl->setVariable('BACKGROUND_IMAGE', $component->getSettings()->getBackgroundImage());
         }
 

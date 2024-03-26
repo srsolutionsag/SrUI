@@ -62,3 +62,5 @@ panel_import#:#Import
 panel_export#:#Export
 import_file#:#Configuration-File
 download_configuration#:#Download Configuration
+permanent_link#:#Permanent Link
+show_enhanced_permanant_link#:#Show copyable Permanent Link
