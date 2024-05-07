@@ -72,7 +72,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
             );
             $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
                 self::ON_LOGIN_PAGE,
-                $this->isOnLoginPage()
+                $this->isOnLoginPage() || $this->isOnLoginRelatedPage($DIC)
             );
 
             $this->provider_collection->setModificationProvider(new ilSrUIModificationProvider($DIC, $this));
@@ -120,6 +120,27 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
     public function isOnLoginPage(): bool
     {
         return strpos($_SERVER['SCRIPT_NAME'], 'login.php') !== false;
+    }
+
+    public function isOnLoginRelatedPage(Container $DIC): bool
+    {
+        if ($DIC->http()->wrapper()->query()->has('baseClass')) {
+            $to_str = $DIC->refinery()->kindlyTo()->string();
+            $base_class = $DIC->http()->wrapper()->query()->retrieve('baseClass', $to_str);
+
+            $fallback_cmd = "";
+            if($DIC->http()->wrapper()->query()->has('fallbackCmd')) {
+                $fallback_cmd = $DIC->http()->wrapper()->query()->retrieve('fallbackCmd', $to_str);
+            }
+
+            return (
+                ($base_class === strtolower(ilStartUpGUI::class)) &&
+                (
+                    ($DIC->ctrl()->getCmd() === 'showLogout') || ($fallback_cmd === 'doStandardAuthentication') || ($DIC->ctrl()->getCmdClass() === strtolower(ilPasswordAssistanceGUI::class))
+                )
+            );
+        }
+        return false;
     }
 
     protected function afterInstall(): void
