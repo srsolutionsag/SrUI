@@ -1,0 +1,129 @@
+<div class="il-maincontrols-footer">
+    <div class="il-footer-content">
+        <!-- BEGIN footer_perm_url -->
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', () => {
+                let handleCopyClick = document.querySelector('.sr-permanent-link-copy-trigger');
+                let handleShareClick = document.querySelector('.sr-permanent-link-share-trigger');
+                let permLinkInputHidden = document.querySelector('.sr-permanent-link-input-hidden');
+                let permLinkInput = document.querySelector('.sr-permanent-link-input');
+                let url = permLinkInputHidden.value;
+                let caption = permLinkInput.value;
+
+                permLinkInput.style.width = caption.length + 'ch';
+
+                handleCopyClick.addEventListener('click', () => {
+                    document.activeElement.blur();
+                    let copyImg = document.querySelector('.sr-permanent-link-copy-trigger img');
+                    let imgUrl = copyImg.src;
+                    navigator.clipboard.writeText(url).then(() => {
+                        console.log('URL copied to clipboard');
+                        copyImg.src = 'Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/copied.svg';
+                        setTimeout(() => {
+                            copyImg.src = imgUrl;
+                        }, 2000);
+                    }).catch((error) => {
+                        console.error('Failed to copy URL to clipboard', error);
+                    });
+                });
+
+                if (navigator.share !== undefined) {
+                    handleShareClick.style.display = 'block';
+                }
+
+                handleShareClick.addEventListener('click', async () => {
+                    document.activeElement.blur();
+                    const data = {
+                        url: url,
+                    };
+
+                    try {
+                        await navigator.share(data);
+                    } catch (err) {
+                        console.error('Error sharing URL: ', err);
+                    }
+                });
+                permLinkInput.addEventListener('mouseenter', () => {
+                    permLinkInput.value = url;
+                });
+
+                permLinkInput.addEventListener('mouseleave', () => {
+                    permLinkInput.value = caption;
+                });
+
+                permLinkInput.addEventListener('click', () => {
+                    permLinkInput.select();
+                    permLinkInput.setSelectionRange(0, 99999);
+                });
+            });
+        </script>
+        <style>
+            .sr-copy-link-container {
+                box-sizing: border-box;
+                padding-top: 0;
+                padding-bottom: 0;
+                padding-left: 0;
+                /*border-radius: 20px;*/
+                overflow: hidden;
+                height: 25px;
+            }
+
+            .sr-permanent-link-input {
+                border: none;
+                /*width: 250px;*/
+                background-color: transparent;
+                display: inline-block;
+                height: 22px;
+                margin-left: 10px;
+            }
+
+            .sr-permanent-link-copy-trigger, .sr-permanent-link-share-trigger {
+                margin: -1px;
+                display: inline-block;
+                float: left;
+            }
+
+            .sr-copy-link-container img {
+                width: 15px;
+                height: 15px;
+                color: white;
+                filter: invert(100%);
+            }
+
+            .sr-permanent-link-copy-trigger:hover img, .sr-permanent-link-share-trigger:hover img {
+                filter: invert(0%);
+            }
+
+        </style>
+        <div class="il-footer-permanent-url">
+            <div class="sr-copy-link-container btn btn-default">
+                <span style="display: none">{PERMANENT_LABEL}: </span>
+
+                <button class="sr-permanent-link-share-trigger btn btn-default" style="display: none">
+                    <img src="Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/share.svg">
+                </button>
+
+                <button class="sr-permanent-link-copy-trigger btn btn-default">
+                    <img src="Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/templates/copy.svg">
+                </button>
+                <input class="sr-permanent-link-input-hidden" type="hidden" value="{PERMANENT_ACTION}">
+                <input class="sr-permanent-link-input" type="text" value="{PERMANENT_LABEL}" readonly>
+            </div>
+        </div>
+        <!-- END footer_perm_url -->
+
+        <div class="il-footer-text">
+            {TEXT}
+        </div>
+        <!-- BEGIN footer_links -->
+        <div class="il-footer-links">
+            {LINKS}
+        </div>
+        <!-- END footer_links -->
+    </div>
+    <!-- BEGIN footer_modals -->
+    <div class="il-footer-modals">
+        {MODALS}
+    </div>
+    <!-- END footer_modals -->
+</div>

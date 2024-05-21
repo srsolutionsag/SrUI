@@ -16,6 +16,7 @@ use srag\Plugins\SrUI\Config\Buttons\ButtonColorConfig;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
 use srag\Plugins\SrUI\Config\Header\ResponsiveHeaderLogoConfiguration;
 use srag\Plugins\SrUI\Version;
+use srag\Plugins\SrUI\Config\Footer\PermanentLinkConfig;
 
 /**
  * Class ConfigurationStorage
@@ -49,6 +50,7 @@ class Configuration
             new ShowComponentsConfig(),
             new MenuColorConfig(),
             new ButtonColorConfig(),
+            new PermanentLinkConfig()
         ]);
         $this->storage = new ConfigurationStorage($this->collection, $this->version);
         $this->storage->read();
@@ -181,6 +183,11 @@ class Configuration
     public function footerAdditionalInfosConfig(): AdditionalInfoConfig
     {
         return $this->get(AdditionalInfoConfig::NS);
+    }
+
+    public function footerPermanentLinkConfig(): PermanentLinkConfig
+    {
+        return $this->get(PermanentLinkConfig::NS);
     }
 
     public function buttonColorConfig(): ButtonColorConfig
