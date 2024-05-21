@@ -51,7 +51,8 @@ class HeaderLogoConfiguration extends BaseNestedConfig
     {
         return [
             self::F_ICON_WIDTH,
-            self::F_ICON
+            self::F_ICON,
+            self::F_ICON_LINK,
         ];
     }
 }

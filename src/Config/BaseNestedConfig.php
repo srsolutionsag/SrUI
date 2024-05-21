@@ -53,6 +53,13 @@ abstract class BaseNestedConfig implements Config
             }
         }
 
+        // fill missing values
+        foreach ($fields as $field_name) {
+            if (!isset($this->data[$field_name])) {
+                $this->data[$field_name] = null;
+            }
+        }
+
         return $this->data;
     }
 
