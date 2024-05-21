@@ -21,6 +21,7 @@ responsive_icon_width#:#Breite Logo
 show_rendered_by#:#Zeige "Rendered by" (Hostname des Servers)
 header_title#:#Installationstitel
 fancy_cards#:#Zoom-Effekt bei Cards
+view_port#:#Viewport Headers aktivieren (Beta)
 fancy_tabs#:#vereinfachte Tabs (Beta)
 darkmode#:#Darkmode
 show_header_logo#:#Icon in Login-Container anzeigen

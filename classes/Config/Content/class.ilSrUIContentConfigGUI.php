@@ -24,11 +24,15 @@ class ilSrUIContentConfigGUI implements ilSrUIGUI
         $tabs = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(Content::F_FANCY_TABS))
                                  ->withValue($config->get(Content::F_FANCY_TABS, false));
 
+        $view_port = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(Content::F_VIEW_PORT))
+                                 ->withValue($config->get(Content::F_VIEW_PORT, false));
+
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
                 Content::F_FANCY_CARDS => $cards,
                 Content::F_FANCY_TABS => $tabs,
+                Content::F_VIEW_PORT => $view_port,
             ]
         )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v): bool {
             $this->config->get(Content::NS)->loadData($v);

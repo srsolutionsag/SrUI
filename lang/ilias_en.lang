@@ -21,6 +21,7 @@ responsive_icon_width#:#Logo Width
 show_rendered_by#:#Show "Rendered by" (Hostname of Server)
 header_title#:#Header Title
 fancy_cards#:#Zoom-Effect on Cards
+view_port#:#Set Viewport Headers (Beta)
 fancy_tabs#:#Simple Tabs (Beta)
 darkmode#:#Darkmode
 show_header_logo#:#Show Icon in Login-Container

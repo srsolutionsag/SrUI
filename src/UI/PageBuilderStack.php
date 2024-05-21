@@ -75,7 +75,12 @@ class PageBuilderStack extends StandardPageBuilder
             }
 
             /** @noinspection PhpIncompatibleReturnTypeInspection */
-            return $this->getLoginPage($parts);
+            $login = $this->getLoginPage($parts);
+            foreach ($this->meta->getMetaData()->getItems() as $meta_datum) {
+                $login = $login->withAdditionalMetaDatum($meta_datum->getKey(), $meta_datum->getValue());
+            }
+
+            return $login;
         }
 
         // Fix for ModeInfo/MemberView
@@ -83,6 +88,10 @@ class PageBuilderStack extends StandardPageBuilder
         $mv_mode_info = MemberViewLayoutProvider::getMemberViewModeInfo($this->dic);
         if (!is_null($mv_mode_info)) {
             $page = $page->withModeInfo($mv_mode_info);
+        }
+
+        foreach ($this->meta->getMetaData()->getItems() as $meta_datum) {
+            $page = $page->withAdditionalMetaDatum($meta_datum->getKey(), $meta_datum->getValue());
         }
 
         return $page;

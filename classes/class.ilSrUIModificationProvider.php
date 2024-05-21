@@ -45,6 +45,24 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack): ?PageBuilderModification
     {
+        $content_settings = $this->config()->contentConfig();
+        // Viewport (currently
+        if ($content_settings->hasViewPortSetting()) {
+            $this->globalScreen()->layout()->meta()->addMetaDatum('apple-touch-fullscreen', 'yes');
+            $this->globalScreen()->layout()->meta()->addMetaDatum('apple-mobile-web-app-capable', 'yes');
+            $this->globalScreen()->layout()->meta()->addMetaDatum(
+                'viewport', 'width=device-width, height=device-height user-scalable=0, minimal-ui;'
+            );
+            $this->globalScreen()->layout()->meta()->addMetaDatum(
+                'viewport',
+                'target-densitydpi=device-dpi, width=device-width, height=device-height user-scalable=no, maximum-scale=1, minimum-scale=1'
+            );
+            $this->globalScreen()->layout()->meta()->addOnloadCode('window.scroll(0,1);');
+            $this->globalScreen()->layout()->meta()->addMetaDatum(
+                'apple-mobile-web-app-status-bar-style', 'black-translucent'
+            );
+        }
+
         // Non-Productive Systems
         $prod_system = $this->config()->prodServerConfig();
         if ($prod_system->isNamespaceActive() && !$prod_system->onProdSystem()) {

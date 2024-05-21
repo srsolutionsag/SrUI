@@ -13,6 +13,7 @@ class SpecialContentFeaturesConfig extends BaseNestedConfig
     public const NS = 'content';
     public const F_FANCY_CARDS = 'fancy_cards';
     public const F_FANCY_TABS = 'fancy_tabs';
+    public const F_VIEW_PORT = 'view_port';
 
     public function __construct()
     {
@@ -29,11 +30,17 @@ class SpecialContentFeaturesConfig extends BaseNestedConfig
         return $this->data[self::F_FANCY_TABS] ?? false;
     }
 
+    public function hasViewPortSetting(): bool
+    {
+        return $this->data[self::F_VIEW_PORT] ?? false;
+    }
+
     public function getFields(): array
     {
         return [
             self::F_FANCY_TABS,
             self::F_FANCY_CARDS,
+            self::F_VIEW_PORT,
         ];
     }
 }
