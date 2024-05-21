@@ -1,5 +1,11 @@
 # Changelog
 
+### 2.1.0
+- [FEATURE] Copy-by-Click Permanent Link in Footer
+- [FEATURE] Set Viewport-Headers for better mobile experience
+- [FIX] Login-Page modifications dont show up on wrong login-attempts
+- [FIX] superfluous config values lead to errors in the form
+
 ### 2.0.7
 - [FIX] an issue with login page settings: mainbar could not be hidden
 
