@@ -1,5 +1,9 @@
 # Changelog
 
+### 2.1.1
+- [FIX] compatibility with ILIAS 8.11/12 due to table backport
+- [FIX] error on header logo configuration with missing values
+
 ### 2.1.0
 - [FEATURE] Copy-by-Click Permanent Link in Footer
 - [FEATURE] Set Viewport-Headers for better mobile experience
