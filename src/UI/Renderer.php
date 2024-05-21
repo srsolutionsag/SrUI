@@ -25,6 +25,7 @@ use srag\Plugins\SrUI\UI\Login\Login;
 use ILIAS\DI\Container;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
 use ILIAS\UI\Component\Card\Card;
+use ILIAS\Data\Factory;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -51,7 +52,8 @@ class Renderer extends DecoratedRenderer
                 $this->dic["lng"],
                 $this->dic["ui.javascript_binding"],
                 $this->dic['refinery'],
-                $this->dic["ui.pathresolver"]
+                $this->dic["ui.pathresolver"],
+                new Factory()
             );
             return $renderer->render($component, $this);
         }
