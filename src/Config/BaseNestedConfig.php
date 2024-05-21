@@ -39,9 +39,17 @@ abstract class BaseNestedConfig implements Config
 
     public function getData()
     {
-        foreach ($this->getFields() as $field_name) {
+        $fields = $this->getFields();
+        foreach ($fields as $field_name) {
             if (!isset($this->data[$field_name])) {
                 return null;
+            }
+        }
+
+        // filter extra values
+        foreach ($this->data as $key => $value) {
+            if (!in_array($key, $fields, true)) {
+                unset($this->data[$key]);
             }
         }
 
