@@ -60,6 +60,6 @@ class Login extends Standard
 
     public function hasMainbar(): bool
     {
-        return $this->settings->isShowMainBar();
+        return $this->settings->isShowMainBar() && $this->getMainbar() !== null;
     }
 }
