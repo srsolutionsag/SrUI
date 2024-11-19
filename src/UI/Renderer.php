@@ -22,10 +22,7 @@ use ILIAS\Data\Factory;
  */
 class Renderer extends DecoratedRenderer
 {
-    /**
-     * @var Container
-     */
-    private $dic;
+    private Container $dic;
 
     public function __construct(Container $dic, \ILIAS\UI\Renderer $default)
     {

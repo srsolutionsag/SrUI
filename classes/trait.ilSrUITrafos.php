@@ -25,11 +25,7 @@ trait ilSrUITrafos
      */
     private function getArtifactSafer(Factory $ref, Artifact $a): Closure
     {
-        return function (string $key) use ($ref, $a): Transformation {
-            return $this->getCustomTrafo($ref)(static function ($va) use ($key, $a) {
-                return $a[$key] = $va;
-            });
-        };
+        return fn(string $key): Transformation => $this->getCustomTrafo($ref)(static fn($va) => $a[$key] = $va);
     }
 
     /**
@@ -38,8 +34,6 @@ trait ilSrUITrafos
      */
     private function getCustomTrafo(Factory $ref): Closure
     {
-        return static function (callable $c) use ($ref): Transformation {
-            return $ref->custom()->transformation($c);
-        };
+        return static fn(callable $c): Transformation => $ref->custom()->transformation($c);
     }
 }

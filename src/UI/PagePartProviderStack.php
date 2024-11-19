@@ -10,6 +10,9 @@
 
 namespace srag\Plugins\SrUI\UI;
 
+use ILIAS\UI\Component\Toast\Container;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\Image\Image;
@@ -17,7 +20,6 @@ use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\MainControls\MainBar;
-use ILIAS\UI\Component\Toast\Container as TContainer;
 
 /**
  * Class PagePartProviderStack
@@ -25,19 +27,19 @@ use ILIAS\UI\Component\Toast\Container as TContainer;
  */
 class PagePartProviderStack implements PagePartProvider
 {
-    protected \ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider $parts;
+    protected PagePartProvider $parts;
     /**
-     * @var \ILIAS\UI\Factory
+     * @var Factory
      */
     protected $ui_factory;
     /**
-     * @var \ILIAS\UI\Renderer
+     * @var Renderer
      */
     protected $ui_renderer;
 
     protected $prepended_content = '';
 
-    public function __construct(\ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider $parts)
+    public function __construct(PagePartProvider $parts)
     {
         global $DIC;
         $this->parts = $parts;
@@ -111,7 +113,7 @@ class PagePartProviderStack implements PagePartProvider
         return $this->parts->getFaviconPath();
     }
 
-    public function getToastContainer(): ?TContainer
+    public function getToastContainer(): ?Container
     {
         return $this->parts->getToastContainer();
     }

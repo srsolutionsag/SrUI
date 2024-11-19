@@ -8,7 +8,8 @@
  *
  *********************************************************************/
 
-use srag\Plugins\SrUI\Config\Content\Config;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 
 /**
  * Class ilSrUIUIHookGUI
@@ -17,11 +18,11 @@ use srag\Plugins\SrUI\Config\Content\Config;
 class ilSrUIUIHookGUI extends ilUIHookPluginGUI
 {
     /**
-     * @var \ILIAS\UI\Factory
+     * @var Factory
      */
     protected $ui_factory;
     /**
-     * @var \ILIAS\UI\Renderer
+     * @var Renderer
      */
     protected $ui_renderer;
     protected static $subtabs_html = '';

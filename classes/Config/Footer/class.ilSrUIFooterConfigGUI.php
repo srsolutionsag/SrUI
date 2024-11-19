@@ -91,9 +91,7 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
                 PermanentLinkConfig::NS => $permanent_link
             ]
         )->withAdditionalTransformation(
-            $this->getCustomTrafo($this->refinery)(function ($v): bool {
-                return true;
-            })
+            $this->getCustomTrafo($this->refinery)(fn($v): bool => true)
         );
     }
 }

@@ -19,7 +19,7 @@ use srag\Plugins\SrUI\ILIASVersion;
  */
 class Factory
 {
-    protected \srag\Plugins\SrUI\ILIASVersion $ilias_version;
+    protected ILIASVersion $ilias_version;
 
     public function __construct()
     {
@@ -34,6 +34,9 @@ class Factory
         return new ResourceStorage7();
     }
 
+    /**
+     * @return Stakeholder6|Stakeholder7
+     */
     public function stakeholder()
     {
         if ($this->ilias_version->lessThanSeven()) {

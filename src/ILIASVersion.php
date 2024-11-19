@@ -18,7 +18,7 @@ namespace srag\Plugins\SrUI;
 class ILIASVersion extends Version
 {
     public const ILIAS_SEVEN = '7.0';
-    private \srag\Plugins\SrUI\Version $ilias_7;
+    private Version $ilias_7;
 
     public function __construct(string $version)
     {

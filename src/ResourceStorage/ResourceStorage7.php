@@ -10,8 +10,8 @@
 
 namespace srag\Plugins\SrUI\ResourceStorage;
 
+use ILIAS\ResourceStorage\Services;
 use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
@@ -23,10 +23,10 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 class ResourceStorage7 implements ResourceStorage
 {
     /**
-     * @var \ILIAS\ResourceStorage\Services
+     * @var Services
      */
     protected $services;
-    protected \srag\Plugins\SrUI\ResourceStorage\Stakeholder7 $stakeholder;
+    protected Stakeholder7 $stakeholder;
 
     public function __construct()
     {
@@ -58,7 +58,7 @@ class ResourceStorage7 implements ResourceStorage
     public function getDataURL(string $identification): string
     {
         $identification = $this->services->manage()->find($identification);
-        if (!$identification instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
+        if (!$identification instanceof ResourceIdentification) {
             return '';
         }
         return $this->services->consume()->src($identification)->getSrc();
@@ -67,7 +67,7 @@ class ResourceStorage7 implements ResourceStorage
     public function remove(string $identification): bool
     {
         $identification = $this->services->manage()->find($identification);
-        if (!$identification instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
+        if (!$identification instanceof ResourceIdentification) {
             return false;
         }
         $this->services->manage()->remove($identification, $this->stakeholder);
@@ -77,7 +77,7 @@ class ResourceStorage7 implements ResourceStorage
     public function getRevisionInfo(string $identification): array
     {
         $identification = $this->services->manage()->find($identification);
-        if (!$identification instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
+        if (!$identification instanceof ResourceIdentification) {
             return [];
         }
         $info = $this->services->manage()->getCurrentRevision($identification)->getInformation();
@@ -100,7 +100,7 @@ class ResourceStorage7 implements ResourceStorage
     public function getString(string $identification): string
     {
         $identification = $this->services->manage()->find($identification);
-        if (!$identification instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
+        if (!$identification instanceof ResourceIdentification) {
             return '';
         }
         return $this->services->consume()->stream($identification)->getStream()->getContents();
@@ -109,7 +109,7 @@ class ResourceStorage7 implements ResourceStorage
     public function getPath(string $identification): string
     {
         $identification = $this->services->manage()->find($identification);
-        if (!$identification instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
+        if (!$identification instanceof ResourceIdentification) {
             return '';
         }
         return $this->services->consume()->stream($identification)->getStream()->getMetadata('uri');

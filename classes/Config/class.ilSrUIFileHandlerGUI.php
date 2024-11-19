@@ -8,6 +8,7 @@
  *
  *********************************************************************/
 
+use srag\Plugins\SrUI\ResourceStorage\ResourceStorage;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 use ILIAS\FileUpload\Handler\BasicFileInfoResult;
@@ -25,7 +26,7 @@ use srag\Plugins\SrUI\ResourceStorage\Stakeholder;
  */
 class ilSrUIFileHandlerGUI extends AbstractCtrlAwareUploadHandler implements ilSrUIGUI
 {
-    protected \srag\Plugins\SrUI\ResourceStorage\ResourceStorage $storage;
+    protected ResourceStorage $storage;
     /**
      * @var Stakeholder
      */

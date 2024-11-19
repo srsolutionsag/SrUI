@@ -8,6 +8,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\Filesystem\Filesystems;
+use srag\Plugins\SrUI\Config\Configuration;
 use ILIAS\DI\Container;
 use srag\Plugins\SrUI\ILIASVersion;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
@@ -39,7 +42,7 @@ trait ilSrUIHelperGUI
      */
     protected $ui_factory;
     /**
-     * @var \ILIAS\UI\Renderer
+     * @var Renderer
      */
     protected $ui_renderer;
     /**
@@ -51,7 +54,7 @@ trait ilSrUIHelperGUI
      */
     protected $refinery;
     /**
-     * @var \ILIAS\Filesystem\Filesystems
+     * @var Filesystems
      */
     protected $filesystems;
     /**
@@ -59,7 +62,7 @@ trait ilSrUIHelperGUI
      */
     protected $http;
     /**
-     * @var \srag\Plugins\SrUI\Config\Configuration
+     * @var Configuration
      */
     protected $config;
     /**

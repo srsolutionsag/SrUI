@@ -11,7 +11,6 @@
 namespace srag\Plugins\SrUI\UI\Login;
 
 use ILIAS\UI\Component;
-use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\ilTemplateWrapper;
 use ILIAS\Data\URI;
 
@@ -23,19 +22,24 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 {
     public const TEMPLATE_BASE = \ilSrUIPlugin::TEMPLATES_BASE;
 
-    public function render(Component\Component $component, RendererInterface $default_renderer): string
+    /**
+     * @param mixed $default_renderer
+     */
+    public function render(Component\Component $component, $default_renderer): string
     {
-        switch (true) {
-            case $component instanceof Login:
-                return $this->renderLoginPage($component, $default_renderer);
-            case $component instanceof AdvancedFooter:
-                return $this->renderAdvancedFooter($component, $default_renderer);
+        if ($component instanceof Login) {
+            return $this->renderLoginPage($component, $default_renderer);
         }
-
+        if ($component instanceof AdvancedFooter) {
+            return $this->renderAdvancedFooter($component, $default_renderer);
+        }
         return $default_renderer->render($component);
     }
 
-    private function renderAdvancedFooter(AdvancedFooter $component, RendererInterface $default_renderer): string
+    /**
+     * @param mixed $default_renderer
+     */
+    private function renderAdvancedFooter(AdvancedFooter $component, $default_renderer): string
     {
         global $DIC;
         $tpl = new ilTemplateWrapper(
@@ -47,7 +51,7 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         $modalsWithTriggers = $component->getModals();
         $links = array_merge($links, array_column($modalsWithTriggers, 1));
 
-        if ($links) {
+        if ($links !== []) {
             $link_list = $this->getUIFactory()->listing()->unordered($links);
             $tpl->setVariable('LINKS', $default_renderer->render($link_list));
         }
@@ -71,7 +75,10 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         return $tpl->get();
     }
 
-    protected function renderLoginPage(Login $component, RendererInterface $default_renderer)
+    /**
+     * @param mixed $default_renderer
+     */
+    protected function renderLoginPage(Login $component, $default_renderer): string
     {
         global $DIC;
         $tpl = new ilTemplateWrapper(

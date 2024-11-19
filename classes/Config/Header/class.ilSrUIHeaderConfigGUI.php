@@ -134,9 +134,7 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
                 Colors::NS => $header_colors,
             ]
         )->withAdditionalTransformation(
-            $this->getCustomTrafo($this->refinery)(function ($v): bool {
-                return true;
-            })
+            $this->getCustomTrafo($this->refinery)(fn($v): bool => true)
         );
     }
 }

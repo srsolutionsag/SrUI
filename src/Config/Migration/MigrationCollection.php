@@ -24,8 +24,8 @@ class MigrationCollection
      * @var Migration[]
      */
     private array $migrations = [];
-    private \srag\Plugins\SrUI\Version $current_version;
-    protected \srag\Plugins\SrUI\Config\Configuration $configuration;
+    private Version $current_version;
+    protected Configuration $configuration;
 
     public function __construct(Version $current_version, Configuration $configuration, ...$migrations)
     {
@@ -37,9 +37,7 @@ class MigrationCollection
     public function perform(): void
     {
         // sort by version
-        usort($this->migrations, function (Migration $m, Migration $m_2): int {
-            return $m->appliesToVersionsPrior()->isNewerThan($m_2->appliesToVersionsPrior()) ? 1 : -1;
-        });
+        usort($this->migrations, fn(Migration $m, Migration $m_2): int => $m->appliesToVersionsPrior()->isNewerThan($m_2->appliesToVersionsPrior()) ? 1 : -1);
         $current_config_version = $this->configuration->getStoredConfigVersion();
         foreach ($this->migrations as $migration) {
             if ($current_config_version->isOlderThan($migration->appliesToVersionsPrior())) {

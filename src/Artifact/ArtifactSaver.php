@@ -16,7 +16,7 @@ namespace srag\Plugins\SrUI\Artifact;
 class ArtifactSaver
 {
     public const SUFFIX = '.php';
-    protected \srag\Plugins\SrUI\Artifact\ArrayArtifact $artifact;
+    protected ArrayArtifact $artifact;
     protected string $file_name;
     protected string $base_path;
 

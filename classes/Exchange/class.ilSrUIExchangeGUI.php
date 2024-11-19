@@ -98,9 +98,7 @@ class ilSrUIExchangeGUI implements ilSrUIGUI
                 )
             ]
         )->withAdditionalTransformation(
-            $this->getCustomTrafo($this->refinery)(function ($v) {
-                return $v[self::F_IMPORT_FILE][0] ?? null;
-            })
+            $this->getCustomTrafo($this->refinery)(fn(array $v) => $v[self::F_IMPORT_FILE][0] ?? null)
         );
     }
 }

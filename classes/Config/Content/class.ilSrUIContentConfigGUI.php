@@ -9,7 +9,6 @@
  *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
-use srag\Plugins\SrUI\Config\Content\Config;
 use srag\Plugins\SrUI\Config\Content\SpecialContentFeaturesConfig as Content;
 
 /**

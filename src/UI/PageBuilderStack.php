@@ -10,6 +10,9 @@
 
 namespace srag\Plugins\SrUI\UI;
 
+use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ModificationFactory;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 use ILIAS\GlobalScreen\Scope\Layout\Builder\StandardPageBuilder;
 use ILIAS\UI\Component\Layout\Page\Page;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
@@ -34,19 +37,18 @@ class PageBuilderStack extends StandardPageBuilder
     /**
      * @var ContextCollection
      */
-    protected \ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $context_stack;
+    protected CalledContexts $context_stack;
     /**
      * @var ToolFactory
      */
-    protected \ILIAS\GlobalScreen\Scope\Layout\Factory\ModificationFactory $factory;
-    protected \srag\Plugins\SrUI\Config\Configuration $configuration;
+    protected ModificationFactory $factory;
+    protected Configuration $configuration;
     /**
-     * @var \ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent
+     * @var MetaContent
      */
-
-    protected \ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent $meta;
-    protected \srag\Plugins\SrUI\ResourceStorage\Factory $storage_factory;
-    protected \ILIAS\DI\Container $dic;
+    protected MetaContent $meta;
+    protected Factory $storage_factory;
+    protected Container $dic;
 
     /**
      * @inheritDoc
@@ -64,7 +66,7 @@ class PageBuilderStack extends StandardPageBuilder
 
     public function build(PagePartProvider $parts): Page
     {
-        $parts = new \srag\Plugins\SrUI\UI\PagePartProviderStack($parts);
+        $parts = new PagePartProviderStack($parts);
 
         if ($this->context_stack->current()->getAdditionalData()->is(\ilSrUIPlugin::ON_LOGIN_PAGE, true)) {
             // SHOW NO PROD WARNING
@@ -107,9 +109,7 @@ class PageBuilderStack extends StandardPageBuilder
 
     public function getAsModification(): ?PageBuilderModification
     {
-        return $this->factory->page()->withPriority(16)->withModification(function (PagePartProvider $p): Page {
-            return $this->build($p);
-        });
+        return $this->factory->page()->withPriority(16)->withModification(fn(PagePartProvider $p): Page => $this->build($p));
     }
 
     /**

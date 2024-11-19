@@ -8,9 +8,6 @@
  *
  *********************************************************************/
 
-/** @noRector */
-require_once(__DIR__ . '/../vendor/autoload.php');
-
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarPluginProvider;
 use srag\Plugins\SrUI\Artifact\Artifact;
 
@@ -44,9 +41,7 @@ class ilSrUIMetaBarProvider extends AbstractStaticMetaBarPluginProvider
             'Object-ID' => (string) $obj_id,
             'Call-History' => implode(
                 '<br>',
-                array_map(function (array $i): string {
-                    return $i['cmdClass'] ?? '';
-                }, $this->dic->ctrl()->getCallHistory())
+                array_map(fn(array $i): string => $i['cmdClass'] ?? '', $this->dic->ctrl()->getCallHistory())
             )
         ]);
 
@@ -61,9 +56,7 @@ class ilSrUIMetaBarProvider extends AbstractStaticMetaBarPluginProvider
             $this->meta_bar->topLegacyItem($this->if->identifier('debug'))
                            ->withLegacyContent($factory->legacy($content))
                            ->withSymbol($factory->symbol()->glyph()->bulletlist())
-                           ->withVisibilityCallable(function (): bool {
-                               return $this->dic->rbac()->review()->isAssigned($this->dic->user()->getId(), 2);
-                           })
+                           ->withVisibilityCallable(fn(): bool => $this->dic->rbac()->review()->isAssigned($this->dic->user()->getId(), 2))
                            ->withTitle('DEBUG')
         ];
     }

@@ -8,12 +8,9 @@
  *
  *********************************************************************/
 
-/** @noRector */
-require_once(__DIR__ . '/../vendor/autoload.php');
-
+use srag\Plugins\SrUI\UI\Renderer;
 use ILIAS\DI\Container;
 use srag\Plugins\SrUI\Config\Configuration;
-use srag\Plugins\SrUI\Config\Content\Config;
 use srag\Plugins\SrUI\Config\Footer\AdditionalInfoConfig;
 use srag\Plugins\SrUI\Config\Footer\FooterColorsConfig;
 use srag\Plugins\SrUI\Config\Header\HeaderColorsConfiguration;
@@ -43,25 +40,23 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
     public const OUTSIDE_ILIAS = 'anon';
     public const ON_LOGIN_PAGE = 'on_login_page';
 
-    protected \srag\Plugins\SrUI\Config\Configuration $configuration;
+    protected Configuration $configuration;
     protected ?ILIASVersion $ilias_version = null;
-    protected \srag\Plugins\SrUI\ResourceStorage\Factory $storage_factory;
+    protected Factory $storage_factory;
 
     public function getPluginName(): string
     {
         return 'SrUI';
     }
 
-    public function exchangeUIRendererAfterInitialization(\ILIAS\DI\Container $dic): Closure
+    public function exchangeUIRendererAfterInitialization(Container $dic): Closure
     {
         $default_renderer = $dic->raw('ui.renderer');
 
-        return function () use ($dic, $default_renderer) {
-            return new \srag\Plugins\SrUI\UI\Renderer(
-                $dic,
-                $default_renderer($dic)
-            );
-        };
+        return fn(): Renderer => new Renderer(
+            $dic,
+            $default_renderer($dic)
+        );
     }
 
     protected function init(): void

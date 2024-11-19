@@ -8,9 +8,7 @@
  *
  *********************************************************************/
 
-/** @noRector */
-require_once(__DIR__ . '/../vendor/autoload.php');
-
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuPluginProvider;
 
 /**
@@ -20,9 +18,9 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuPluginProvi
 class ilSrUIMainBarProvider extends AbstractStaticMainMenuPluginProvider
 {
     /**
-     * @return \ILIAS\GlobalScreen\Identification\IdentificationInterface
+     * @return IdentificationInterface
      */
-    public function getFooterIdentification(): \ILIAS\GlobalScreen\Identification\IdentificationInterface
+    public function getFooterIdentification(): IdentificationInterface
     {
         return $this->if->identifier('footer');
     }

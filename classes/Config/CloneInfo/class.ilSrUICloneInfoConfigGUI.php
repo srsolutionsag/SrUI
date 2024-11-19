@@ -9,7 +9,6 @@
  *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
-use srag\Plugins\SrUI\Config\CloneInfo\Config;
 use srag\Plugins\SrUI\Config\CloneInfo\ProdServerConfig;
 
 /**
@@ -54,7 +53,7 @@ class ilSrUICloneInfoConfigGUI implements ilSrUIGUI
                 ProdServerConfig::NS => $prod_system
             ]
         )->withAdditionalTransformation(
-            $this->getCustomTrafo($this->refinery)(function ($v) use ($config): bool {
+            $this->getCustomTrafo($this->refinery)(function (array $v) use ($config): bool {
                 $config->loadData($v[ProdServerConfig::NS]);
                 return true;
             })

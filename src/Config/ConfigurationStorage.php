@@ -21,10 +21,10 @@ use srag\Plugins\SrUI\Artifact\ArtifactSaver;
 class ConfigurationStorage
 {
     public const FIELD_CONFIG_VERSION = 'config_version';
-    protected \srag\Plugins\SrUI\Config\ConfigCollection $config_collection;
+    protected ConfigCollection $config_collection;
     protected string $config_version;
     protected $data = [];
-    protected \srag\Plugins\SrUI\Artifact\ArtifactSaver $artifact_storage;
+    protected ArtifactSaver $artifact_storage;
 
     /**
      * @param $config_collection

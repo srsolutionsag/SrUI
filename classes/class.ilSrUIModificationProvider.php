@@ -8,9 +8,8 @@
  *
  *********************************************************************/
 
-/** @noRector */
-require_once(__DIR__ . '/../vendor/autoload.php');
-
+use ILIAS\UI\Component\MainControls\Footer;
+use ILIAS\UI\Component\Image\Image;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LayoutModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
@@ -20,13 +19,11 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationPluginProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
-use ILIAS\UI\Implementation\Component\MainControls\Footer;
 use ILIAS\UICore\PageContentProvider;
 use srag\Plugins\SrUI\UI\PageBuilderStack;
 use srag\Plugins\SrUI\Config\Configuration;
 use srag\Plugins\SrUI\Config\Menu\MenuColorConfig;
 use ILIAS\Filesystem\Stream\Streams;
-use srag\Plugins\SrUI\UI\Login\PermanentLink;
 use srag\Plugins\SrUI\UI\Login\AdvancedFooter;
 
 /**
@@ -54,38 +51,32 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         $content_settings = $this->config()->contentConfig();
         // Viewport (currently
         if ($content_settings->hasViewPortSetting()) {
-            $this->globalScreen()->layout()->meta()->addMetaDatum('apple-touch-fullscreen', 'yes');
-            $this->globalScreen()->layout()->meta()->addMetaDatum('apple-mobile-web-app-capable', 'yes');
+            $this->globalScreen()->layout()->meta()->addMetaDatum('apple-touch-fullscreen');
+            $this->globalScreen()->layout()->meta()->addMetaDatum('apple-mobile-web-app-capable');
             $this->globalScreen()->layout()->meta()->addMetaDatum(
-                'viewport',
-                'width=device-width, height=device-height user-scalable=0, minimal-ui;'
+                'viewport'
             );
             $this->globalScreen()->layout()->meta()->addMetaDatum(
-                'viewport',
-                'target-densitydpi=device-dpi, width=device-width, height=device-height user-scalable=no, maximum-scale=1, minimum-scale=1'
+                'viewport'
             );
             $this->globalScreen()->layout()->meta()->addOnloadCode('window.scroll(0,1);');
             $this->globalScreen()->layout()->meta()->addMetaDatum(
-                'apple-mobile-web-app-status-bar-style',
-                'black-translucent'
+                'apple-mobile-web-app-status-bar-style'
             );
         }
 
         // Non-Productive Systems
         $prod_system = $this->config()->prodServerConfig();
-        if ($prod_system->isNamespaceActive() && !$prod_system->onProdSystem()) {
-            // Send X-Robots-Tag: noindex
-            if ($prod_system->sendNonIdexHeader()) {
-                $http = $this->dic->http();
-
-                $http->saveResponse(
-                    $http->response()->withAddedHeader('X-Robots-Tag', 'noindex')
-                );
-                $http->saveResponse(
-                    $http->response()->withBody(Streams::ofString(''))
-                );
-                $http->sendResponse();
-            }
+        // Send X-Robots-Tag: noindex
+        if ($prod_system->isNamespaceActive() && !$prod_system->onProdSystem() && $prod_system->sendNonIdexHeader()) {
+            $http = $this->dic->http();
+            $http->saveResponse(
+                $http->response()->withAddedHeader('X-Robots-Tag', 'noindex')
+            );
+            $http->saveResponse(
+                $http->response()->withBody(Streams::ofString(''))
+            );
+            $http->sendResponse();
         }
 
         // Cards
@@ -271,10 +262,10 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $s = $this->plugin->getStorageFactory()->storage()->getDataURL($header_logo->getHeaderlogo());
             if (!empty($s)) {
                 return $logo_modification->withModification(
-                    function (?\ILIAS\UI\Component\Image\Image $image) use (
+                    function (?Image $image) use (
                         $s,
                         $header_logo_link
-                    ): ?\ILIAS\UI\Component\Image\Image {
+                    ): ?Image {
                         if ($image === null) {
                             return null;
                         }
@@ -286,9 +277,9 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         }
 
         return $logo_modification->withModification(
-            function (?\ILIAS\UI\Component\Image\Image $image) use (
+            function (?Image $image) use (
                 $header_logo_link
-            ): ?\ILIAS\UI\Component\Image\Image {
+            ): ?Image {
                 if ($image === null) {
                     return null;
                 }
@@ -319,7 +310,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 $logo_modification = $this->setPriority($logo_modification);
 
                 return $logo_modification->withModification(
-                    function (?\ILIAS\UI\Component\Image\Image $image) use ($s): ?\ILIAS\UI\Component\Image\Image {
+                    function (?Image $image) use ($s): ?Image {
                         if ($image === null) {
                             return null;
                         }
@@ -355,12 +346,12 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             "
         );
 
-        $modification = function (?\ILIAS\UI\Component\MainControls\Footer $f) use (
+        $modification = function (?Footer $f) use (
             $page_content_provider,
             $screen_context_stack,
             $footer_additional_infos_config,
             $footer_permant_link_config
-        ): ?\ILIAS\UI\Component\MainControls\Footer {
+        ): ?Footer {
             if ($f === null) {
                 return null;
             }
@@ -390,7 +381,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 );
             }
             if ($f->getPermanentURL() !== null) {
-                $footer = $footer->withPermanentURL($f->getPermanentURL());
+                return $footer->withPermanentURL($f->getPermanentURL());
             }
 
             return $footer;
@@ -404,7 +395,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 
             return $footer_modification
                 ->withModification(
-                    function (?\ILIAS\UI\Component\MainControls\Footer $f): ?\ILIAS\UI\Component\MainControls\Footer {
+                    function (?Footer $f): ?Footer {
                         if ($f === null) {
                             return null;
                         }
@@ -429,7 +420,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                             "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version[0]
                         );
                         if ($f->getPermanentURL()) {
-                            $replaced_footer = $replaced_footer->withPermanentURL($f->getPermanentURL());
+                            return $replaced_footer->withPermanentURL($f->getPermanentURL());
                         }
                         return $replaced_footer;
                     }
@@ -445,9 +436,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $title_modification = $this->factory->title();
             $title_modification = $this->setPriority($title_modification);
 
-            return $title_modification->withModification(function (?string $f) use ($title_config): ?string {
-                return $title_config->getHeaderTitle();
-            });
+            return $title_modification->withModification(fn(?string $f): ?string => $title_config->getHeaderTitle());
         }
         return null;
     }
@@ -459,9 +448,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $short_title_modification = $this->factory->short_title();
             $short_title_modification = $this->setPriority($short_title_modification);
 
-            return $short_title_modification->withModification(function (?string $f) use ($title_config): ?string {
-                return $title_config->getHeaderTitle();
-            });
+            return $short_title_modification->withModification(fn(?string $f): ?string => $title_config->getHeaderTitle());
         }
         return null;
     }

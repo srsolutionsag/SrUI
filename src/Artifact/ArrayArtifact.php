@@ -28,13 +28,25 @@ class ArrayArtifact
 
     final public function serialize(): string
     {
-        return "<?" . "php return " . var_export($this->data, true) . ";";
+        return '<?php return ' . var_export($this->data, true) . ";";
     }
 
-    private function check(array $a)
+    private function check(array $a): void
     {
         foreach ($a as $item) {
-            if (is_string($item) || is_int($item) || is_float($item) || is_bool($item) || is_null($item)) {
+            if (is_string($item)) {
+                continue;
+            }
+            if (is_int($item)) {
+                continue;
+            }
+            if (is_float($item)) {
+                continue;
+            }
+            if (is_bool($item)) {
+                continue;
+            }
+            if (is_null($item)) {
                 continue;
             }
             if (is_array($item)) {

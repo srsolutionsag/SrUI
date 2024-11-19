@@ -35,7 +35,7 @@ class ResourceStorage6 implements ResourceStorage
     /**
      * @var Stakeholder
      */
-    protected \srag\Plugins\SrUI\ResourceStorage\Stakeholder6 $stakeholder;
+    protected Stakeholder6 $stakeholder;
     /**
      * @var ResourceBuilder
      */

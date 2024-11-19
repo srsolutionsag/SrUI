@@ -33,10 +33,10 @@ use srag\Plugins\SrUI\Config\Footer\PermanentLinkConfig;
  */
 class Configuration
 {
-    protected \srag\Plugins\SrUI\Config\ConfigCollection $collection;
+    protected ConfigCollection $collection;
     protected string $version;
-    protected \srag\Plugins\SrUI\Config\ConfigurationStorage $storage;
-    protected \srag\Plugins\SrUI\ResourceStorage\Factory $resource_storage_factory;
+    protected ConfigurationStorage $storage;
+    protected Factory $resource_storage_factory;
 
     /**
      * @param string $version
@@ -99,9 +99,19 @@ class Configuration
                 continue;
             }
             foreach ($data as $datum) {
-                if (is_array($datum) && isset($datum[0]) && is_string($datum[0]) && $resource_storage->has($datum[0])) {
-                    $zip->addFromString($datum[0], $resource_storage->getString($datum[0]));
+                if (!is_array($datum)) {
+                    continue;
                 }
+                if (!isset($datum[0])) {
+                    continue;
+                }
+                if (!is_string($datum[0])) {
+                    continue;
+                }
+                if (!$resource_storage->has($datum[0])) {
+                    continue;
+                }
+                $zip->addFromString($datum[0], $resource_storage->getString($datum[0]));
             }
         }
         $zip->close();
@@ -113,7 +123,7 @@ class Configuration
     {
         $resource_storage = $this->resource_storage_factory->storage();
 
-        function array_map_recursive(callable $func, array $arr)
+        function array_map_recursive(callable $func, array $arr): array
         {
             array_walk_recursive($arr, function (&$v) use ($func): void {
                 $v = $func($v);
