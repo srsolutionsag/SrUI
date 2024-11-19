@@ -1,5 +1,13 @@
 <?php
 
+/*********************************************************************
+ * This Code is licensed under the GPL-3.0 License and is Part of a
+ * ILIAS Plugin developed by sr solutions ag in Switzerland.
+ *
+ * https://sr.solutions
+ *
+ *********************************************************************/
+
 use ILIAS\DI\Container;
 use srag\Plugins\SrUI\ILIASVersion;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
