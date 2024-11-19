@@ -16,13 +16,10 @@ namespace srag\Plugins\SrUI\Config;
  */
 abstract class BaseNestedConfig implements Config
 {
-    protected string $namespace;
-
     protected $data = null;
 
-    public function __construct(string $namespace)
+    public function __construct(protected string $namespace)
     {
-        $this->namespace = $namespace;
     }
 
     public function getNamespace(): string

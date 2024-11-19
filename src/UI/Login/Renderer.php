@@ -36,10 +36,7 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         return $default_renderer->render($component);
     }
 
-    /**
-     * @param mixed $default_renderer
-     */
-    private function renderAdvancedFooter(AdvancedFooter $component, $default_renderer): string
+    private function renderAdvancedFooter(AdvancedFooter $component, mixed $default_renderer): string
     {
         global $DIC;
         $tpl = new ilTemplateWrapper(
@@ -75,17 +72,17 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         return $tpl->get();
     }
 
-    /**
-     * @param mixed $default_renderer
-     */
-    protected function renderLoginPage(Login $component, $default_renderer): string
+    protected function renderLoginPage(Login $component, mixed $default_renderer): string
     {
         global $DIC;
         $tpl = new ilTemplateWrapper(
             $DIC->ui()->mainTemplate(),
-            new \ilTemplate(self::TEMPLATE_BASE . 'tpl.login_page_8.html', true, true)
+            new \ilTemplate(self::TEMPLATE_BASE . 'tpl.login_page.html', true, true)
         );
         $tpl->setVariable('FAVICON_PATH', $component->getFaviconPath());
+
+        $id = $this->bindJavaScript($component);
+        $tpl->setVariable("ID", $id);
 
         if ($component->hasOverlay()) {
             $tpl->setVariable('OVERLAY', $default_renderer->render($component->getOverlay()));
@@ -95,6 +92,11 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         }
         if ($component->hasMainbar()) {
             $tpl->setVariable('MAINBAR', $default_renderer->render($component->getMainbar()));
+            // There is a roadmap entry for this.
+            $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED] ?? '';
+            if ($slates_cookie && json_decode((string) $slates_cookie, true)['engaged']) {
+                $tpl->touchBlock('slates_engaged');
+            }
         }
         if ($component->hasModeInfo()) {
             $tpl->setVariable('MODEINFO', $default_renderer->render($component->getModeInfo()));
@@ -110,22 +112,14 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
             $dropdown = $this->convertBreadcrumbsToDropdownLocator($breadcrumbs);
             $tpl->setVariable('HEADER_BREADCRUMBS', $default_renderer->render($dropdown));
         }
+
         if ($component->hasLogo()) {
             $tpl->setVariable('LOGO', $default_renderer->render($component->getLogo()));
-            if ($component->getSettings()->isShowHeaderLogo()) {
-                $tpl->setVariable("LOGO_LOGIN", $default_renderer->render($component->getLogo()));
-            }
         }
         if ($component->hasResponsiveLogo()) {
             $tpl->setVariable('RESPONSIVE_LOGO', $default_renderer->render($component->getResponsiveLogo()));
         } elseif ($component->hasLogo()) {
             $tpl->setVariable('RESPONSIVE_LOGO', $default_renderer->render($component->getLogo()));
-        }
-
-        // There is a roadmap entry for this.
-        $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED] ?? '';
-        if ($slates_cookie && json_decode($slates_cookie, true)['engaged']) {
-            $tpl->touchBlock('slates_engaged');
         }
 
         $tpl->setVariable("TITLE", $component->getTitle());
@@ -135,24 +129,29 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         $tpl->setVariable("TEXT_DIRECTION", $component->getTextDirection());
         $tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
+        if ($component->getWithHeaders()) {
+            $tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());
+        }
+
+        $tpl->setVariable(
+            'META_DATA',
+            $this->getDataFactory()->htmlMetadata()->collection(
+                $component->getMetaData()
+            )->toHtml()
+        );
+
+        // Specific for Login Page
+        if ($component->getSettings()->isShowFooter() && $component->hasFooter()) {
+            $tpl->setVariable('FOOTER', $default_renderer->render($component->getFooter()));
+        }
+
         if ($component->getSettings()->getBackgroundImage() !== '' && $component->getSettings()->getBackgroundImage(
         ) !== '0') {
             $tpl->setVariable('BACKGROUND_IMAGE', $component->getSettings()->getBackgroundImage());
         }
 
-        if ($component->getSettings()->isShowFooter() && $component->hasFooter()) {
-            $tpl->setVariable('FOOTER', $default_renderer->render($component->getFooter()));
-        }
-
-        if ($component->getWithHeaders()) {
-            $tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());
-        }
-
-        foreach ($component->getMetaData() as $meta_key => $meta_value) {
-            $tpl->setCurrentBlock('meta_datum');
-            $tpl->setVariable('META_KEY', $meta_key);
-            $tpl->setVariable('META_VALUE', $meta_value);
-            $tpl->parseCurrentBlock();
+        if ($component->getSettings()->isShowHeaderLogo()) {
+            $tpl->setVariable("LOGO_LOGIN", $default_renderer->render($component->getLogo()));
         }
 
         return $tpl->get();

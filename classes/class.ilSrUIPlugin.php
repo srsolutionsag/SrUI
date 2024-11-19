@@ -53,7 +53,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
     {
         $default_renderer = $dic->raw('ui.renderer');
 
-        return fn(): Renderer => new Renderer(
+        return static fn(): Renderer => new Renderer(
             $dic,
             $default_renderer($dic)
         );
@@ -82,7 +82,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
             if ($this->ilias_version->sevenOrNewer()) {
                 $this->provider_collection->setMetaBarProvider(new ilSrUIMetaBarProvider($DIC, $this));
             }
-        } catch (LogicException $l) {
+        } catch (LogicException) {
         }
     }
 
@@ -117,7 +117,7 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
 
     public function isOnLoginPage(): bool
     {
-        return strpos($_SERVER['SCRIPT_NAME'], 'login.php') !== false;
+        return str_contains((string) $_SERVER['SCRIPT_NAME'], 'login.php');
     }
 
     public function isOnLoginRelatedPage(Container $DIC): bool

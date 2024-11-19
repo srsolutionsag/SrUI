@@ -15,18 +15,14 @@ namespace srag\Plugins\SrUI\UI;
 use ILIAS\UI\Implementation\Render\DecoratedRenderer;
 use srag\Plugins\SrUI\UI\Login\Login;
 use ILIAS\DI\Container;
-use ILIAS\Data\Factory;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class Renderer extends DecoratedRenderer
 {
-    private Container $dic;
-
-    public function __construct(Container $dic, \ILIAS\UI\Renderer $default)
+    public function __construct(private Container $dic, \ILIAS\UI\Renderer $default)
     {
-        $this->dic = $dic;
         parent::__construct($default);
     }
 
@@ -40,7 +36,9 @@ class Renderer extends DecoratedRenderer
                 $this->dic["ui.javascript_binding"],
                 $this->dic['refinery'],
                 $this->dic["ui.pathresolver"],
-                new Factory()
+                $this->dic["ui.data_factory"],
+                $this->dic["help.text_retriever"],
+                $this->dic["ui.upload_limit_resolver"],
             );
             return $renderer->render($component, $this);
         }

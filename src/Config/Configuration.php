@@ -34,16 +34,14 @@ use srag\Plugins\SrUI\Config\Footer\PermanentLinkConfig;
 class Configuration
 {
     protected ConfigCollection $collection;
-    protected string $version;
     protected ConfigurationStorage $storage;
     protected Factory $resource_storage_factory;
 
     /**
      * @param string $version
      */
-    public function __construct(string $version)
+    public function __construct(protected string $version)
     {
-        $this->version = $version;
         $this->resource_storage_factory = new Factory();
         $this->collection = new ConfigCollection([
             new ProdServerConfig(),

@@ -20,14 +20,11 @@ class Version
     public const GREATER_THAN = ">";
     public const SMALLER_THAN = "<";
 
-    protected string $version;
-
     /**
      * @param string $version
      */
-    public function __construct(string $version)
+    public function __construct(protected string $version)
     {
-        $this->version = $version;
     }
 
     public function getVersionString(): string

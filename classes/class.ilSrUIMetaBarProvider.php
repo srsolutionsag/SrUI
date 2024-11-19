@@ -56,7 +56,9 @@ class ilSrUIMetaBarProvider extends AbstractStaticMetaBarPluginProvider
             $this->meta_bar->topLegacyItem($this->if->identifier('debug'))
                            ->withLegacyContent($factory->legacy($content))
                            ->withSymbol($factory->symbol()->glyph()->bulletlist())
-                           ->withVisibilityCallable(fn(): bool => $this->dic->rbac()->review()->isAssigned($this->dic->user()->getId(), 2))
+                           ->withVisibilityCallable(
+                               fn(): bool => $this->dic->rbac()->review()->isAssigned($this->dic->user()->getId(), 2)
+                           )
                            ->withTitle('DEBUG')
         ];
     }

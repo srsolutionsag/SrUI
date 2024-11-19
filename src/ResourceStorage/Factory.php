@@ -11,6 +11,7 @@
 namespace srag\Plugins\SrUI\ResourceStorage;
 
 use srag\Plugins\SrUI\ILIASVersion;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
  * Class Factory
@@ -28,20 +29,11 @@ class Factory
 
     public function storage(): ResourceStorage
     {
-        if ($this->ilias_version->lessThanSeven()) {
-            return new ResourceStorage6();
-        }
         return new ResourceStorage7();
     }
 
-    /**
-     * @return Stakeholder6|Stakeholder7
-     */
-    public function stakeholder()
+    public function stakeholder(): ResourceStakeholder
     {
-        if ($this->ilias_version->lessThanSeven()) {
-            return new Stakeholder6();
-        }
         return new Stakeholder7();
     }
 }

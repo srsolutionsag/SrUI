@@ -17,17 +17,15 @@ class ArtifactSaver
 {
     public const SUFFIX = '.php';
     protected ArrayArtifact $artifact;
-    protected string $file_name;
     protected string $base_path;
 
     /**
      * @param string $file_name
      */
-    public function __construct(string $file_name)
+    public function __construct(protected string $file_name)
     {
         $this->artifact = new ArrayArtifact([]);
         $this->base_path = rtrim(CLIENT_DATA_DIR, "/");
-        $this->file_name = $file_name;
     }
 
     public function getPath(): string

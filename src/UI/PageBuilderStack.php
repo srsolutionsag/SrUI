@@ -27,6 +27,7 @@ use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig;
 use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig;
 use srag\Plugins\SrUI\Config\Configuration;
 use ILIAS\Container\Screen\MemberViewLayoutProvider;
+use ILIAS\UI\Implementation\Component\Layout\Page\Standard;
 
 /**
  * Class PageBuilderStack
@@ -42,25 +43,21 @@ class PageBuilderStack extends StandardPageBuilder
      * @var ToolFactory
      */
     protected ModificationFactory $factory;
-    protected Configuration $configuration;
     /**
      * @var MetaContent
      */
     protected MetaContent $meta;
     protected Factory $storage_factory;
-    protected Container $dic;
 
     /**
      * @inheritDoc
      */
-    public function __construct(Container $dic, Configuration $settings)
+    public function __construct(protected Container $dic, protected Configuration $configuration)
     {
         parent::__construct();
-        $this->dic = $dic;
-        $this->configuration = $settings;
-        $this->context_stack = $dic->globalScreen()->tool()->context()->stack();
-        $this->factory = $dic->globalScreen()->layout()->factory();
-        $this->meta = $dic->globalScreen()->layout()->meta();
+        $this->context_stack = $this->dic->globalScreen()->tool()->context()->stack();
+        $this->factory = $this->dic->globalScreen()->layout()->factory();
+        $this->meta = $this->dic->globalScreen()->layout()->meta();
         $this->storage_factory = new Factory();
     }
 
@@ -86,11 +83,16 @@ class PageBuilderStack extends StandardPageBuilder
 
             /** @noinspection PhpIncompatibleReturnTypeInspection */
             $login = $this->getLoginPage($parts);
-            foreach ($this->meta->getMetaData()->getItems() as $meta_datum) {
-                $login = $login->withAdditionalMetaDatum($meta_datum->getKey(), $meta_datum->getValue());
+            foreach ($this->meta->getMetaData() as $meta_datum) {
+                $login = $login->withAdditionalMetaDatum($meta_datum);
             }
 
-            return $login;
+            if (null !== ($og_meta_data = $this->meta->getOpenGraphMetaData())) {
+                $login = $login->withAdditionalMetaDatum($og_meta_data);
+            }
+
+            return $login->withSystemInfos($parts->getSystemInfos())
+                         ->withTextDirection($this->meta->getTextDirection() ?? Standard::LTR);
         }
 
         // Fix for ModeInfo/MemberView
@@ -100,8 +102,12 @@ class PageBuilderStack extends StandardPageBuilder
             $page = $page->withModeInfo($mv_mode_info);
         }
 
-        foreach ($this->meta->getMetaData()->getItems() as $meta_datum) {
-            $page = $page->withAdditionalMetaDatum($meta_datum->getKey(), $meta_datum->getValue());
+        foreach ($this->meta->getMetaData() as $meta_datum) {
+            $page = $page->withAdditionalMetaDatum($meta_datum);
+        }
+
+        if (null !== ($og_meta_data = $this->meta->getOpenGraphMetaData())) {
+            return $page->withAdditionalMetaDatum($og_meta_data);
         }
 
         return $page;
@@ -109,7 +115,9 @@ class PageBuilderStack extends StandardPageBuilder
 
     public function getAsModification(): ?PageBuilderModification
     {
-        return $this->factory->page()->withPriority(16)->withModification(fn(PagePartProvider $p): Page => $this->build($p));
+        return $this->factory->page()->withPriority(16)->withModification(
+            fn(PagePartProvider $p): Page => $this->build($p)
+        );
     }
 
     /**

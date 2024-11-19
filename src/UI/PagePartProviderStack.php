@@ -27,7 +27,6 @@ use ILIAS\UI\Component\MainControls\MainBar;
  */
 class PagePartProviderStack implements PagePartProvider
 {
-    protected PagePartProvider $parts;
     /**
      * @var Factory
      */
@@ -39,10 +38,9 @@ class PagePartProviderStack implements PagePartProvider
 
     protected $prepended_content = '';
 
-    public function __construct(PagePartProvider $parts)
+    public function __construct(protected PagePartProvider $parts)
     {
         global $DIC;
-        $this->parts = $parts;
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
     }

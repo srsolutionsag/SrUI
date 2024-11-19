@@ -24,10 +24,8 @@ use ILIAS\UI\Component\Toast\Container;
  */
 class Login extends Standard
 {
-    protected LoginPageSettings $settings;
-
     public function __construct(
-        LoginPageSettings $settings,
+        protected LoginPageSettings $settings,
         array $content,
         ?MetaBar $metabar = null,
         ?MainBar $mainbar = null,
@@ -41,7 +39,6 @@ class Login extends Standard
         string $short_title = '',
         string $view_title = ''
     ) {
-        $this->settings = $settings;
         parent::__construct(
             $content,
             $metabar,

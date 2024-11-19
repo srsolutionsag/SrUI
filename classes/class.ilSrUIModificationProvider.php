@@ -25,6 +25,7 @@ use srag\Plugins\SrUI\Config\Configuration;
 use srag\Plugins\SrUI\Config\Menu\MenuColorConfig;
 use ILIAS\Filesystem\Stream\Streams;
 use srag\Plugins\SrUI\UI\Login\AdvancedFooter;
+use ILIAS\GlobalScreen\Identification\PluginIdentificationProvider;
 
 /**
  * Class ilSrUIModificationProvider
@@ -34,6 +35,8 @@ use srag\Plugins\SrUI\UI\Login\AdvancedFooter;
 class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 {
     public const PRIORITY = 60;
+
+    protected PluginIdentificationProvider $if;
 
     protected function config(): Configuration
     {
@@ -243,7 +246,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
     {
         try {
             return $m->withPriority(self::PRIORITY);
-        } catch (Throwable $t) {
+        } catch (Throwable) {
             return $m->withHighPriority();
         }
     }
@@ -262,10 +265,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $s = $this->plugin->getStorageFactory()->storage()->getDataURL($header_logo->getHeaderlogo());
             if (!empty($s)) {
                 return $logo_modification->withModification(
-                    function (?Image $image) use (
-                        $s,
-                        $header_logo_link
-                    ): ?Image {
+                    function (?Image $image) use ($s, $header_logo_link): ?Image {
                         if ($image === null) {
                             return null;
                         }
@@ -448,7 +448,9 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $short_title_modification = $this->factory->short_title();
             $short_title_modification = $this->setPriority($short_title_modification);
 
-            return $short_title_modification->withModification(fn(?string $f): ?string => $title_config->getHeaderTitle());
+            return $short_title_modification->withModification(
+                fn(?string $f): ?string => $title_config->getHeaderTitle()
+            );
         }
         return null;
     }
