@@ -5,7 +5,6 @@ use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\FileUpload\Handler\FileInfoResult;
-use ILIAS\FileUpload\Handler\HandlerResult;
 use ILIAS\FileUpload\Handler\HandlerResult as HandlerResultInterface;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
 use srag\Plugins\SrUI\ResourceStorage\Stakeholder;

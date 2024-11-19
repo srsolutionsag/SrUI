@@ -12,10 +12,8 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationPluginProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
-use ILIAS\UI\Implementation\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\MainControls\Footer;
 use ILIAS\UICore\PageContentProvider;
-use srag\Plugins\SrUI\ResourceStorage\Factory;
 use srag\Plugins\SrUI\UI\PageBuilderStack;
 use srag\Plugins\SrUI\Config\Configuration;
 use srag\Plugins\SrUI\Config\Menu\MenuColorConfig;
@@ -51,7 +49,8 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $this->globalScreen()->layout()->meta()->addMetaDatum('apple-touch-fullscreen', 'yes');
             $this->globalScreen()->layout()->meta()->addMetaDatum('apple-mobile-web-app-capable', 'yes');
             $this->globalScreen()->layout()->meta()->addMetaDatum(
-                'viewport', 'width=device-width, height=device-height user-scalable=0, minimal-ui;'
+                'viewport',
+                'width=device-width, height=device-height user-scalable=0, minimal-ui;'
             );
             $this->globalScreen()->layout()->meta()->addMetaDatum(
                 'viewport',
@@ -59,7 +58,8 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             );
             $this->globalScreen()->layout()->meta()->addOnloadCode('window.scroll(0,1);');
             $this->globalScreen()->layout()->meta()->addMetaDatum(
-                'apple-mobile-web-app-status-bar-style', 'black-translucent'
+                'apple-mobile-web-app-status-bar-style',
+                'black-translucent'
             );
         }
 

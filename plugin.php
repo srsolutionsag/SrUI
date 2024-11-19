@@ -1,9 +1,9 @@
 <?php
 
-$id                = "srui";
-$version           = "2.1.2";
+$id = "srui";
+$version = "2.1.2";
 $ilias_min_version = "8.0";
 $ilias_max_version = "8.999";
-$responsible       = "sr.solutions";
-$responsible_mail  = "support@sr.solutions";
+$responsible = "sr.solutions";
+$responsible_mail = "support@sr.solutions";
 $supports_cli_setup = true;

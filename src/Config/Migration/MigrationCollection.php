@@ -2,7 +2,6 @@
 
 namespace srag\Plugins\SrUI\Config\Migration;
 
-use srag\Plugins\SrUI\ILIASVersion;
 use srag\Plugins\SrUI\Version;
 use srag\Plugins\SrUI\Config\Configuration;
 

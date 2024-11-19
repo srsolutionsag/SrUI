@@ -32,7 +32,7 @@ class ilSrUICloneInfoConfigGUI implements ilSrUIGUI
                 ProdServerConfig::F_NON_PROD_MESSAGE => $factory->textarea(
                     $this->plugin->txt(ProdServerConfig::F_NON_PROD_MESSAGE)
                 )->withRequired(true)
-                 ->withMinLimit(1),
+                                                                ->withMinLimit(1),
                 ProdServerConfig::F_SEND_NON_INDEX_HEADERS => $factory->checkbox(
                     $this->plugin->txt(ProdServerConfig::F_SEND_NON_INDEX_HEADERS)
                 )
@@ -45,9 +45,11 @@ class ilSrUICloneInfoConfigGUI implements ilSrUIGUI
             [
                 ProdServerConfig::NS => $prod_system
             ]
-        )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v) use ($config): bool {
-            $config->loadData($v[ProdServerConfig::NS]);
-            return true;
-        }));
+        )->withAdditionalTransformation(
+            $this->getCustomTrafo($this->refinery)(function ($v) use ($config): bool {
+                $config->loadData($v[ProdServerConfig::NS]);
+                return true;
+            })
+        );
     }
 }

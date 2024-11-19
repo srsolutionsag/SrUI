@@ -44,27 +44,37 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
         ];
         $centered_login_page = $factory->field()->optionalGroup($arr, $this->plugin->txt(CenterPage::NS))
                                        ->withValue($this->config->get(CenterPage::NS)->getData())
-                                       ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function (
-                                           $v
-                                       ): bool {
-                                           $this->config->get(CenterPage::NS)->loadData($v);
-                                           return true;
-                                       }));
+                                       ->withAdditionalTransformation(
+                                           $this->getCustomTrafo($this->refinery)(function (
+                                               $v
+                                           ): bool {
+                                               $this->config->get(CenterPage::NS)->loadData($v);
+                                               return true;
+                                           })
+                                       );
 
         // SHOW COMPONENTS
         $fields = [
-            ShowComponents::F_SHOW_HEADER => $this->ui_factory->input()->field()->checkbox($this->plugin->txt(ShowComponents::F_SHOW_HEADER)),
-            ShowComponents::F_SHOW_MAIN_BAR => $this->ui_factory->input()->field()->checkbox($this->plugin->txt(ShowComponents::F_SHOW_MAIN_BAR)),
-            ShowComponents::F_SHOW_FOOTER => $this->ui_factory->input()->field()->checkbox($this->plugin->txt(ShowComponents::F_SHOW_FOOTER)),
+            ShowComponents::F_SHOW_HEADER => $this->ui_factory->input()->field()->checkbox(
+                $this->plugin->txt(ShowComponents::F_SHOW_HEADER)
+            ),
+            ShowComponents::F_SHOW_MAIN_BAR => $this->ui_factory->input()->field()->checkbox(
+                $this->plugin->txt(ShowComponents::F_SHOW_MAIN_BAR)
+            ),
+            ShowComponents::F_SHOW_FOOTER => $this->ui_factory->input()->field()->checkbox(
+                $this->plugin->txt(ShowComponents::F_SHOW_FOOTER)
+            ),
         ];
         $show_components = $factory->field()->optionalGroup($fields, $this->plugin->txt(ShowComponents::NS))
                                    ->withValue($this->config->get(ShowComponents::NS)->getData())
-                                   ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function (
-                                       $v
-                                   ): bool {
-                                       $this->config->get(ShowComponents::NS)->loadData($v);
-                                       return true;
-                                   }));
+                                   ->withAdditionalTransformation(
+                                       $this->getCustomTrafo($this->refinery)(function (
+                                           $v
+                                       ): bool {
+                                           $this->config->get(ShowComponents::NS)->loadData($v);
+                                           return true;
+                                       })
+                                   );
 
         return $factory->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
@@ -74,8 +84,10 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
                 //                Title::NS => $header_title,
                 //                Colors::NS => $header_colors,
             ]
-        )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v): bool {
-            return true;
-        }));
+        )->withAdditionalTransformation(
+            $this->getCustomTrafo($this->refinery)(function ($v): bool {
+                return true;
+            })
+        );
     }
 }

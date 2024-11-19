@@ -1,6 +1,6 @@
 <?php
 
-/** @noRector  */
+/** @noRector */
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 use ILIAS\DI\Container;
@@ -56,7 +56,6 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         };
     }
 
-
     protected function init(): void
     {
         global $DIC;
@@ -84,18 +83,15 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         }
     }
 
-
     public function getConfiguration(): Configuration
     {
         return $this->configuration;
     }
 
-
     public function getILIASVersion(): ILIASVersion
     {
         return $this->ilias_version;
     }
-
 
     public function getStorageFactory(): Factory
     {
@@ -128,14 +124,16 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
             $base_class = $DIC->http()->wrapper()->query()->retrieve('baseClass', $to_str);
 
             $fallback_cmd = "";
-            if($DIC->http()->wrapper()->query()->has('fallbackCmd')) {
+            if ($DIC->http()->wrapper()->query()->has('fallbackCmd')) {
                 $fallback_cmd = $DIC->http()->wrapper()->query()->retrieve('fallbackCmd', $to_str);
             }
 
             return (
                 ($base_class === strtolower(ilStartUpGUI::class)) &&
                 (
-                    ($DIC->ctrl()->getCmd() === 'showLogout') || ($fallback_cmd === 'doStandardAuthentication') || ($DIC->ctrl()->getCmdClass() === strtolower(ilPasswordAssistanceGUI::class))
+                    ($DIC->ctrl()->getCmd(
+                    ) === 'showLogout') || ($fallback_cmd === 'doStandardAuthentication') || ($DIC->ctrl(
+                    )->getCmdClass() === strtolower(ilPasswordAssistanceGUI::class))
                 )
             );
         }
@@ -156,7 +154,6 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
     {
         $this->checkAndPerformConfigMigration();
     }
-
 
     protected function onBoarding(): void
     {
@@ -222,10 +219,8 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
             SpecialContentFeaturesConfig::F_FANCY_CARDS => true
         ]);
 
-
         $this->configuration->save();
     }
-
 
     public function checkAndPerformConfigMigration(): void
     {

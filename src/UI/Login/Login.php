@@ -53,7 +53,7 @@ class Login extends Standard
     /**
      * @return LoginPageSettings
      */
-    public function getSettings() : LoginPageSettings
+    public function getSettings(): LoginPageSettings
     {
         return $this->settings;
     }

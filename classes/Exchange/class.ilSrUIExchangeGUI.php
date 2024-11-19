@@ -1,9 +1,6 @@
 <?php
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
-use srag\Plugins\SrUI\Config\Footer\FooterColorsConfig;
-use srag\Plugins\SrUI\Config\Footer\AdditionalInfoConfig;
-use srag\Plugins\SrUI\ResourceStorage\Factory;
 
 /**
  * Class ilSrUIExchangeGUI

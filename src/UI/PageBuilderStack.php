@@ -54,7 +54,7 @@ class PageBuilderStack extends StandardPageBuilder
         $this->storage_factory = new Factory();
     }
 
-    public function build(PagePartProvider $parts) : Page
+    public function build(PagePartProvider $parts): Page
     {
         $parts = new \srag\Plugins\SrUI\UI\PagePartProviderStack($parts);
 
@@ -97,9 +97,9 @@ class PageBuilderStack extends StandardPageBuilder
         return $page;
     }
 
-    public function getAsModification() : ?PageBuilderModification
+    public function getAsModification(): ?PageBuilderModification
     {
-        return $this->factory->page()->withPriority(16)->withModification(function (PagePartProvider $p) : Page {
+        return $this->factory->page()->withPriority(16)->withModification(function (PagePartProvider $p): Page {
             return $this->build($p);
         });
     }
@@ -108,7 +108,7 @@ class PageBuilderStack extends StandardPageBuilder
      * @param PagePartProvider $parts
      * @return Login
      */
-    private function getLoginPage(PagePartProvider $parts) : Login
+    private function getLoginPage(PagePartProvider $parts): Login
     {
         $centered_page = $this->configuration->get(CenteredPageConfig::NS);
         $show_components = $this->configuration->get(ShowComponentsConfig::NS);
@@ -121,24 +121,30 @@ class PageBuilderStack extends StandardPageBuilder
         }
         $login_page_settings->setShowHeader((bool) ($show_components->get(ShowComponentsConfig::F_SHOW_HEADER, true)));
         $login_page_settings->setShowFooter((bool) ($show_components->get(ShowComponentsConfig::F_SHOW_FOOTER, true)));
-        $login_page_settings->setShowMainBar((bool) ($show_components->get(
-            ShowComponentsConfig::F_SHOW_MAIN_BAR,
-            true
-        )));
-        $login_page_settings->setShowHeaderLogo((bool) ($centered_page->get(
-            CenteredPageConfig::F_SHOW_HEADER_LOGO,
-            true
-        )));
+        $login_page_settings->setShowMainBar(
+            (bool) ($show_components->get(
+                ShowComponentsConfig::F_SHOW_MAIN_BAR,
+                true
+            ))
+        );
+        $login_page_settings->setShowHeaderLogo(
+            (bool) ($centered_page->get(
+                CenteredPageConfig::F_SHOW_HEADER_LOGO,
+                true
+            ))
+        );
 
         if ($centered_page->get(CenteredPageConfig::F_BACKGROUND_IMAGE)) {
-            $s = $this->storage_factory->storage()->getDataURL((string) $centered_page->get(CenteredPageConfig::F_BACKGROUND_IMAGE)[0]);
+            $s = $this->storage_factory->storage()->getDataURL(
+                (string) $centered_page->get(CenteredPageConfig::F_BACKGROUND_IMAGE)[0]
+            );
             if (!empty($s)) {
                 $login_page_settings->setBackgroundImage($s);
             }
         }
 
         if (!$login_page_settings->isShowHeader()) {
-//            $this->meta->addCss(\ilSrUIPlugin::TEMPLATES_BASE . 'no_header.css');
+            //            $this->meta->addCss(\ilSrUIPlugin::TEMPLATES_BASE . 'no_header.css');
         }
 
         if (!$login_page_settings->isShowHeader() && !$login_page_settings->isShowFooter()) {

@@ -1,7 +1,6 @@
 <?php
 
 use srag\Plugins\SrUI\Config\Content\Config;
-use srag\Plugins\SrUI\Config\Configuration;
 
 /**
  * Class ilSrUIUIHookGUI

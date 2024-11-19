@@ -120,7 +120,7 @@ class ResourceStorage6 implements ResourceStorage
             $contents = $stream->getContents();
             switch ($mime_type) {
                 case 'image/svg+xml':
-//                    return 'data:' . $mime_type . ';charset=UTF-8,' . ($contents).'';
+                    //                    return 'data:' . $mime_type . ';charset=UTF-8,' . ($contents).'';
                 default:
                     return 'data:' . $mime_type . ';base64,' . base64_encode($contents);
             }

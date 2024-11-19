@@ -15,8 +15,6 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 {
     public const TEMPLATE_BASE = \ilSrUIPlugin::TEMPLATES_BASE;
 
-
-
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         switch (true) {
@@ -29,7 +27,7 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         return $default_renderer->render($component);
     }
 
-    private function renderAdvancedFooter(AdvancedFooter $component, RendererInterface $default_renderer):string
+    private function renderAdvancedFooter(AdvancedFooter $component, RendererInterface $default_renderer): string
     {
         global $DIC;
         $tpl = new ilTemplateWrapper(
@@ -47,9 +45,12 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         }
 
         if ($modalsWithTriggers !== []) {
-            $tpl->setVariable('MODALS', $default_renderer->render(
-                array_column($modalsWithTriggers, 0)
-            ));
+            $tpl->setVariable(
+                'MODALS',
+                $default_renderer->render(
+                    array_column($modalsWithTriggers, 0)
+                )
+            );
         }
 
         $tpl->setVariable('TEXT', $component->getText());
@@ -57,13 +58,10 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         $perm_url = $component->getPermanentURL();
         if ($perm_url instanceof URI) {
             $tpl->setVariable('PERMANENT_LABEL', $this->txt('perma_link'));
-            $tpl->setVariable('PERMANENT_ACTION', (string)$perm_url);
-
+            $tpl->setVariable('PERMANENT_ACTION', (string) $perm_url);
         }
         return $tpl->get();
     }
-
-
 
     protected function renderLoginPage(Login $component, RendererInterface $default_renderer)
     {

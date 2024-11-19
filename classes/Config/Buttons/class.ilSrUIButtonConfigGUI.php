@@ -14,7 +14,6 @@ class ilSrUIButtonConfigGUI implements ilSrUIGUI
     use ilSrUIHelperGUI;
     use ilSrUITrafos;
 
-
     private function getForm(): Form
     {
         $factory = $this->ui_factory->input();
@@ -32,7 +31,6 @@ class ilSrUIButtonConfigGUI implements ilSrUIGUI
             ButtonColorConfig::F_PRIMARY_BUTTON_COLOR_TEXT_HOVER => $factory->field()->text(
                 $this->plugin->txt(ButtonColorConfig::F_PRIMARY_BUTTON_COLOR_TEXT_HOVER)
             )->withRequired(true),
-
 
             ButtonColorConfig::F_GENERAL_BUTTON_COLOR => $factory->field()->text(
                 $this->plugin->txt(ButtonColorConfig::F_GENERAL_BUTTON_COLOR)

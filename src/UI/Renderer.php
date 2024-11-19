@@ -23,8 +23,6 @@ namespace srag\Plugins\SrUI\UI;
 use ILIAS\UI\Implementation\Render\DecoratedRenderer;
 use srag\Plugins\SrUI\UI\Login\Login;
 use ILIAS\DI\Container;
-use ILIAS\UI\Implementation\Render\ComponentRenderer;
-use ILIAS\UI\Component\Card\Card;
 use ILIAS\Data\Factory;
 
 /**

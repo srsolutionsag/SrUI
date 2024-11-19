@@ -9,7 +9,6 @@ use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\MainControls\MainBar;
-use ILIAS\UI\Component\MainControls\SystemInfo;
 use ILIAS\UI\Component\Toast\Container as TContainer;
 
 /**

@@ -45,10 +45,12 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
             $this->plugin->txt(Logo::NS)
         )
                                ->withValue($this->config->get(Logo::NS)->getData())
-                               ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v): bool {
-                                   $this->config->get(Logo::NS)->loadData($v);
-                                   return true;
-                               }));
+                               ->withAdditionalTransformation(
+                                   $this->getCustomTrafo($this->refinery)(function ($v): bool {
+                                       $this->config->get(Logo::NS)->loadData($v);
+                                       return true;
+                                   })
+                               );
 
         // RESPONSIVE HEADER ICON
         $responsive_header_logo = $factory->field()->optionalGroup(
@@ -59,15 +61,19 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
                     $this->plugin->txt(ResponsiveLogo::F_ICON)
                 )->withAcceptedMimeTypes(self::MIME_TYPES),
                 // Width
-                ResponsiveLogo::F_ICON_WIDTH => $factory->field()->text($this->plugin->txt(ResponsiveLogo::F_ICON_WIDTH))
+                ResponsiveLogo::F_ICON_WIDTH => $factory->field()->text(
+                    $this->plugin->txt(ResponsiveLogo::F_ICON_WIDTH)
+                )
             ],
             $this->plugin->txt(ResponsiveLogo::NS)
         )
-                               ->withValue($this->config->get(ResponsiveLogo::NS)->getData())
-                               ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v): bool {
-                                   $this->config->get(ResponsiveLogo::NS)->loadData($v);
-                                   return true;
-                               }));
+                                          ->withValue($this->config->get(ResponsiveLogo::NS)->getData())
+                                          ->withAdditionalTransformation(
+                                              $this->getCustomTrafo($this->refinery)(function ($v): bool {
+                                                  $this->config->get(ResponsiveLogo::NS)->loadData($v);
+                                                  return true;
+                                              })
+                                          );
 
         // Header Title
         $header_title = $factory->field()->optionalGroup([
@@ -76,12 +82,14 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
             )->withRequired(true)
         ], $this->plugin->txt(Title::NS))
                                 ->withValue($this->config->get(Title::NS)->getData())
-                                ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function (
-                                    $v
-                                ): bool {
-                                    $this->config->get(Title::NS)->loadData($v);
-                                    return true;
-                                }));
+                                ->withAdditionalTransformation(
+                                    $this->getCustomTrafo($this->refinery)(function (
+                                        $v
+                                    ): bool {
+                                        $this->config->get(Title::NS)->loadData($v);
+                                        return true;
+                                    })
+                                );
 
         // Header Colors
         $header_colors = $factory->field()->optionalGroup([
@@ -100,12 +108,14 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
 
         ], $this->plugin->txt(Colors::NS))
                                  ->withValue($this->config->get(Colors::NS)->getData())
-                                 ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function (
-                                     $v
-                                 ): bool {
-                                     $this->config->get(Colors::NS)->loadData($v);
-                                     return true;
-                                 }));
+                                 ->withAdditionalTransformation(
+                                     $this->getCustomTrafo($this->refinery)(function (
+                                         $v
+                                     ): bool {
+                                         $this->config->get(Colors::NS)->loadData($v);
+                                         return true;
+                                     })
+                                 );
 
         return $factory->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
@@ -115,8 +125,10 @@ class ilSrUIHeaderConfigGUI implements ilSrUIGUI
                 Title::NS => $header_title,
                 Colors::NS => $header_colors,
             ]
-        )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v): bool {
-            return true;
-        }));
+        )->withAdditionalTransformation(
+            $this->getCustomTrafo($this->refinery)(function ($v): bool {
+                return true;
+            })
+        );
     }
 }

@@ -2,7 +2,6 @@
 
 namespace srag\Plugins\SrUI\UI\Login;
 
-
 use ILIAS\UI\Implementation\Component\MainControls\Footer;
 
 /**
@@ -10,5 +9,4 @@ use ILIAS\UI\Implementation\Component\MainControls\Footer;
  */
 class AdvancedFooter extends Footer
 {
-
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Fabian Schmid <fabian@sr.solutions>
+ * @author            Fabian Schmid <fabian@sr.solutions>
  *
  * @ilCtrl_isCalledBy ilSrUIConfigGUI: ilObjComponentSettingsGUI
  */

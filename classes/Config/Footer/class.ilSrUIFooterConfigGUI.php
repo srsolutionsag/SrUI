@@ -56,7 +56,6 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
                                       })
                                   );
 
-
         // FOOTER COLORS
         $footer_color_config = $this->config->get(FooterColorsConfig::NS);
         $footer_colors = $factory->field()->optionalGroup([
@@ -69,10 +68,12 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
 
         ], $this->plugin->txt(FooterColorsConfig::NS))
                                  ->withValue($footer_color_config->getData())
-                                 ->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v): bool {
-                                     $this->config->get(FooterColorsConfig::NS)->loadData($v);
-                                     return true;
-                                 }));
+                                 ->withAdditionalTransformation(
+                                     $this->getCustomTrafo($this->refinery)(function ($v): bool {
+                                         $this->config->get(FooterColorsConfig::NS)->loadData($v);
+                                         return true;
+                                     })
+                                 );
 
         return $factory->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
@@ -81,8 +82,10 @@ class ilSrUIFooterConfigGUI implements ilSrUIGUI
                 FooterColorsConfig::NS => $footer_colors,
                 PermanentLinkConfig::NS => $permanent_link
             ]
-        )->withAdditionalTransformation($this->getCustomTrafo($this->refinery)(function ($v): bool {
-            return true;
-        }));
+        )->withAdditionalTransformation(
+            $this->getCustomTrafo($this->refinery)(function ($v): bool {
+                return true;
+            })
+        );
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-/** @noRector  */
+/** @noRector */
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarPluginProvider;

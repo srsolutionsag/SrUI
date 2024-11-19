@@ -1,7 +1,6 @@
 <?php
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
-use srag\Plugins\SrUI\Config\Header\HeaderColorsConfiguration as Colors;
 use srag\Plugins\SrUI\Config\Menu\MenuColorConfig;
 
 /**
@@ -14,7 +13,6 @@ class ilSrUIMenuConfigGUI implements ilSrUIGUI
 {
     use ilSrUIHelperGUI;
     use ilSrUITrafos;
-
 
     private function getForm(): Form
     {

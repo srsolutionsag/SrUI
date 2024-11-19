@@ -41,10 +41,10 @@ class CenteredPageConfig extends BaseNestedConfig
         }
 
         return $this->data ?? [
-                self::F_SHOW_HEADER_LOGO => false,
-                self::F_BACKGROUND_IMAGE => null,
-                self::F_CENTERED_LOGIN_PAGE_CSS => ''
-            ];
+            self::F_SHOW_HEADER_LOGO => false,
+            self::F_BACKGROUND_IMAGE => null,
+            self::F_CENTERED_LOGIN_PAGE_CSS => ''
+        ];
     }
 
     public function getFields(): array

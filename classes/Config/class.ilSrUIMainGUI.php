@@ -72,7 +72,6 @@ class ilSrUIMainGUI implements ilSrUIGUI
                     $this->index();
                 }
                 break;
-
         }
     }
 
