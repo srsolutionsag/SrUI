@@ -76,9 +76,23 @@ class PageBuilderStack extends StandardPageBuilder
                     $this->configuration->prodServerConfig()->getNonProdMessageTitle()
                 );
                 $modal = $this->ui->factory()->modal()->lightbox([$text]);
+
+                $show_id = $modal->getShowSignal()->getId();
+                $close_id = $modal->getCloseSignal()->getId();
+
+                $modal = $modal->withAdditionalOnLoadCode(function ($id) {
+                    return "$('#$id').on('hidden.bs.modal', function () {
+                        document.cookie = 'sr_ui_prod_warning=1; path=/';
+                    });";
+                });
+
                 $parts->prependContent($this->ui->renderer()->render($modal));
-                $id = $modal->getShowSignal()->getId();
-                $this->meta->addOnloadCode("$(document).trigger('$id', '{}');");
+
+                $this->meta->addOnloadCode("
+                if (document.cookie.replace(/(?:(?:^|.*;\s*)sr_ui_prod_warning\s*\=\s*([^;]*).*$)|^.*$/, '$1') !== '1') {
+                    $(document).trigger('$show_id', '{}');
+                }");
+
             }
 
             /** @noinspection PhpIncompatibleReturnTypeInspection */
