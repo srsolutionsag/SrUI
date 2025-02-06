@@ -169,12 +169,14 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 color: $main_color !important;
             }
 
-            .il-maincontrols-slate .btn-bulky, .il-maincontrols-slate .link-bulky {
+            .il-maincontrols-slate .btn-bulky, .il-maincontrols-slate .link-bulky,
+            .il-drilldown .menulevel {
                 background-color: $sub_color !important;
             }
             
             .il-maincontrols-slate .btn-bulky:hover, .il-maincontrols-slate .link-bulky:hover,
-            .il-maincontrols-slate .btn-bulky.engaged, .il-maincontrols-slate .link-bulky.engaged {
+            .il-maincontrols-slate .btn-bulky.engaged, .il-maincontrols-slate .link-bulky.engaged,
+            .il-drilldown .menulevel:hover {
                 background-color: $sub_hover_color !important;
             }
            
