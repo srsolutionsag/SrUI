@@ -118,6 +118,61 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             );
         }
 
+        // Permanent Link
+        $footer_permant_link_config = $this->config()->footerPermanentLinkConfig();
+        if ($footer_permant_link_config->showEnhancedPermanantLink()) {
+            // Standard Colors (Prevent Erroneous Usage of Button Colors)
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss(
+                "
+                    .il-maincontrols-footer button,
+                    .il-maincontrols-footer input,
+                    .il-maincontrols-footer img,
+                    .il-footer-permanent-url,
+                    .il-footer-permanent-url div,
+                    .sr-copy-link-container,
+                    .sr-copy-link-container span {
+                        background-color: white !important;
+                        color: #161616 !important;
+                        border: none !important;
+                    }
+                    
+                    .il-maincontrols-footer img {
+                        filter: none !important;
+                    }
+                    
+                    .il-maincontrols-footer img:hover,
+                    .il-maincontrols-footer img:active,
+                    .il-maincontrols-footer img:focus{
+                        border-bottom: 1px solid #161616 !important;
+                    }
+                    
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-share-trigger.btn.btn-default:hover:not(.copg-add:hover)),
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-copy-trigger.btn.btn-default:hover:not(.copg-add:hover)),
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-share-trigger.btn.btn-default:focus:not(.copg-add:focus)),
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-copy-trigger.btn.btn-default:focus:not(.copg-add:focus)),
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-share-trigger.btn.btn-default:active:not(.copg-add:active)),
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-copy-trigger.btn.btn-default:active:not(.copg-add:active)),
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-share-trigger.btn.btn-default.engaged),
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-copy-trigger.btn.btn-default.engaged),
+                    .sr-copy-link-container.btn.btn-default:has(> input.sr-permanent-link-input:hover:not(.copg-add:hover)),
+                    .sr-copy-link-container.btn.btn-default:has(> input.sr-permanent-link-input:focus:not(.copg-add:focus)),
+                    .sr-copy-link-container.btn.btn-default:has(> input.sr-permanent-link-input:focus-visible:not(.copg-add:focus-visible)),
+                    .sr-copy-link-container.btn.btn-default:has(> input.sr-permanent-link-input:active:not(.copg-add:active)),
+                    .sr-copy-link-container.btn.btn-default:has(> input.sr-permanent-link-input.enabled),
+                    .sr-copy-link-container.btn.btn-default:hover:not(.copg-add:hover),
+                    .sr-copy-link-container.btn.btn-default:focus:not(.copg-add:focus),
+                    .sr-copy-link-container.btn.btn-default:active:not(.copg-add:active),
+                    .sr-copy-link-container.btn.btn-default.enabled,
+                    .il-footer-permanent-url:has(> div.sr-copy-link-container:hover:not(.copg-add:hover)) {
+                        background-color: white !important;
+                        color: #161616 !important;
+                        border: none !important;
+                    }
+                    
+                    "
+            );
+        }
+
         // Footer Colors
         $footer_colors = $this->config()->footerColorConfig();
         if ($footer_colors->isNamespaceActive()) {
@@ -131,13 +186,67 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 color: $footer_text_color;
             }
             
-            .il-maincontrols-footer a {
+            .il-maincontrols-footer a,
+            .il-maincontrols-footer button{
                 color: $footer_text_color !important;
             }
            
             "
             );
+
+            // Permanent Link Footer Colors
+            if ($footer_permant_link_config->showEnhancedPermanantLink()) {
+                $this->dic->globalScreen()->layout()->meta()->addInlineCss(
+                    "
+                    .il-maincontrols-footer button,
+                    .il-maincontrols-footer input,
+                    .il-footer-permanent-url,
+                    .il-footer-permanent-url div,
+                    .sr-copy-link-container,
+                    .sr-copy-link-container span {
+                        background-color: $footer_bg_color !important;
+                        color: $footer_text_color !important;
+                        border: none !important;
+                    }
+                    
+                    .il-maincontrols-footer img {
+                        filter: invert(100%) !important;
+                    }
+                    
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-share-trigger.btn.btn-default:hover:not(.copg-add:hover)),
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-copy-trigger.btn.btn-default:hover:not(.copg-add:hover)),
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-share-trigger.btn.btn-default:focus:not(.copg-add:focus)),
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-copy-trigger.btn.btn-default:focus:not(.copg-add:focus)),
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-share-trigger.btn.btn-default:active:not(.copg-add:active)),
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-copy-trigger.btn.btn-default:active:not(.copg-add:active)),
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-share-trigger.btn.btn-default.engaged),
+                    .sr-copy-link-container.btn.btn-default:has(> button.sr-permanent-link-copy-trigger.btn.btn-default.engaged),
+                    .sr-copy-link-container.btn.btn-default:has(> input.sr-permanent-link-input:hover:not(.copg-add:hover)),
+                    .sr-copy-link-container.btn.btn-default:has(> input.sr-permanent-link-input:focus:not(.copg-add:focus)),
+                    .sr-copy-link-container.btn.btn-default:has(> input.sr-permanent-link-input:focus-visible:not(.copg-add:focus-visible)),
+                    .sr-copy-link-container.btn.btn-default:has(> input.sr-permanent-link-input:active:not(.copg-add:active)),
+                    .sr-copy-link-container.btn.btn-default:has(> input.sr-permanent-link-input.enabled),
+                    .sr-copy-link-container.btn.btn-default:hover:not(.copg-add:hover),
+                    .sr-copy-link-container.btn.btn-default:focus:not(.copg-add:focus),
+                    .sr-copy-link-container.btn.btn-default:active:not(.copg-add:active),
+                    .sr-copy-link-container.btn.btn-default.enabled,
+                    .sr-permanent-link-share-trigger.btn.btn-default:hover:not(.copg-add:hover),
+                    .sr-permanent-link-share-trigger.btn.btn-default:active:not(.copg-add:active),
+                    .sr-permanent-link-share-trigger.btn.btn-default:focus:not(.copg-add:focus),
+                    .sr-permanent-link-copy-trigger.btn.btn-default:hover:not(.copg-add:hover),
+                    .sr-permanent-link-copy-trigger.btn.btn-default:active:not(.copg-add:active),
+                    .sr-permanent-link-copy-trigger.btn.btn-default:focus:not(.copg-add:focus),
+                    .il-footer-permanent-url:has(> div.sr-copy-link-container:hover:not(.copg-add:hover)) {
+                        background-color: $footer_bg_color !important;
+                        color: $footer_text_color !important;
+                        border: none !important;
+                    }
+                    
+                    "
+                );
+            }
         }
+
 
         // Menu Colors
         $menu_colors = $this->config()->menuColorConfig();
