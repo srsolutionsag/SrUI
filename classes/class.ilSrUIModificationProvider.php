@@ -171,6 +171,18 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                     
                     "
             );
+            // Input Width
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss(
+                "
+                    input.sr-permanent-link-input:hover:not(.copg-add:hover),
+                    input.sr-permanent-link-input:active:not(.copg-add:active), 
+                    input.sr-permanent-link-input:focus:not(.copg-add:focus),
+                    input.sr-permanent-link-input:focus-visible:not(.copg-add:focus-visible) {
+                        field-sizing: content;
+                        width: auto !important;
+                    }
+                    "
+            );
         }
 
         // Footer Colors
