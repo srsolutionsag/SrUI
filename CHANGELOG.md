@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 3.0.0
+- [FIX] Adjust permanent link width with content to make full link visible
+- [FIX] Match colors of permanent link to footer
+- [FIX] Apply color settings to both levels of main menu sub-entries (was only applied to the second level)
+- [FEATURE] store prod/test env closed state in cookie
+- [FEATURE] First Support for ILIAS 9
+- [FIX] PHP improvment
+- [FIX] License Header
+- [FIX] code-style
+
 ## Version 2.1.2
 - [FIX] an error when mainbar setting on login-page is activated but non available
 
