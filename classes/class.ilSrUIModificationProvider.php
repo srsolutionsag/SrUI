@@ -390,6 +390,29 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             );
         }
 
+        // Object Header
+        $object_header_color = $this->config()->contentConfig()->getObjectHeaderColor();
+        if(!empty($object_header_color)) {
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss(
+                "
+                h1.il-page-content-header {
+                    color: $object_header_color !important;
+                }
+            "
+            );
+        }
+
+        if($this->config()->contentConfig()->hasBlackHeaderIcon()) {
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss(
+                "
+                img#headerimage {
+                    filter: $filter_black !important;
+                }
+            "
+            );
+        }
+
+
         // Page
         $builder = new PageBuilderStack($this->dic, $this->config());
         return $builder->getAsModification();

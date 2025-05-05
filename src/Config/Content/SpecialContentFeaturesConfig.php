@@ -23,6 +23,8 @@ class SpecialContentFeaturesConfig extends BaseNestedConfig
     public const F_FANCY_TABS = 'fancy_tabs';
     public const F_VIEW_PORT = 'view_port';
     public const F_TAB_LINK_COLOR = 'tab_link_color';
+    public const F_OBJECT_HEADER_COLOR = 'object_header_color';
+    public const F_BLACK_HEADER_ICON = 'black_header_icon';
 
     public function __construct()
     {
@@ -43,10 +45,19 @@ class SpecialContentFeaturesConfig extends BaseNestedConfig
     {
         return $this->data[self::F_VIEW_PORT] ?? false;
     }
+    public function hasBlackHeaderIcon(): bool
+    {
+        return $this->data[self::F_BLACK_HEADER_ICON] ?? false;
+    }
 
     public function getTabLinkColor(): ?string
     {
         return $this->data[self::F_TAB_LINK_COLOR] ?? null;
+    }
+
+    public function getObjectHeaderColor(): ?string
+    {
+        return $this->data[self::F_OBJECT_HEADER_COLOR] ?? null;
     }
 
     public function getFields(): array
@@ -55,7 +66,9 @@ class SpecialContentFeaturesConfig extends BaseNestedConfig
             self::F_FANCY_TABS,
             self::F_FANCY_CARDS,
             self::F_VIEW_PORT,
-            self::F_TAB_LINK_COLOR
+            self::F_TAB_LINK_COLOR,
+            self::F_OBJECT_HEADER_COLOR,
+            self::F_BLACK_HEADER_ICON,
         ];
     }
 }

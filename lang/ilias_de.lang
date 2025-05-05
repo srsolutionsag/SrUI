@@ -71,3 +71,5 @@ bw#:#schwarz/weiss
 bb#:#schwarz/schwarz
 icon_color#:#Icon-Farbe
 tab_link_color#:#Tabs: Link-Farbe
+black_header_icon#:#Schwarzes Header-Icon
+object_header_color#::#Objekt Header-Farbe

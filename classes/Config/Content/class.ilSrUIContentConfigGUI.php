@@ -37,6 +37,12 @@ class ilSrUIContentConfigGUI implements ilSrUIGUI
         $tab_link_color = $this->ui_factory->input()->field()->text($this->plugin->txt(Content::F_TAB_LINK_COLOR))
                                       ->withValue($config->get(Content::F_TAB_LINK_COLOR, ''));
 
+        $object_header_color = $this->ui_factory->input()->field()->text($this->plugin->txt(Content::F_OBJECT_HEADER_COLOR))
+                                      ->withValue($config->get(Content::F_OBJECT_HEADER_COLOR, ''));
+
+        $black_header_icon = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(Content::F_BLACK_HEADER_ICON))
+                                      ->withValue($config->get(Content::F_BLACK_HEADER_ICON, false));
+
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
@@ -44,6 +50,8 @@ class ilSrUIContentConfigGUI implements ilSrUIGUI
                 Content::F_FANCY_TABS => $tabs,
                 Content::F_VIEW_PORT => $view_port,
                 Content::F_TAB_LINK_COLOR => $tab_link_color,
+                Content::F_OBJECT_HEADER_COLOR => $object_header_color,
+                Content::F_BLACK_HEADER_ICON => $black_header_icon,
             ]
         )->withAdditionalTransformation(
             $this->getCustomTrafo($this->refinery)(function ($v): bool {
