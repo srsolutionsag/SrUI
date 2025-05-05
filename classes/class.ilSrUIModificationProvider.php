@@ -26,6 +26,7 @@ use srag\Plugins\SrUI\Config\Menu\MenuColorConfig;
 use ILIAS\Filesystem\Stream\Streams;
 use srag\Plugins\SrUI\UI\Login\AdvancedFooter;
 use ILIAS\GlobalScreen\Identification\PluginIdentificationProvider;
+use ILIAS\Data\Meta\Html\UserDefined;
 
 /**
  * Class ilSrUIModificationProvider
@@ -54,17 +55,16 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         $content_settings = $this->config()->contentConfig();
         // Viewport (currently
         if ($content_settings->hasViewPortSetting()) {
-            $this->globalScreen()->layout()->meta()->addMetaDatum('apple-touch-fullscreen');
-            $this->globalScreen()->layout()->meta()->addMetaDatum('apple-mobile-web-app-capable');
+            $this->globalScreen()->layout()->meta()->addMetaDatum(new UserDefined('apple-touch-fullscreen', 'yes'));
             $this->globalScreen()->layout()->meta()->addMetaDatum(
-                'viewport'
+                new UserDefined('apple-mobile-web-app-capable', 'yes')
             );
             $this->globalScreen()->layout()->meta()->addMetaDatum(
-                'viewport'
+                new UserDefined('viewport', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
             );
             $this->globalScreen()->layout()->meta()->addOnloadCode('window.scroll(0,1);');
             $this->globalScreen()->layout()->meta()->addMetaDatum(
-                'apple-mobile-web-app-status-bar-style'
+                new UserDefined('apple-mobile-web-app-status-bar-style', 'black-translucent')
             );
         }
 
