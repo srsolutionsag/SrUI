@@ -22,6 +22,7 @@ class SpecialContentFeaturesConfig extends BaseNestedConfig
     public const F_FANCY_CARDS = 'fancy_cards';
     public const F_FANCY_TABS = 'fancy_tabs';
     public const F_VIEW_PORT = 'view_port';
+    public const F_TAB_LINK_COLOR = 'tab_link_color';
 
     public function __construct()
     {
@@ -43,12 +44,18 @@ class SpecialContentFeaturesConfig extends BaseNestedConfig
         return $this->data[self::F_VIEW_PORT] ?? false;
     }
 
+    public function getTabLinkColor(): ?string
+    {
+        return $this->data[self::F_TAB_LINK_COLOR] ?? null;
+    }
+
     public function getFields(): array
     {
         return [
             self::F_FANCY_TABS,
             self::F_FANCY_CARDS,
             self::F_VIEW_PORT,
+            self::F_TAB_LINK_COLOR
         ];
     }
 }

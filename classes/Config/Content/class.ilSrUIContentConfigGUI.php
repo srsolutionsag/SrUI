@@ -34,12 +34,16 @@ class ilSrUIContentConfigGUI implements ilSrUIGUI
         $view_port = $this->ui_factory->input()->field()->checkbox($this->plugin->txt(Content::F_VIEW_PORT))
                                       ->withValue($config->get(Content::F_VIEW_PORT, false));
 
+        $tab_link_color = $this->ui_factory->input()->field()->text($this->plugin->txt(Content::F_TAB_LINK_COLOR))
+                                      ->withValue($config->get(Content::F_TAB_LINK_COLOR, ''));
+
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE),
             [
                 Content::F_FANCY_CARDS => $cards,
                 Content::F_FANCY_TABS => $tabs,
                 Content::F_VIEW_PORT => $view_port,
+                Content::F_TAB_LINK_COLOR => $tab_link_color,
             ]
         )->withAdditionalTransformation(
             $this->getCustomTrafo($this->refinery)(function ($v): bool {

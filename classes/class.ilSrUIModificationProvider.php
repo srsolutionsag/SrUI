@@ -378,6 +378,18 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             );
         }
 
+        // Tabs
+        $tabs_colors = $this->config()->contentConfig()->getTabLinkColor();
+        if(!empty($tabs_colors)) {
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss(
+                "
+                ul#ilTab li a {
+                    color: $tabs_colors;
+                }
+            "
+            );
+        }
+
         // Page
         $builder = new PageBuilderStack($this->dic, $this->config());
         return $builder->getAsModification();
