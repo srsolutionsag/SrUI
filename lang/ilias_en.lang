@@ -65,3 +65,8 @@ import_file#:#Configuration-File
 download_configuration#:#Download Configuration
 permanent_link#:#Permanent Link
 show_enhanced_permanant_link#:#Show copyable Permanent Link
+ww#:#white/white
+wb#:#white/black
+bw#:#black/white
+bb#:#black/black
+icon_color#:#Icon Color

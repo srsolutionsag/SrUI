@@ -270,18 +270,36 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $tools_color = $menu_colors->get(MenuColorConfig::F_TOOLS_COLOR);
             $tools_hover_color = $menu_colors->get(MenuColorConfig::F_TOOLS_HOVER_COLOR);
 
+            // Icon Color
+            $filter_white = ' brightness(0) saturate(100%) invert(100%) sepia(99%) saturate(0%) hue-rotate(313deg) brightness(104%) contrast(100%)';
+            $filter_black = ' brightness(0) saturate(100%)';
+            $css_standard = match ($menu_colors->getIconColor()) {
+                MenuColorConfig::V_ICON_COLOR_W_W, MenuColorConfig::V_ICON_COLOR_W_B => $filter_white,
+                MenuColorConfig::V_ICON_COLOR_B_B, MenuColorConfig::V_ICON_COLOR_B_W => $filter_black,
+            };
+
+            $css_hover = match ($menu_colors->getIconColor()) {
+                MenuColorConfig::V_ICON_COLOR_W_W, MenuColorConfig::V_ICON_COLOR_B_W => $filter_white,
+                MenuColorConfig::V_ICON_COLOR_W_B, MenuColorConfig::V_ICON_COLOR_B_B => $filter_black,
+            };
+
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss(" 
+                .il-mainbar-triggers .btn-bulky .icon, .il-mainbar-triggers .il-link.link-bulky .icon {
+                    filter: $css_standard !important;
+                }
+                .il-mainbar-triggers .btn-bulky:hover .icon, .il-mainbar-triggers .il-link.link-bulky:hover .icon {
+                    filter: $css_hover !important;
+                }
+                .il-mainbar-triggers .bulky-label {
+                    color: white !important;
+                }
+            ");
+
             $this->dic->globalScreen()->layout()->meta()->addInlineCss(
                 "
-                
             nav.il-mainbar, div.il-mainbar-triggers, .il-mainbar-triggers .btn-bulky, .il-mainbar-triggers .btn-bulky, .il-mainbar-triggers .il-link.link-bulky {
                 background-color: $main_color !important;
                 color: $main_hover_color !important;
-            }
-            // Round Menu (disbaled, needs setting)
-            .il-mainbar-triggers .btn-bulky, .il-mainbar-triggers .btn-bulky, .il-mainbar-triggers .il-link.link-bulky {
-//                border-radius: 50%;
-//                border: 0px solid $main_hover_color !important;
-//                margin-bottom: 3px
             }
  
             .il-mainbar-triggers .btn-bulky:hover, .il-mainbar-triggers .il-link.link-bulky:hover,
