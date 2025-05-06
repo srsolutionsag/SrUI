@@ -262,6 +262,8 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 
         // Menu Colors
         $menu_colors = $this->config()->menuColorConfig();
+        $filter_white = ' brightness(0) saturate(100%) invert(100%) sepia(99%) saturate(0%) hue-rotate(313deg) brightness(104%) contrast(100%)';
+        $filter_black = ' brightness(0) saturate(100%)';
         if ($menu_colors->isNamespaceActive()) {
             $main_color = $menu_colors->get(MenuColorConfig::F_MAIN_COLOR);
             $main_hover_color = $menu_colors->get(MenuColorConfig::F_MAIN_HOVER_COLOR);
@@ -271,21 +273,20 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $tools_hover_color = $menu_colors->get(MenuColorConfig::F_TOOLS_HOVER_COLOR);
 
             // Icon Color
-            $filter_white = ' brightness(0) saturate(100%) invert(100%) sepia(99%) saturate(0%) hue-rotate(313deg) brightness(104%) contrast(100%)';
-            $filter_black = ' brightness(0) saturate(100%)';
-            
+
+
             [$color_standard, $color_engaged] = explode('/', $menu_colors->getIconColor());
-            
+
             $filter_standard = match ($color_standard) {
                 'white' => $filter_white,
                 'black' => $filter_black,
             };
-            
+
             $filter_engaged = match ($color_engaged) {
                 'white' => $filter_white,
                 'black' => $filter_black,
             };
-            
+
             $this->dic->globalScreen()->layout()->meta()->addInlineCss("
                 .il-mainbar-triggers .btn-bulky .icon, .il-mainbar-triggers .il-link.link-bulky .icon {
                     filter: $filter_standard !important;
@@ -393,7 +394,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 
         // Tabs
         $tabs_colors = $this->config()->contentConfig()->getTabLinkColor();
-        if(!empty($tabs_colors)) {
+        if (!empty($tabs_colors)) {
             $this->dic->globalScreen()->layout()->meta()->addInlineCss(
                 "
                 ul#ilTab li a {
@@ -405,7 +406,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 
         // Object Header
         $object_header_color = $this->config()->contentConfig()->getObjectHeaderColor();
-        if(!empty($object_header_color)) {
+        if (!empty($object_header_color)) {
             $this->dic->globalScreen()->layout()->meta()->addInlineCss(
                 "
                 h1.il-page-content-header {
@@ -415,7 +416,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             );
         }
 
-        if($this->config()->contentConfig()->hasBlackHeaderIcon()) {
+        if ($this->config()->contentConfig()->hasBlackHeaderIcon()) {
             $this->dic->globalScreen()->layout()->meta()->addInlineCss(
                 "
                 img#headerimage {
