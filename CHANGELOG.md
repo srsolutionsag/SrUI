@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 3.1.1
+- [FIX] Menu Icon Colors with Labels
+
 ## Version 3.1.0
 - [FEATURE] Object Header Config
 - [FEATURE] tab link color
