@@ -40,6 +40,9 @@ class Renderer extends DecoratedRenderer
                 $this->dic["help.text_retriever"],
                 $this->dic["ui.upload_limit_resolver"],
             );
+            if (!$this->dic->user()->isAnonymous()) {
+                return null;
+            }
             return $renderer->render($component, $this);
         }
 
