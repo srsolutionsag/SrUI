@@ -175,7 +175,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             $this->dic->globalScreen()->layout()->meta()->addInlineCss(
                 "
                     input.sr-permanent-link-input:hover:not(.copg-add:hover),
-                    input.sr-permanent-link-input:active:not(.copg-add:active), 
+                    input.sr-permanent-link-input:active:not(.copg-add:active),
                     input.sr-permanent-link-input:focus:not(.copg-add:focus),
                     input.sr-permanent-link-input:focus-visible:not(.copg-add:focus-visible) {
                         field-sizing: content;
@@ -273,25 +273,38 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
             // Icon Color
             $filter_white = ' brightness(0) saturate(100%) invert(100%) sepia(99%) saturate(0%) hue-rotate(313deg) brightness(104%) contrast(100%)';
             $filter_black = ' brightness(0) saturate(100%)';
-            $css_standard = match ($menu_colors->getIconColor()) {
-                MenuColorConfig::V_ICON_COLOR_W_W, MenuColorConfig::V_ICON_COLOR_W_B => $filter_white,
-                MenuColorConfig::V_ICON_COLOR_B_B, MenuColorConfig::V_ICON_COLOR_B_W => $filter_black,
+            
+            [$color_standard, $color_engaged] = explode('/', $menu_colors->getIconColor());
+            
+            $filter_standard = match ($color_standard) {
+                'white' => $filter_white,
+                'black' => $filter_black,
             };
-
-            $css_hover = match ($menu_colors->getIconColor()) {
-                MenuColorConfig::V_ICON_COLOR_W_W, MenuColorConfig::V_ICON_COLOR_B_W => $filter_white,
-                MenuColorConfig::V_ICON_COLOR_W_B, MenuColorConfig::V_ICON_COLOR_B_B => $filter_black,
+            
+            $filter_engaged = match ($color_engaged) {
+                'white' => $filter_white,
+                'black' => $filter_black,
             };
-
-            $this->dic->globalScreen()->layout()->meta()->addInlineCss(" 
+            
+            $this->dic->globalScreen()->layout()->meta()->addInlineCss("
                 .il-mainbar-triggers .btn-bulky .icon, .il-mainbar-triggers .il-link.link-bulky .icon {
-                    filter: $css_standard !important;
+                    filter: $filter_standard !important;
                 }
-                .il-mainbar-triggers .btn-bulky:hover .icon, .il-mainbar-triggers .il-link.link-bulky:hover .icon {
-                    filter: $css_hover !important;
+                .il-mainbar-triggers .btn-bulky:hover .icon,
+                .il-mainbar-triggers .il-link.link-bulky:hover .icon,
+                .il-mainbar-triggers .btn-bulky.engaged .icon,
+                .il-mainbar-triggers .il-link.link-bulky.engaged .icon {
+                    filter: $filter_engaged !important;
                 }
                 .il-mainbar-triggers .bulky-label {
-                    color: white !important;
+                    color: $color_standard !important;
+                }
+                
+                .il-mainbar-triggers .btn-bulky:hover .bulky-label,
+                .il-mainbar-triggers .il-link.link-bulky:hover .bulky-label,
+                .il-mainbar-triggers .btn-bulky.engaged .bulky-label,
+                .il-mainbar-triggers .il-link.link-bulky.engaged .bulky-label {
+                    color: $color_engaged !important;
                 }
             ");
 
@@ -365,8 +378,8 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                     border-color: $general_text_color;
                     color: $general_text_color;
                 }
-                .btn.btn-default:focus:not(.copg-add:focus), 
-                .btn.btn-default:hover:not(.copg-add:hover), 
+                .btn.btn-default:focus:not(.copg-add:focus),
+                .btn.btn-default:hover:not(.copg-add:hover),
                 .btn.btn-default:active:not(.copg-add:active),
                 .btn.btn-default.engaged
                 {

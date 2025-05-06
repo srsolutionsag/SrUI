@@ -28,10 +28,10 @@ class MenuColorConfig extends BaseNestedConfig
     public const F_TOOLS_COLOR = 'tools_color';
     public const F_TOOLS_HOVER_COLOR = 'tools_hover_color';
     public const F_ICON_COLOR = 'icon_color';
-    public const V_ICON_COLOR_W_B = 'wb';
-    public const V_ICON_COLOR_W_W = 'ww';
-    public const V_ICON_COLOR_B_W = 'bw';
-    public const V_ICON_COLOR_B_B = 'bb';
+    public const V_ICON_COLOR_W_B = 'white/black';
+    public const V_ICON_COLOR_W_W = 'white/white';
+    public const V_ICON_COLOR_B_W = 'black/white';
+    public const V_ICON_COLOR_B_B = 'black/black';
 
     public function __construct()
     {
@@ -53,7 +53,11 @@ class MenuColorConfig extends BaseNestedConfig
 
     public function getData()
     {
-        if(!isset($this->data[self::F_ICON_COLOR])) {
+        if (!isset($this->data[self::F_ICON_COLOR])) {
+            $this->data[self::F_ICON_COLOR] = self::V_ICON_COLOR_W_B;
+        }
+        
+        if (!in_array($this->data[self::F_ICON_COLOR], [self::V_ICON_COLOR_W_B, self::V_ICON_COLOR_W_W, self::V_ICON_COLOR_B_W, self::V_ICON_COLOR_B_B], true)) {
             $this->data[self::F_ICON_COLOR] = self::V_ICON_COLOR_W_B;
         }
 
@@ -62,7 +66,13 @@ class MenuColorConfig extends BaseNestedConfig
 
     public function getIconColor(): string
     {
-        return $this->get(self::F_ICON_COLOR, self::V_ICON_COLOR_W_B);
+        $value = $this->get(self::F_ICON_COLOR, self::V_ICON_COLOR_W_B);
+
+        if (!in_array($value, [self::V_ICON_COLOR_W_B, self::V_ICON_COLOR_W_W, self::V_ICON_COLOR_B_W, self::V_ICON_COLOR_B_B], true)) {
+            $value = self::V_ICON_COLOR_W_B;
+        }
+
+        return $value;
     }
 
 }

@@ -48,10 +48,10 @@ class ilSrUIMenuConfigGUI implements ilSrUIGUI
             MenuColorConfig::F_ICON_COLOR => $factory->field()->select(
                 $this->plugin->txt(MenuColorConfig::F_ICON_COLOR),
                 [
-                    MenuColorConfig::V_ICON_COLOR_W_B => $this->plugin->txt(MenuColorConfig::V_ICON_COLOR_W_B),
-                    MenuColorConfig::V_ICON_COLOR_W_W => $this->plugin->txt(MenuColorConfig::V_ICON_COLOR_W_W),
-                    MenuColorConfig::V_ICON_COLOR_B_W => $this->plugin->txt(MenuColorConfig::V_ICON_COLOR_B_W),
-                    MenuColorConfig::V_ICON_COLOR_B_B => $this->plugin->txt(MenuColorConfig::V_ICON_COLOR_B_B)
+                    MenuColorConfig::V_ICON_COLOR_W_B => $this->plugin->txt(str_replace('/', '_', MenuColorConfig::V_ICON_COLOR_W_B)),
+                    MenuColorConfig::V_ICON_COLOR_W_W => $this->plugin->txt(str_replace('/', '_', MenuColorConfig::V_ICON_COLOR_W_W)),
+                    MenuColorConfig::V_ICON_COLOR_B_W => $this->plugin->txt(str_replace('/', '_', MenuColorConfig::V_ICON_COLOR_B_W)),
+                    MenuColorConfig::V_ICON_COLOR_B_B => $this->plugin->txt(str_replace('/', '_', MenuColorConfig::V_ICON_COLOR_B_B)),
                 ]
             )->withRequired(true)
 

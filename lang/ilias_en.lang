@@ -65,10 +65,10 @@ import_file#:#Configuration-File
 download_configuration#:#Download Configuration
 permanent_link#:#Permanent Link
 show_enhanced_permanant_link#:#Show copyable Permanent Link
-ww#:#white/white
-wb#:#white/black
-bw#:#black/white
-bb#:#black/black
+white_white#:#white/white
+white_black#:#white/black
+black_white#:#black/white
+black_black#:#black/black
 icon_color#:#Icon Color
 tab_link_color#:#Tabs: Link-Color
 black_header_icon#:#Black Header-Icon
