@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 3.1.0
+- [FEATURE] Object Header Config
+- [FEATURE] tab link color
+- [FEATURE] choose icon color in mainbar
+- [FIX] error with login.php when logged in
+- [FIX] metadata-headers
+
 ## Version 3.0.0
 - [FIX] Adjust permanent link width with content to make full link visible
 - [FIX] Match colors of permanent link to footer
