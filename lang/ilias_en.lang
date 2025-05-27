@@ -73,3 +73,5 @@ icon_color#:#Icon Color
 tab_link_color#:#Tabs: Link-Color
 black_header_icon#:#Black Header-Icon
 object_header_color#:#Object Header Color
+additional_html#:#Additional HTML
+additional_html_info#:#This HTML will be added at the beginning of the content area.

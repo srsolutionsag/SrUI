@@ -73,3 +73,5 @@ icon_color#:#Icon-Farbe
 tab_link_color#:#Tabs: Link-Farbe
 black_header_icon#:#Schwarzes Header-Icon
 object_header_color#::#Objekt Header-Farbe
+additional_html#:#Zusätzliche HTML-Elemente
+additional_html_info#:#Dieses HTML wird zuoberst im Content-Bereich eingefügt.

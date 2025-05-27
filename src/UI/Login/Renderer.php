@@ -127,11 +127,8 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         $tpl->setVariable("VIEW_TITLE", $component->getViewTitle());
         $tpl->setVariable("LANGUAGE", $this->getLangKey());
         $tpl->setVariable("TEXT_DIRECTION", $component->getTextDirection());
-        $tpl->setVariable(
-            'CONTENT',
-            $component->getSettings()->getAdditionalHtml()
-            . $default_renderer->render($component->getContent())
-        );
+        $tpl->setVariable("PREPENDED_HTML", $component->getSettings()->getAdditionalHtml());
+        $tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
         if ($component->getWithHeaders()) {
             $tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());
@@ -150,7 +147,7 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         }
 
         if ($component->getSettings()->getBackgroundImage() !== '' && $component->getSettings()->getBackgroundImage(
-        ) !== '0') {
+            ) !== '0') {
             $tpl->setVariable('BACKGROUND_IMAGE', $component->getSettings()->getBackgroundImage());
         }
 
