@@ -13,6 +13,7 @@ namespace srag\Plugins\SrUI\UI\Login;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\ilTemplateWrapper;
 use ILIAS\Data\URI;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 /**
  * Class Renderer
@@ -75,6 +76,8 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
     protected function renderLoginPage(Login $component, mixed $default_renderer): string
     {
         global $DIC;
+        $this->registerResources($DIC["ui.resource_registry"]);
+
         $tpl = new ilTemplateWrapper(
             $DIC->ui()->mainTemplate(),
             new \ilTemplate(self::TEMPLATE_BASE . 'tpl.login_page.html', true, true)
@@ -157,4 +160,11 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
 
         return $tpl->get();
     }
+
+    public function registerResources(ResourceRegistry $registry): void
+    {
+        $registry->register('./src/UI/templates/js/Page/stdpage.js');
+        parent::registerResources($registry);
+    }
+
 }
