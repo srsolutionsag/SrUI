@@ -419,7 +419,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         if ($this->config()->contentConfig()->hasBlackHeaderIcon()) {
             $this->dic->globalScreen()->layout()->meta()->addInlineCss(
                 "
-                img#headerimage {
+                img#headerimage, img.ilListItemIcon {
                     filter: $filter_black !important;
                 }
             "
