@@ -127,7 +127,11 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         $tpl->setVariable("VIEW_TITLE", $component->getViewTitle());
         $tpl->setVariable("LANGUAGE", $this->getLangKey());
         $tpl->setVariable("TEXT_DIRECTION", $component->getTextDirection());
-        $tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
+        $tpl->setVariable(
+            'CONTENT',
+            $component->getSettings()->getAdditionalHtml()
+            . $default_renderer->render($component->getContent())
+        );
 
         if ($component->getWithHeaders()) {
             $tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());

@@ -22,6 +22,7 @@ class LoginPageSettings
     protected bool $show_main_bar = false;
     protected bool $show_header_logo = false;
     protected string $background_image = '';
+    protected string $additional_html = '';
 
     /**
      * @return bool
@@ -118,4 +119,15 @@ class LoginPageSettings
     {
         $this->show_header_logo = $show_header_logo;
     }
+
+    public function getAdditionalHtml(): string
+    {
+        return $this->additional_html;
+    }
+
+    public function setAdditionalHtml(string $additional_html): void
+    {
+        $this->additional_html = $additional_html;
+    }
+
 }

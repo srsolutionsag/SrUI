@@ -23,6 +23,7 @@ class CenteredPageConfig extends BaseNestedConfig
     public const F_SHOW_HEADER_LOGO = 'show_header_logo';
     public const F_BACKGROUND_IMAGE = 'background_image';
     public const F_CENTERED_LOGIN_PAGE_CSS = 'centered_login_page_css';
+    public const F_ADDITIONAL_HTML = 'additional_html';
 
     public function __construct()
     {
@@ -48,10 +49,15 @@ class CenteredPageConfig extends BaseNestedConfig
             return null;
         }
 
+        if (!isset($this->data[self::F_ADDITIONAL_HTML])) {
+            $this->data[self::F_ADDITIONAL_HTML] = '';
+        }
+
         return $this->data ?? [
             self::F_SHOW_HEADER_LOGO => false,
             self::F_BACKGROUND_IMAGE => null,
-            self::F_CENTERED_LOGIN_PAGE_CSS => ''
+            self::F_CENTERED_LOGIN_PAGE_CSS => '',
+            self::F_ADDITIONAL_HTML => ''
         ];
     }
 
@@ -61,11 +67,16 @@ class CenteredPageConfig extends BaseNestedConfig
             self::F_SHOW_HEADER_LOGO,
             self::F_BACKGROUND_IMAGE,
             self::F_CENTERED_LOGIN_PAGE_CSS,
+            self::F_ADDITIONAL_HTML,
         ];
     }
 
     public function getLoginCSS(): ?string
     {
         return $this->data[self::F_CENTERED_LOGIN_PAGE_CSS] ?? '';
+    }
+    public function getLoginHTML(): ?string
+    {
+        return $this->data[self::F_ADDITIONAL_HTML] ?? '';
     }
 }

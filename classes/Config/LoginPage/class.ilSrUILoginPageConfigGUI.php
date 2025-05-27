@@ -12,6 +12,7 @@ use ILIAS\UI\Component\Input\Container\Form\Form;
 use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig as CenterPage;
 use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig as ShowComponents;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * Class ilSrUILoginPageConfigGUI
@@ -30,9 +31,24 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
         MimeType::IMAGE__PNG
     ];
 
+    protected function makeInputHTMLAware(FormInput $input): void
+    {
+        $reflection = new ReflectionClass(\ILIAS\UI\Implementation\Component\Input\Field\FormInput::class);
+        $operations_property = $reflection->getProperty('operations');
+        $operations_property->setAccessible(true);
+        $operations_property->setValue($input, []);
+    }
+
     private function getForm(): Form
     {
         $factory = $this->ui_factory->input();
+
+        // we must remove all constraints for the HTML input, otherwise it will not work
+        $html_textarea = $factory->field()->textarea(
+            $this->plugin->txt(CenterPage::F_ADDITIONAL_HTML)
+        );
+
+        $this->makeInputHTMLAware($html_textarea);
 
         // CENTERED LOGIN PAGE
         $arr = [
@@ -47,6 +63,8 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
             )->withAdditionalOnLoadCode(function (string $id): string {
                 return "$($id).css('height', '600px');";
             }),
+            // Additional HTML
+            CenterPage::F_ADDITIONAL_HTML => $html_textarea,
             // Show Logo in Container
             CenterPage::F_SHOW_HEADER_LOGO => $factory->field()->checkbox(
                 $this->plugin->txt(CenterPage::F_SHOW_HEADER_LOGO)

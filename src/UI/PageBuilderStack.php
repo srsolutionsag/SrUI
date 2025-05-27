@@ -144,6 +144,7 @@ class PageBuilderStack extends StandardPageBuilder
         $show_components = $this->configuration->get(ShowComponentsConfig::NS);
 
         $login_page_settings = new LoginPageSettings();
+        $login_page_settings->setAdditionalHtml($centered_page->get(CenteredPageConfig::F_ADDITIONAL_HTML) ?? '');
         $login_page_settings->setCenterLogin($centered_page->isNamespaceActive());
 
         if ($login_page_settings->isCenterLogin()) {
