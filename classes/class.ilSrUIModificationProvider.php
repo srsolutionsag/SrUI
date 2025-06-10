@@ -422,6 +422,12 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                 img#headerimage, img.ilListItemIcon {
                     filter: $filter_black !important;
                 }
+                img.icon.medium {
+                    filter: $filter_black !important;
+                }
+                h4.il-item-title, div.il_ContainerItemTitle {
+                    filter: $filter_black !important;
+                }
             "
             );
         }
