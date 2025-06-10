@@ -1,0 +1,14 @@
+{
+  "name": "srui",
+  "version": "1.0.0",
+  "description": "## Installation",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "codemirror": "^5.65.19"
+  }
+}

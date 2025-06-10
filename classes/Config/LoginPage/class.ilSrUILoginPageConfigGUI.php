@@ -13,6 +13,7 @@ use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig as CenterPage;
 use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig as ShowComponents;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\DI\Container;
 
 /**
  * Class ilSrUILoginPageConfigGUI
@@ -31,6 +32,7 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
         MimeType::IMAGE__PNG
     ];
 
+
     protected function makeInputHTMLAware(FormInput $input): void
     {
         $reflection = new ReflectionClass(\ILIAS\UI\Implementation\Component\Input\Field\FormInput::class);
@@ -41,12 +43,20 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
 
     private function getForm(): Form
     {
+        $this->initAssets();
+
         $factory = $this->ui_factory->input();
 
         // we must remove all constraints for the HTML input, otherwise it will not work
+        $make_editor = function (string $id): string {
+            return "CodeMirror.fromTextArea(document.getElementById('$id'), {
+                    lineNumbers: true,
+                });";
+        };
+
         $html_textarea = $factory->field()->textarea(
             $this->plugin->txt(CenterPage::F_ADDITIONAL_HTML)
-        );
+        )->withAdditionalOnLoadCode($make_editor);
 
         $this->makeInputHTMLAware($html_textarea);
 
@@ -60,9 +70,7 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
             // Additional CSS
             CenterPage::F_CENTERED_LOGIN_PAGE_CSS => $factory->field()->textarea(
                 $this->plugin->txt(CenterPage::F_CENTERED_LOGIN_PAGE_CSS)
-            )->withAdditionalOnLoadCode(function (string $id): string {
-                return "$($id).css('height', '600px');";
-            }),
+            )->withAdditionalOnLoadCode($make_editor),
             // Additional HTML
             CenterPage::F_ADDITIONAL_HTML => $html_textarea,
             // Show Logo in Container
@@ -115,5 +123,23 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
         )->withAdditionalTransformation(
             $this->getCustomTrafo($this->refinery)(fn($v): bool => true)
         );
+    }
+
+    protected function initAssets(): void
+    {
+        $this->tpl->addCss(
+            './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/node_modules/codemirror/lib/codemirror.css'
+        );
+        $this->tpl->addJavaScript(
+            './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/node_modules/codemirror/lib/codemirror.js'
+        );
+        $this->tpl->addJavaScript(
+            './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/node_modules/codemirror/mode/css/css.js'
+        );
+        $this->tpl->addJavaScript(
+            './Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/SrUI/node_modules/codemirror/mode/htmlmixed/htmlmixed.js'
+        );
+
+        $this->tpl->addInlineCss(".CodeMirror {border: 1px solid #ddd;}");
     }
 }
