@@ -49,8 +49,10 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
                     let textarea = document.getElementById('$id');
                     textarea.style.height = textarea.scrollHeight + 'px';
                     textarea.addEventListener('input', function () {
+                        let scroll_height = this.scrollHeight;
                         this.style.height = '';
-                        this.style.height = this.scrollHeight + 'px';
+                        this.style.height = scroll_height + 'px';
+                        this.scrollTop = this.scrollTop + (scroll_height / 2);
                     });
                 "
             ),
