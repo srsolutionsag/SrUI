@@ -44,6 +44,15 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
             // Additional CSS
             CenterPage::F_CENTERED_LOGIN_PAGE_CSS => $factory->field()->textarea(
                 $this->plugin->txt(CenterPage::F_CENTERED_LOGIN_PAGE_CSS)
+            )->withAdditionalOnLoadCode(
+                fn (string $id): string => "
+                    let textarea = document.getElementById('$id');
+                    textarea.style.height = textarea.scrollHeight + 'px';
+                    textarea.addEventListener('input', function () {
+                        this.style.height = '';
+                        this.style.height = this.scrollHeight + 'px';
+                    });
+                "
             ),
             // Show Logo in Container
             CenterPage::F_SHOW_HEADER_LOGO => $factory->field()->checkbox(
