@@ -16,7 +16,6 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 use ILIAS\GlobalScreen\Scope\Layout\Builder\StandardPageBuilder;
 use ILIAS\UI\Component\Layout\Page\Page;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
-use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
@@ -35,17 +34,11 @@ use ILIAS\UI\Implementation\Component\Layout\Page\Standard;
  */
 class PageBuilderStack extends StandardPageBuilder
 {
-    /**
-     * @var ContextCollection
-     */
     protected CalledContexts $context_stack;
     /**
      * @var ToolFactory
      */
     protected ModificationFactory $factory;
-    /**
-     * @var MetaContent
-     */
     protected MetaContent $meta;
     protected Factory $storage_factory;
 
@@ -80,11 +73,9 @@ class PageBuilderStack extends StandardPageBuilder
                 $show_id = $modal->getShowSignal()->getId();
                 $close_id = $modal->getCloseSignal()->getId();
 
-                $modal = $modal->withAdditionalOnLoadCode(function ($id) {
-                    return "$('#$id').on('hidden.bs.modal', function () {
+                $modal = $modal->withAdditionalOnLoadCode(fn($id): string => "$('#$id').on('hidden.bs.modal', function () {
                         document.cookie = 'sr_ui_prod_warning=1; path=/';
-                    });";
-                });
+                    });");
 
                 $parts->prependContent($this->ui->renderer()->render($modal));
 
@@ -134,10 +125,6 @@ class PageBuilderStack extends StandardPageBuilder
         );
     }
 
-    /**
-     * @param PagePartProvider $parts
-     * @return Login
-     */
     private function getLoginPage(PagePartProvider $parts): Login
     {
         $centered_page = $this->configuration->get(CenteredPageConfig::NS);

@@ -16,7 +16,7 @@ namespace srag\Plugins\SrUI\Config;
  */
 abstract class BaseNestedConfig implements Config
 {
-    protected $data = null;
+    protected $data;
 
     public function __construct(protected string $namespace)
     {

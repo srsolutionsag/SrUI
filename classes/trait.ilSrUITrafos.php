@@ -18,20 +18,11 @@ use srag\Plugins\SrUI\Artifact\Artifact;
  */
 trait ilSrUITrafos
 {
-    /**
-     * @param Factory  $ref
-     * @param Artifact $a
-     * @return Closure
-     */
     private function getArtifactSafer(Factory $ref, Artifact $a): Closure
     {
         return fn(string $key): Transformation => $this->getCustomTrafo($ref)(static fn($va) => $a[$key] = $va);
     }
 
-    /**
-     * @param Factory $ref
-     * @return Closure
-     */
     private function getCustomTrafo(Factory $ref): Closure
     {
         return static fn(callable $c): Transformation => $ref->custom()->transformation($c);

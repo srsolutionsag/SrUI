@@ -21,7 +21,6 @@ interface Config
     public function has(string $key): bool;
 
     /**
-     * @param string     $key
      * @param mixed|null $default
      * @return mixed
      */

@@ -50,12 +50,10 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
             '.CodeMirror { height: auto !important; }'
         );
 
-        $make_editor = function (string $id): string {
-            return "CodeMirror.fromTextArea(document.getElementById('$id'), {
+        $make_editor = (fn(string $id): string => "CodeMirror.fromTextArea(document.getElementById('$id'), {
                     lineNumbers: true,
                     viewportMargin: Infinity,
-                });";
-        };
+                });");
 
         $html_textarea = $factory->field()->textarea(
             $this->plugin->txt(CenterPage::F_ADDITIONAL_HTML)

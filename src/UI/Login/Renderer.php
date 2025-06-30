@@ -150,7 +150,7 @@ class Renderer extends \ILIAS\UI\Implementation\Component\Layout\Page\Renderer
         }
 
         if ($component->getSettings()->getBackgroundImage() !== '' && $component->getSettings()->getBackgroundImage(
-            ) !== '0') {
+        ) !== '0') {
             $tpl->setVariable('BACKGROUND_IMAGE', $component->getSettings()->getBackgroundImage());
         }
 

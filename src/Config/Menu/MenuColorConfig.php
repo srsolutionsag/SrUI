@@ -56,7 +56,7 @@ class MenuColorConfig extends BaseNestedConfig
         if (!isset($this->data[self::F_ICON_COLOR])) {
             $this->data[self::F_ICON_COLOR] = self::V_ICON_COLOR_W_B;
         }
-        
+
         if (!in_array($this->data[self::F_ICON_COLOR], [self::V_ICON_COLOR_W_B, self::V_ICON_COLOR_W_W, self::V_ICON_COLOR_B_W, self::V_ICON_COLOR_B_B], true)) {
             $this->data[self::F_ICON_COLOR] = self::V_ICON_COLOR_W_B;
         }
@@ -69,7 +69,7 @@ class MenuColorConfig extends BaseNestedConfig
         $value = $this->get(self::F_ICON_COLOR, self::V_ICON_COLOR_W_B);
 
         if (!in_array($value, [self::V_ICON_COLOR_W_B, self::V_ICON_COLOR_W_W, self::V_ICON_COLOR_B_W, self::V_ICON_COLOR_B_B], true)) {
-            $value = self::V_ICON_COLOR_W_B;
+            return self::V_ICON_COLOR_W_B;
         }
 
         return $value;

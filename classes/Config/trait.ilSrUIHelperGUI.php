@@ -76,8 +76,6 @@ trait ilSrUIHelperGUI
 
     /**
      * ilSrUIMainGUI constructor.
-     * @param Container    $dic
-     * @param ilSrUIPlugin $plugin
      */
     public function __construct(Container $dic, ilSrUIPlugin $plugin)
     {

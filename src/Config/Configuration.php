@@ -37,9 +37,6 @@ class Configuration
     protected ConfigurationStorage $storage;
     protected Factory $resource_storage_factory;
 
-    /**
-     * @param string $version
-     */
     public function __construct(protected string $version)
     {
         $this->resource_storage_factory = new Factory();
@@ -129,7 +126,7 @@ class Configuration
             return $arr;
         }
 
-        $version = $zip->getFromName('version');
+        $zip->getFromName('version');
         $config = $zip->getFromName('config');
         $config_array = json_decode($config, true, 512, JSON_THROW_ON_ERROR);
 

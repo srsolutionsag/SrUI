@@ -30,9 +30,6 @@ class ilSrUIConfigGUI extends ilPluginConfigGUI
         $DIC->ctrl()->redirectByClass([ilSrUIMainGUI::class]);
     }
 
-    /**
-     * @param string $cmd
-     */
     public function performCommand(string $cmd): void
     {
         // noting to to here

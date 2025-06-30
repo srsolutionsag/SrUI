@@ -91,10 +91,6 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         return $this->storage_factory;
     }
 
-    /**
-     * @param Container $DIC
-     * @return bool
-     */
     public function isOutsideILIAS(Container $DIC): bool
     {
         return (
@@ -125,8 +121,8 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
                 ($base_class === strtolower(ilStartUpGUI::class)) &&
                 (
                     ($DIC->ctrl()->getCmd(
-                        ) === 'showLogout') || ($fallback_cmd === 'doStandardAuthentication') || ($DIC->ctrl(
-                        )->getCmdClass() === strtolower(ilPasswordAssistanceGUI::class))
+                    ) === 'showLogout') || ($fallback_cmd === 'doStandardAuthentication') || ($DIC->ctrl(
+                    )->getCmdClass() === strtolower(ilPasswordAssistanceGUI::class))
                 )
             );
         }

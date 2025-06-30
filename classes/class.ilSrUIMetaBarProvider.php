@@ -9,7 +9,6 @@
  *********************************************************************/
 
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarPluginProvider;
-use srag\Plugins\SrUI\Artifact\Artifact;
 
 /**
  * Class ilSrUIMetaBarProvider
@@ -17,18 +16,6 @@ use srag\Plugins\SrUI\Artifact\Artifact;
  */
 class ilSrUIMetaBarProvider extends AbstractStaticMetaBarPluginProvider
 {
-    /**
-     * @return Artifact
-     */
-    private function getArtifact(): Artifact
-    {
-        static $settings;
-        if (!$settings) {
-            $settings = Artifact::getInstance('sr_ui_setting');
-        }
-        return $settings;
-    }
-
     public function getMetaBarItems(): array
     {
         $ref_id = $_GET['ref_id'] ?? null;

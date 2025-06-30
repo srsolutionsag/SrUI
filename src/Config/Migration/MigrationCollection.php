@@ -10,7 +10,6 @@
 
 namespace srag\Plugins\SrUI\Config\Migration;
 
-use srag\Plugins\SrUI\Version;
 use srag\Plugins\SrUI\Config\Configuration;
 
 /**
@@ -26,7 +25,6 @@ class MigrationCollection
     private array $migrations = [];
 
     public function __construct(
-        private readonly Version $current_version,
         protected Configuration $configuration,
         ...$migrations
     ) {

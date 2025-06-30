@@ -64,21 +64,6 @@ class ilSrUIUIHookGUI extends ilUIHookPluginGUI
             }
 
             return ['mode' => self::REPLACE, 'html' => $tpl->get()];
-
-            $ui_factory = $DIC->ui()->factory();
-            $ui_renderer = $DIC->ui()->renderer();
-            $slate = $ui_factory->mainControls()->slate()->legacy(
-                'Tabs',
-                $ui_factory->symbol()->glyph()->comment(),
-                $ui_factory->legacy($a_par['html'] . self::$subtabs_html)
-            );
-            $triggerer = $ui_factory->button()->bulky(
-                $slate->getSymbol(),
-                $slate->getName(),
-                '#'
-            )->withOnClick($slate->getToggleSignal());
-
-            return ['mode' => self::REPLACE, 'html' => $ui_renderer->render([$triggerer, $slate])];
         }
 
         return parent::getHTML($a_comp, $a_part, $a_par);

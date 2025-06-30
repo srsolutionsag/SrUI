@@ -17,9 +17,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuPluginProvi
  */
 class ilSrUIMainBarProvider extends AbstractStaticMainMenuPluginProvider
 {
-    /**
-     * @return IdentificationInterface
-     */
     public function getFooterIdentification(): IdentificationInterface
     {
         return $this->if->identifier('footer');

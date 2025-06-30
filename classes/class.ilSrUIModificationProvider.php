@@ -584,45 +584,6 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
         };
 
         return $footer_modification->withModification($modification);
-
-        if ($footer_additional_infos_config->showRenderedBy()) {
-            $footer_modification = $this->factory->footer();
-            $footer_modification = $this->setPriority($footer_modification);
-
-            return $footer_modification
-                ->withModification(
-                    function (?Footer $f): ?Footer {
-                        if ($f === null) {
-                            return null;
-                        }
-                        $pageContentProvider = new PageContentProvider($this->dic);
-                        $footer = $pageContentProvider->getFooterModification(
-                            $this->dic->globalScreen()->tool()->context()->stack()
-                        )->getModification();
-                        /**
-                         * @var $f Footer
-                         */
-                        $f = $footer(null);
-
-                        $hostname = gethostname();
-                        $ilias_version = ILIAS_VERSION_NUMERIC;
-                        preg_match('/\d+\.\d+.\d+/', PHP_VERSION, $php_version);
-
-                        $links = $f->getLinks();
-                        $mmprovider = new ilSrUIMainBarProvider($this->dic, $this->plugin);
-
-                        $replaced_footer = $this->dic->ui()->factory()->mainControls()->footer(
-                            $links,
-                            "Rendered by " . $hostname . " - " . $ilias_version . " - " . $php_version[0]
-                        );
-                        if ($f->getPermanentURL()) {
-                            return $replaced_footer->withPermanentURL($f->getPermanentURL());
-                        }
-                        return $replaced_footer;
-                    }
-                );
-        }
-        return null;
     }
 
     public function getTitleModification(CalledContexts $screen_context_stack): ?TitleModification

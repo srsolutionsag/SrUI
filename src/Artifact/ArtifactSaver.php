@@ -19,9 +19,6 @@ class ArtifactSaver
     protected ArrayArtifact $artifact;
     protected string $base_path;
 
-    /**
-     * @param string $file_name
-     */
     public function __construct(protected string $file_name)
     {
         $this->artifact = new ArrayArtifact([]);
