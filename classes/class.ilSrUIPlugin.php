@@ -11,22 +11,12 @@
 use srag\Plugins\SrUI\UI\Renderer;
 use ILIAS\DI\Container;
 use srag\Plugins\SrUI\Config\Configuration;
-use srag\Plugins\SrUI\Config\Footer\AdditionalInfoConfig;
-use srag\Plugins\SrUI\Config\Footer\FooterColorsConfig;
-use srag\Plugins\SrUI\Config\Header\HeaderColorsConfiguration;
-use srag\Plugins\SrUI\Config\Header\HeaderLogoConfiguration;
-use srag\Plugins\SrUI\Config\Header\HeaderTitleConfiguration;
-use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig;
-use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
 use srag\Plugins\SrUI\ILIASVersion;
 use srag\Plugins\SrUI\Config\Migration\MigrationCollection;
 use srag\Plugins\SrUI\Version;
 use srag\Plugins\SrUI\Config\Migration\To1_6_0Migration;
 use srag\Plugins\SrUI\Config\Migration\To1_7_0Migration;
-use ILIAS\FileUpload\MimeType;
-use srag\Plugins\SrUI\Config\Header\ResponsiveHeaderLogoConfiguration;
-use srag\Plugins\SrUI\Config\Content\SpecialContentFeaturesConfig;
 
 /**
  * Class ilSrUIPlugin
@@ -135,8 +125,8 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
                 ($base_class === strtolower(ilStartUpGUI::class)) &&
                 (
                     ($DIC->ctrl()->getCmd(
-                    ) === 'showLogout') || ($fallback_cmd === 'doStandardAuthentication') || ($DIC->ctrl(
-                    )->getCmdClass() === strtolower(ilPasswordAssistanceGUI::class))
+                        ) === 'showLogout') || ($fallback_cmd === 'doStandardAuthentication') || ($DIC->ctrl(
+                        )->getCmdClass() === strtolower(ilPasswordAssistanceGUI::class))
                 )
             );
         }
@@ -160,69 +150,10 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
 
     protected function onBoarding(): void
     {
-        $s = $this->storage_factory->storage();
-        // LOGIN PAGE
-        $this->configuration->get(CenteredPageConfig::NS)->loadData([
-            CenteredPageConfig::F_SHOW_HEADER_LOGO => true,
-            CenteredPageConfig::F_CENTERED_LOGIN_PAGE_CSS => file_get_contents(self::TEMPLATES_BASE . "login.css"),
-            CenteredPageConfig::F_BACKGROUND_IMAGE => [
-                $s->fromPath(
-                    self::TEMPLATES_BASE . "background.jpg",
-                    MimeType::IMAGE__SVG_XML
-                )
-            ],
-        ]);
-        $this->configuration->get(ShowComponentsConfig::NS)->loadData([
-            ShowComponentsConfig::F_SHOW_HEADER => true,
-            ShowComponentsConfig::F_SHOW_FOOTER => true,
-            ShowComponentsConfig::F_SHOW_MAIN_BAR => false,
-        ]);
-
-        // HEADER
-        $this->configuration->get(HeaderColorsConfiguration::NS)->loadData([
-            HeaderColorsConfiguration::F_HEADER_BG_COLOR => 'white',
-            HeaderColorsConfiguration::F_HEADER_BC_BG_COLOR => 'white',
-            HeaderColorsConfiguration::F_HEADER_BC_TEXT_COLOR => '#202020',
-            HeaderColorsConfiguration::F_TITLE_COLOR => '#202020',
-        ]);
-        $this->configuration->get(HeaderLogoConfiguration::NS)->loadData([
-            HeaderLogoConfiguration::F_ICON => [
-                $s->fromPath(
-                    self::TEMPLATES_BASE . "HeaderIconPlus.svg",
-                    MimeType::IMAGE__SVG_XML
-                )
-            ],
-            HeaderLogoConfiguration::F_ICON_WIDTH => '45px',
-        ]);
-
-        $this->configuration->get(ResponsiveHeaderLogoConfiguration::NS)->loadData([
-            ResponsiveHeaderLogoConfiguration::F_ICON => [
-                $s->fromPath(
-                    self::TEMPLATES_BASE . "HeaderIconPlus.svg",
-                    MimeType::IMAGE__SVG_XML
-                )
-            ],
-            HeaderLogoConfiguration::F_ICON_WIDTH => '',
-        ]);
-        $this->configuration->get(HeaderTitleConfiguration::NS)->loadData([
-            HeaderTitleConfiguration::F_HEADER_TITLE => 'ILIAS+ 8'
-        ]);
-
-        // FOOTER
-        $this->configuration->get(FooterColorsConfig::NS)->loadData([
-            FooterColorsConfig::F_FOOTER_TEXT_COLOR => '#2D2D2D',
-            FooterColorsConfig::F_FOOTER_BG_COLOR => 'white',
-        ]);
-        $this->configuration->get(AdditionalInfoConfig::NS)->loadData([
-            AdditionalInfoConfig::F_SHOW_RENDERED_BY => true
-        ]);
-
-        // CARDS
-        $this->configuration->get(SpecialContentFeaturesConfig::NS)->loadData([
-            SpecialContentFeaturesConfig::F_FANCY_CARDS => true
-        ]);
-
-        $this->configuration->save();
+        // import default configuration
+        $zip = new ZipArchive();
+        $zip->open(__DIR__ . "/../templates/sr_ui_config.zip");
+        $this->configuration->import($zip);
     }
 
     public function checkAndPerformConfigMigration(): void

@@ -93,9 +93,9 @@ class ilSrUIFileHandlerGUI extends AbstractCtrlAwareUploadHandler implements ilS
         return new BasicFileInfoResult(
             $this->getFileIdentifierParameterName(),
             $identifier,
-            (string) $info['title'],
-            (int) $info['size'],
-            (string) $info['mime_type']
+            (string) ($info['title'] ?? ''),
+            (int) ($info['size'] ?? 0),
+            (string) ($info['mime_type'] ?? ''),
         );
     }
 
