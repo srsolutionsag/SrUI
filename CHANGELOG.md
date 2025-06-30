@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 3.2.0
+- [FIX] Fixed annoying scrolling on every input
+- [IMPROVEMENT] Adjust height of login CSS textarea to content
+- [FIX] Icons color
+- [FEATURE] use CodeMirror for CSS and HTML inputs
+- [FIX] content icon color
+- [FIX] missing JS on loginpage
+- [FIX] position of prepended HTML
+- [FEATURE] additional HTML on login page
+- [FIX] css textarea height
+- [FIX] Header Icon error
+
 ## Version 3.1.1
 - [FIX] Menu Icon Colors with Labels
 
