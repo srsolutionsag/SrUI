@@ -13,7 +13,6 @@ use srag\Plugins\SrUI\Config\LoginPage\CenteredPageConfig as CenterPage;
 use srag\Plugins\SrUI\Config\LoginPage\ShowComponentsConfig as ShowComponents;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
-use ILIAS\DI\Container;
 
 /**
  * Class ilSrUILoginPageConfigGUI
@@ -32,7 +31,6 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
         MimeType::IMAGE__PNG
     ];
 
-
     protected function makeInputHTMLAware(FormInput $input): void
     {
         $reflection = new ReflectionClass(\ILIAS\UI\Implementation\Component\Input\Field\FormInput::class);
@@ -48,9 +46,14 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
         $factory = $this->ui_factory->input();
 
         // we must remove all constraints for the HTML input, otherwise it will not work
+        $this->tpl->addInlineCss(
+            '.CodeMirror { height: auto !important; }'
+        );
+
         $make_editor = function (string $id): string {
             return "CodeMirror.fromTextArea(document.getElementById('$id'), {
                     lineNumbers: true,
+                    viewportMargin: Infinity,
                 });";
         };
 
@@ -68,9 +71,12 @@ class ilSrUILoginPageConfigGUI implements ilSrUIGUI
                 $this->plugin->txt(CenterPage::F_BACKGROUND_IMAGE)
             )->withAcceptedMimeTypes(self::MIME_TYPES),
             // Additional CSS
-            CenterPage::F_CENTERED_LOGIN_PAGE_CSS => $factory->field()->textarea(
-                $this->plugin->txt(CenterPage::F_CENTERED_LOGIN_PAGE_CSS)
-            )->withAdditionalOnLoadCode($make_editor),
+            CenterPage::F_CENTERED_LOGIN_PAGE_CSS => $factory
+                ->field()
+                ->textarea(
+                    $this->plugin->txt(CenterPage::F_CENTERED_LOGIN_PAGE_CSS)
+                )
+                ->withAdditionalOnLoadCode($make_editor),
             // Additional HTML
             CenterPage::F_ADDITIONAL_HTML => $html_textarea,
             // Show Logo in Container
