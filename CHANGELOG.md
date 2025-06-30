@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 3.3.0
+- [FIX] General Code Update
+- [FEATURE] new Initial Design
+
 ## Version 3.2.0
 - [FIX] Fixed annoying scrolling on every input
 - [IMPROVEMENT] Adjust height of login CSS textarea to content
