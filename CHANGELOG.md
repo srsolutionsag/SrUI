@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 3.3.1
+- [FIX] migration doesn't need version
+
 ## Version 3.3.0
 - [FIX] General Code Update
 - [FEATURE] new Initial Design
