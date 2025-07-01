@@ -155,7 +155,6 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
     public function checkAndPerformConfigMigration(): void
     {
         $migration_collection = new MigrationCollection(
-            new Version($this->getVersion()),
             $this->configuration,
             new To1_6_0Migration(),
             new To1_7_0Migration()
