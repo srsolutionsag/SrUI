@@ -456,8 +456,8 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
 
         if ($header_logo->hasHeaderLogo()) {
             $width = $header_logo->getHeaderLogoWidth();
-            $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo .hidden-xs img { width: {$width};}");
-            $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo img.img-standard { width: {$width};}");
+            $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo .hidden-xs img { width: {$width};} .il-logo { height: fit-content !important; }");
+            $this->globalScreen()->layout()->meta()->addInlineCss(".il-logo img.img-standard { width: {$width};} .il-logo { height: fit-content !important; }");
             $s = $this->plugin->getStorageFactory()->storage()->getDataURL($header_logo->getHeaderlogo());
             if (!empty($s)) {
                 return $logo_modification->withModification(
