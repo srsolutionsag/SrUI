@@ -14,7 +14,6 @@ use srag\Plugins\SrUI\Config\Configuration;
 use srag\Plugins\SrUI\ResourceStorage\Factory;
 use srag\Plugins\SrUI\ILIASVersion;
 use srag\Plugins\SrUI\Config\Migration\MigrationCollection;
-use srag\Plugins\SrUI\Version;
 use srag\Plugins\SrUI\Config\Migration\To1_6_0Migration;
 use srag\Plugins\SrUI\Config\Migration\To1_7_0Migration;
 
@@ -103,28 +102,36 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
 
     public function isOnLoginPage(): bool
     {
-        return str_contains((string) $_SERVER['SCRIPT_NAME'], 'login.php');
+        return str_contains((string) $_SERVER['SCRIPT_NAME'], 'login.php') || str_contains((string) $_SERVER['SCRIPT_NAME'], 'index.php');
     }
 
     public function isOnLoginRelatedPage(Container $DIC): bool
     {
-        if ($DIC->http()->wrapper()->query()->has('baseClass')) {
-            $to_str = $DIC->refinery()->kindlyTo()->string();
-            $base_class = $DIC->http()->wrapper()->query()->retrieve('baseClass', $to_str);
+        $q = $DIC->http()->wrapper()->query();
+        $ctrl = $DIC->ctrl();
+        $kindly_to = $DIC->refinery()->kindlyTo();
 
+        $base_class = $q->has('baseClass')
+            ? $q->retrieve('baseClass', $kindly_to->string())
+            : null;
+
+        if ($base_class) {
             $fallback_cmd = "";
-            if ($DIC->http()->wrapper()->query()->has('fallbackCmd')) {
-                $fallback_cmd = $DIC->http()->wrapper()->query()->retrieve('fallbackCmd', $to_str);
+            if ($q->has('fallbackCmd')) {
+                $fallback_cmd = $q->retrieve('fallbackCmd', $kindly_to->string());
             }
 
-            return (
-                ($base_class === strtolower(ilStartUpGUI::class)) &&
-                (
-                    ($DIC->ctrl()->getCmd(
-                    ) === 'showLogout') || ($fallback_cmd === 'doStandardAuthentication') || ($DIC->ctrl(
-                    )->getCmdClass() === strtolower(ilPasswordAssistanceGUI::class))
-                )
-            );
+            $command = $ctrl->getCmd($fallback_cmd);
+
+            if ($base_class !== strtolower(ilStartUpGUI::class)) {
+                return false;
+            }
+            if (in_array(
+                $command,
+                ['doStandardAuthentication', 'showLogout', 'showLoginForm', 'showPasswordAssistance']
+            )) {
+                return true;
+            }
         }
         return false;
     }
