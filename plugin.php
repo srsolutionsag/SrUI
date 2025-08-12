@@ -1,7 +1,7 @@
 <?php
 
 $id = "srui";
-$version = '3.3.1';
+$version = '3.3.2';
 $ilias_min_version = "9.0";
 $ilias_max_version = "9.999";
 $responsible = "sr.solutions";

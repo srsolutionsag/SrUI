@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 3.3.2
+- [FIX] Fixed header logo being cut off due to il-logo's height being smaller than the one of the image contained within
+
 ## Version 3.3.1
 - [FIX] migration doesn't need version
 
