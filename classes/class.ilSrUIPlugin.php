@@ -38,6 +38,12 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
         return 'SrUI';
     }
 
+    public function __construct(ilDBInterface $db, ilComponentRepositoryWrite $component_repository, string $id)
+    {
+        parent::__construct($db, $component_repository, $id);
+        $x = 1;
+    }
+
     public function exchangeUIRendererAfterInitialization(Container $dic): Closure
     {
         $default_renderer = $dic->raw('ui.renderer');
@@ -153,6 +159,9 @@ class ilSrUIPlugin extends ilUserInterfaceHookPlugin
 
     protected function onBoarding(): void
     {
+        if ('cli' === PHP_SAPI) {
+            return;
+        }
         // import default configuration
         $zip = new ZipArchive();
         $zip->open(__DIR__ . "/../templates/sr_ui_config.zip");
