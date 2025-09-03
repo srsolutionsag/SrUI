@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 3.3.3
+- Merge remote-tracking branch 'origin/fix/9/install-onboarding' into release_9
+- [FIX] #PLSRUI-41: skip import of onboarding when in cli context.
+- [FIX] Login-page modications on index.php
+
 ## Version 3.3.2
 - [FIX] Fixed header logo being cut off due to il-logo's height being smaller than the one of the image contained within
 
