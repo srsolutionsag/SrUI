@@ -1,7 +1,9 @@
 # Changelog
 
+## Version 3.3.4
+- [FIX] black sorting fields
+
 ## Version 3.3.3
-- Merge remote-tracking branch 'origin/fix/9/install-onboarding' into release_9
 - [FIX] #PLSRUI-41: skip import of onboarding when in cli context.
 - [FIX] Login-page modications on index.php
 
