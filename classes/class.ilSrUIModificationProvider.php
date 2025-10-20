@@ -426,7 +426,7 @@ class ilSrUIModificationProvider extends AbstractModificationPluginProvider
                     filter: $filter_black !important;
                 }
                 h4.il-item-title, div.il_ContainerItemTitle {
-                    filter: $filter_black !important;
+//                    filter: $filter_black !important;
                 }
             "
             );
